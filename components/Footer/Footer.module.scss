@@ -1,0 +1,51 @@
+@import '../../styles/config';
+@import '../../styles/shared-mixins';
+
+.FooterContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $white-color;
+}
+
+.FooterLinksContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 21px;
+  flex-direction: column;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    flex-direction: row;
+    width: 70%;
+  }
+}
+
+.FooterItem {
+  @include button;
+  font-size: 13px;
+  border-width: 1px;
+  border-color: $white-color;
+  border-style: solid;
+
+  &:focus {
+    border-color: $secondary-color;
+    border-width: 1px;
+    outline: none;
+  }
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    font-size: 16px;
+    line-height: 21px;
+  }
+}
+
+.FooterCopyrightName {
+  @include normal-mono;
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 25px;
+  margin-bottom: 8px;
+}
