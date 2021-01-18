@@ -1,0 +1,55 @@
+@import './shared-mixins';
+
+.App-button {
+  @include button;
+  border-width: 1px;
+  border-color: $white-color;
+  border-style: solid;
+  background-color: $white-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:focus {
+    border-color: $secondary-color;
+    border-width: 1px;
+    outline: none;
+  }
+
+  &:active {
+    background-color: $secondary-color-active;
+  }
+
+  &.inactive {
+    color: $secondary-color;
+
+    &:hover {
+      background-color: $white-color;
+    }
+  }
+}
+
+.App-input {
+  @include input-mixin;
+}
+
+.App-title {
+  @include title;
+}
+
+.App-file-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.App-label {
+  @include normal-mono;
+  margin-left: 10px;
+  margin-right: 15px;
+  display: inline-flex;
+  align-items: center;
+}
