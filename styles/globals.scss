@@ -1,4 +1,5 @@
 @import 'config';
+@import './shared-mixins';
 
 body {
   -webkit-font-smoothing: subpixel-antialiased !important;
@@ -29,6 +30,35 @@ p {
     width: 60%;
     max-width: 864px;
     padding: 0px 40px;
+  }
+}
+
+.App-button {
+  @include button;
+  border-width: 1px;
+  border-color: $white-color;
+  border-style: solid;
+  background-color: $white-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:focus {
+    border-color: $secondary-color;
+    border-width: 1px;
+    outline: none;
+  }
+
+  &:active {
+    background-color: $secondary-color-active;
+  }
+
+  &.inactive {
+    color: $secondary-color;
+
+    &:hover {
+      background-color: $white-color;
+    }
   }
 }
 
