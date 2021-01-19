@@ -14,9 +14,9 @@ const Header: React.FC = () => {
     query: isSmallerScreenQuery,
   })
 
-  const getLinkStyle = (route: string, text: string) => {
+  const getLinkStyle = (route: string) => {
     const currentRoute = router.pathname
-    return route === currentRoute ? <div className={styles.active}>text</div> : text
+    return route === currentRoute ? styles.ActiveSectionItem : styles.SectionItem
   }
 
   const { src } = useImage({
@@ -45,17 +45,17 @@ const Header: React.FC = () => {
         </div>
       </div>
       <nav className={styles.SectionsList}>
-        <LinkWithStyles href={routes.life} className={styles.SectionsItem}>
-          {getLinkStyle(routes.life, 'Life')}
+        <LinkWithStyles href={routes.life} className={getLinkStyle(routes.life)}>
+          Life
         </LinkWithStyles>
-        <LinkWithStyles href={routes.code} className={styles.SectionsItem}>
-          {getLinkStyle(routes.code, 'Code')}
+        <LinkWithStyles href={routes.code} className={getLinkStyle(routes.code)}>
+          Code
         </LinkWithStyles>
-        <LinkWithStyles href={routes.guides} className={styles.SectionsItem}>
-          {getLinkStyle(routes.guides, 'Guides')}
+        <LinkWithStyles href={routes.guides} className={getLinkStyle(routes.guides)}>
+          Guides
         </LinkWithStyles>
-        <LinkWithStyles href={routes.projects} className={styles.SectionsItem}>
-          {getLinkStyle(routes.projects, 'Projects')}
+        <LinkWithStyles href={routes.projects} className={getLinkStyle(routes.projects)}>
+          Projects
         </LinkWithStyles>
       </nav>
     </div>

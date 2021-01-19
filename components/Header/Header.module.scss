@@ -99,7 +99,7 @@
   }
 }
 
-.SectionsItem {
+.SectionItem {
   @include button;
   font-size: 15px;
   border-width: 1px;
@@ -112,14 +112,19 @@
     outline: none;
   }
 
-  &.active {
-    color: $white-color;
-    background-color: $primary-color;
-  }
-
   @media (min-width: $breakpoint-desktop-or-laptop) {
     font-size: 18px;
     line-height: 23px;
     margin-right: 64px;
+  }
+}
+
+.ActiveSectionItem {
+  composes: SectionItem;
+  color: $white-color;
+  background-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-color;
   }
 }
