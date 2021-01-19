@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify'
 import axios, { AxiosRequestConfig } from 'axios'
 
-import { Article, ExtMaterial, Material, Guide } from 'types/materials'
+import { Article, ExtMaterial, Material, Guide, MaterialFetchResult } from 'types/materials'
 import { apiEndpoint } from 'consts/endpoints'
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject'
 import { ISessionService, SessionServiceId } from './session'
@@ -14,9 +14,9 @@ export interface IMaterialClientService<T extends Material> {
   postArticle: (article: Article, referenceId?: string) => Promise<void>
   postExtMaterial: (page: ExtMaterial, referenceId?: string) => Promise<void>
   postGuide: (guide: Guide, referenceId?: string) => Promise<void>
-  fetchArticle: (id: string) => Promise<void>
-  fetchExtMaterial: (id: string) => Promise<void>
-  fetchGuide: (id: string) => Promise<void>
+  fetchArticle: (id: string) => Promise<MaterialFetchResult<T>>
+  fetchExtMaterial: (id: string) => Promise<MaterialFetchResult<T>>
+  fetchGuide: (id: string) => Promise<MaterialFetchResult<T>>
 }
 
 @injectable()
@@ -136,24 +136,26 @@ export class MaterailClientService<T extends Material> implements IMaterialClien
       this._isLoading.next(true)
       const response = await axios(request)
       this._material.next(response.data)
+      return { material: response.data, error: null }
     } catch (e) {
       console.log('ERROR: ', e)
       this._error.next(e)
+      return { material: null, error: e }
     } finally {
       this._isLoading.next(false)
     }
   }
 
   public async fetchArticle(id: string) {
-    await this._fetchMaterial(`${apiEndpoint}/articles`, id)
+    return this._fetchMaterial(`${apiEndpoint}/articles`, id)
   }
 
   public async fetchExtMaterial(id: string) {
-    await this._fetchMaterial(`${apiEndpoint}/ext-materials`, id)
+    return this._fetchMaterial(`${apiEndpoint}/ext-materials`, id)
   }
 
   public async fetchGuide(id: string) {
-    await this._fetchMaterial(`${apiEndpoint}/guides`, id)
+    return this._fetchMaterial(`${apiEndpoint}/guides`, id)
   }
 }
 

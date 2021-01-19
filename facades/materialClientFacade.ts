@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/internal/Subscription'
 import { useInjection } from 'services/provider'
 import { MaterialClientServiceId, IMaterialClientService } from 'services/materialClient'
 import { Article, ExtMaterial, Guide } from 'types/materials'
+import { container } from 'services/container'
 
 export const useArticleClient = () => {
   const service = useRef(useInjection<IMaterialClientService<Article>>(MaterialClientServiceId))
@@ -38,6 +39,16 @@ export const useArticleClient = () => {
   }, [])
 
   return { article, error, isLoading, postArticle, fetchArticle }
+}
+
+export const serverSideArticleClient = () => {
+  const service = container.get<IMaterialClientService<Article>>(MaterialClientServiceId)
+
+  const fetchArticle = (id: string) => {
+    return service.fetchArticle(id)
+  }
+
+  return { fetchArticle }
 }
 
 export const useGuideClient = () => {

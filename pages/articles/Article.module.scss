@@ -1,0 +1,60 @@
+@import '../../styles/config';
+@import '../../styles/shared-mixins';
+
+.ArticleContainer {
+  min-height: 720px;
+}
+
+.ArticleTitle {
+  @include normal-mono;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 36px;
+  margin: 0px;
+  text-align: center;
+}
+
+.ArticleSubtitle {
+  @include normal-mono;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+  margin: 0px;
+  padding: 20px 0px;
+  text-align: center;
+}
+
+.ArticleTitleContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ArticleDate {
+  @include normal-mono;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 25px;
+  padding: 20px 0px 24px 0px;
+}
+
+.ArticleTextSkeletonLoader {
+  background-color: $skeleton-loader-color;
+  height: 600px;
+  width: 100%;
+  margin-top: 18px;
+}
+
+.ArticleTitleSkeletonLoader {
+  background-color: $skeleton-loader-color;
+  height: 36px;
+  width: 45ex;
+}
+
+.ArticleSubtitleSkeletonLoader {
+  background-color: $skeleton-loader-color;
+  margin: 20px 0px;
+  height: 18px;
+  width: 40ex;
+}

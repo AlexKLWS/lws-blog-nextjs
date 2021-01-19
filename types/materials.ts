@@ -45,3 +45,8 @@ export enum Category {
   Guides,
   Projects,
 }
+
+export type MaterialFetchResult<T extends Material> = {
+  material: T | null
+  error: Error | null
+}
