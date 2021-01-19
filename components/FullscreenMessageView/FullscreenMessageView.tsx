@@ -1,6 +1,7 @@
 import React from 'react'
 
-import './FullscreenMessageView.module.scss'
+import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
+import styles from './FullscreenMessageView.module.scss'
 
 type Props = {
   title: string
@@ -9,10 +10,12 @@ type Props = {
 
 const FullscreenMessageView: React.FC<Props> = (props: Props) => {
   return (
-    <div className={'FullscreenMessageView-container'}>
-      <h1 className={'FullscreenMessageView-title'}>{props.title}</h1>
-      <h3 className={'FullscreenMessageView-subtitle'}>{props.subtitle}</h3>
-    </div>
+    <DefaultLayoutWrapper>
+      <div className={styles.FullscreenMessageViewContainer}>
+        <h1 className={styles.FullscreenMessageViewTitle}>{props.title}</h1>
+        <h3 className={styles.FullscreenMessageViewSubtitle}>{props.subtitle}</h3>
+      </div>
+    </DefaultLayoutWrapper>
   )
 }
 

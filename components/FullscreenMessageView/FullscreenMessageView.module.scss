@@ -1,6 +1,6 @@
 @import '../../styles/shared-mixins';
 
-.FullscreenMessageView-container {
+.FullscreenMessageViewContainer {
   min-height: 720px;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@
   justify-content: center;
 }
 
-.FullscreenMessageView-title {
+.FullscreenMessageViewTitle {
   @include normal-mono;
   font-weight: 600;
   font-size: 28px;
@@ -18,7 +18,7 @@
   text-align: center;
 }
 
-.FullscreenMessageView-subtitle {
+.FullscreenMessageViewSubtitle {
   @include normal-mono;
   font-weight: 300;
   font-size: 14px;
