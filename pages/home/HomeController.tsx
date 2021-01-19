@@ -5,13 +5,18 @@ import { GetServerSideProps } from 'next'
 import HomeView from './HomeView'
 import { serverSideMaterialPreviewsProvider } from 'facades/materialPreviewsFetchFacade'
 import { page } from 'consts/query'
-import { Category, PreviewMaterial } from 'types/materials'
+import { PreviewMaterial } from 'types/materials'
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
 import { PagePreviewsData } from 'types/pagePreviewData'
+import { resolveCategoryFromPathname } from 'helpers/resolveCategory'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const currentPage = Number(context.query[page] || 1)
-  const { fetchMaterialPreviews } = serverSideMaterialPreviewsProvider(Category.Misc, currentPage, false)
+  const { fetchMaterialPreviews } = serverSideMaterialPreviewsProvider(
+    resolveCategoryFromPathname(context.resolvedUrl),
+    currentPage,
+    false,
+  )
   const response = await fetchMaterialPreviews()
   return {
     props: response,
