@@ -1,0 +1,85 @@
+@import '../../styles/config';
+@import '../../styles/shared-mixins';
+
+.ContactTitle {
+  @include title;
+  padding-top: 61px;
+}
+
+.ContactContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 720px;
+}
+
+.ContactInfo {
+  @include normal;
+  font-size: 15px;
+  padding: 30px 24px;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    font-size: 16px;
+    padding: 30px 82px;
+  }
+}
+
+.ContactSeparator {
+  height: 1px;
+  width: 100%;
+  border-bottom: $thin-black-color 1px solid;
+}
+
+.ContactLink {
+  @include normal-mono;
+  font-weight: 600;
+  color: $primary-color;
+  padding-bottom: 28px;
+  border-width: 1px;
+  border-color: $white-color;
+  border-style: solid;
+
+  &:focus {
+    border-color: $secondary-color;
+    border-width: 1px;
+    outline: none;
+  }
+}
+
+.ContactSecretContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+}
+
+.ContactSecret {
+  @include button;
+  color: $white-color;
+  border-width: 1px;
+  border-color: $white-color;
+  border-style: solid;
+
+  &:focus {
+    border-color: $secondary-color;
+    border-width: 1px;
+    outline: none;
+  }
+}
+
+.BottomSection {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.TwitterCaption {
+  @include normal-mono;
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 25px;
+  padding: 0px 24px;
+  text-align: center;
+}
