@@ -20,11 +20,21 @@ export class SessionService implements ISessionService {
   private readonly _manualUpdateCallbacks: Map<string, () => void> = new Map()
 
   public get isTokenPresent() {
-    return !!getCookie(TOKEN_COOKIE_KEY)
+    try {
+      return !!getCookie(TOKEN_COOKIE_KEY)
+    } catch (error) {
+      console.log('🚀 ~ file: session.ts ~ line 25 ~ SessionService ~ getisTokenPresent ~ error', error)
+      return false
+    }
   }
 
   public getToken() {
-    return getCookie(TOKEN_COOKIE_KEY)
+    try {
+      return getCookie(TOKEN_COOKIE_KEY)
+    } catch (error) {
+      console.log('🚀 ~ file: session.ts ~ line 29 ~ SessionService ~ getToken ~ error', error)
+      return ''
+    }
   }
 
   public addOnManualUpdateCallback(key: string, callback: () => void) {

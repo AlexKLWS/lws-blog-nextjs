@@ -1,13 +1,15 @@
 import React from 'react'
 import { useTrail, animated } from 'react-spring'
-import LinkWithStyles from 'components/LinkWithStyles'
+import Head from 'next/head'
 
+import LinkWithStyles from 'components/LinkWithStyles'
 import { PreviewMaterial } from 'types/materials'
 //@ts-ignore
 import Arrow from 'assets/icons/Arrow.svg'
 
 import styles from './Home.module.scss'
 import InlineIcon from 'components/InlineIcon'
+import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 
 interface Props {
   materialPreviews: PreviewMaterial[]
@@ -58,16 +60,25 @@ const HomeView: React.FC<Props> = (props: Props) => {
   })
 
   return (
-    <div className={styles.HomeContainer}>
-      <div className={styles.PreviewsGrid}>
-        {transitions.map((p, index) => (
-          <animated.div key={`${index}`} style={p}>
-            {renderPreviewsItems(props.materialPreviews[index])}
-          </animated.div>
-        ))}
-      </div>
-      {props.pagesCount > 1 ? renderPageControls() : <div style={{ height: '48px' }} />}
-    </div>
+    <>
+      <Head>
+        <title>LWS - Alex Korzh - Home</title>
+        <meta name='description' content='Personal blog by Alex Korzh' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <DefaultLayoutWrapper>
+        <div className={styles.HomeContainer}>
+          <div className={styles.PreviewsGrid}>
+            {transitions.map((p, index) => (
+              <animated.div key={`${index}`} style={p}>
+                {renderPreviewsItems(props.materialPreviews[index])}
+              </animated.div>
+            ))}
+          </div>
+          {props.pagesCount > 1 ? renderPageControls() : <div style={{ height: '48px' }} />}
+        </div>
+      </DefaultLayoutWrapper>
+    </>
   )
 }
 

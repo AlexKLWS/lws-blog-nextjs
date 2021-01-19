@@ -10,7 +10,11 @@ import { getAuthHeader } from 'helpers/getAuthHeader'
 
 export interface IMaterialPreviewFetchService {
   materialPreviews: BehaviorSubject<PagePreviewsData>
-  fetchMaterialPreviews: (category: Category, page: string | number, includeHidden?: boolean) => Promise<void>
+  fetchMaterialPreviews: (
+    category: Category,
+    page: string | number,
+    includeHidden?: boolean,
+  ) => Promise<PagePreviewsData>
 }
 
 interface RequestParams {
@@ -68,13 +72,16 @@ export class MaterailPreviewFetchService implements IMaterialPreviewFetchService
         ? { materialPreviews: response.data.previews, pagesCount: response.data.pageCount, fetchInProgress: false }
         : PAGE_PREVIEW_DATA_DEFAULTS
       this._pagePreviewsData.next(responseData)
+      return responseData
     } catch (e) {
       console.log('ERROR: ', e)
-      this._pagePreviewsData.next({
+      const reset = {
         materialPreviews: [],
         pagesCount: this._pagePreviewsData.value.pagesCount,
         fetchInProgress: false,
-      })
+      }
+      this._pagePreviewsData.next(reset)
+      return reset
     }
   }
 

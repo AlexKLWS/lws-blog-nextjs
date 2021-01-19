@@ -3,6 +3,7 @@ import { IMaterialPreviewFetchService, MaterialPreviewFetchServiceId } from 'ser
 import { useInjection } from 'services/provider'
 import { Subscription } from 'rxjs'
 import { Category, PreviewMaterial } from 'types/materials'
+import { container } from 'services/container'
 
 export const useMaterialPreviewsProvider = (withHidden?: boolean) => {
   const service = useRef(useInjection<IMaterialPreviewFetchService>(MaterialPreviewFetchServiceId))
@@ -29,4 +30,14 @@ export const useMaterialPreviewsProvider = (withHidden?: boolean) => {
   }, [])
 
   return { materialPreviews, pagesCount, fetchInProgress, fetchMaterialPreviews }
+}
+
+export const serverSideMaterialPreviewsProvider = (category: Category, page: string | number, withHidden: boolean) => {
+  const service = container.get<IMaterialPreviewFetchService>(MaterialPreviewFetchServiceId)
+
+  const fetchMaterialPreviews = () => {
+    return service.fetchMaterialPreviews(category, page, withHidden)
+  }
+
+  return { fetchMaterialPreviews }
 }

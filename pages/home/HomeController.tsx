@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
 
 import HomeView from './HomeView'
-import { useMaterialPreviewsProvider } from 'facades/materialPreviewsFetchFacade'
+import { serverSideMaterialPreviewsProvider } from 'facades/materialPreviewsFetchFacade'
 import { page } from 'consts/query'
-import { resolveCategoryFromPathname } from 'helpers/resolveCategory'
-import { PreviewMaterial } from 'types/materials'
+import { Category, PreviewMaterial } from 'types/materials'
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
+import { PagePreviewsData } from 'types/pagePreviewData'
 
-const HomeController: React.FC = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const currentPage = Number(context.query[page] || 1)
+  const { fetchMaterialPreviews } = serverSideMaterialPreviewsProvider(Category.Misc, currentPage, false)
+  const response = await fetchMaterialPreviews()
+  return {
+    props: response,
+  }
+}
+
+const HomeController: React.FC<PagePreviewsData> = (props: PagePreviewsData) => {
   const router = useRouter()
 
-  const { materialPreviews, pagesCount, fetchInProgress, fetchMaterialPreviews } = useMaterialPreviewsProvider()
   const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    const category = resolveCategoryFromPathname(router as any)
     const pageFromQuery = Number(router.query[page] || 1)
-    fetchMaterialPreviews(category, pageFromQuery)
     if (pageFromQuery !== currentPage) {
       setCurrentPage(pageFromQuery as number)
     }
@@ -29,8 +36,8 @@ const HomeController: React.FC = () => {
     let newPage = currentPage
     if (next) {
       newPage = currentPage + 1
-      if (newPage > pagesCount) {
-        newPage = pagesCount
+      if (newPage > props.pagesCount) {
+        newPage = props.pagesCount
       }
     } else {
       newPage = currentPage - 1
@@ -51,16 +58,16 @@ const HomeController: React.FC = () => {
     }
   }
 
-  if (!materialPreviews.length && !fetchInProgress) {
+  if (!props.materialPreviews || !props.materialPreviews.length) {
     return <FullscreenMessageView title={`Sorry!`} subtitle={`There's nothing here yet!`} />
   }
 
   return (
     <HomeView
-      materialPreviews={materialPreviews}
+      materialPreviews={props.materialPreviews}
       getDifferentPageLink={getDifferentPageLink}
       currentPage={currentPage}
-      pagesCount={pagesCount}
+      pagesCount={props.pagesCount}
       getPreviewItemLink={getPreviewItemLink}
     />
   )
