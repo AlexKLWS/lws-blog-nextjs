@@ -1,0 +1,86 @@
+@import '../../styles/config';
+@import '../../styles/shared-mixins';
+
+.PPEWInputContainer {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
+.PPEWIconContainer {
+  display: block;
+  border: 1px solid;
+  padding: 10px;
+}
+
+.PPEWIconRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.PPEWInput {
+  @include input-mixin;
+  margin-bottom: 30px;
+}
+
+.PPEWIconDimensionsInput {
+  @include input-mixin;
+  margin-right: 20px;
+}
+
+.PPEWDropdownContainer {
+  display: flex;
+  padding-top: 30px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.PPEWDropdownLabel {
+  @include normal-mono;
+  margin-left: 10px;
+  margin-right: 15px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.PPEWToggleContainer {
+  position: relative;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+}
+
+.PPEWToggle {
+  @include transition-ease;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: $primary-color;
+}
+
+.PPEWToggleInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.PPEWToggleInput:checked + .PPEWToggle {
+  background-color: $primary-color;
+
+  &::after {
+    position: absolute;
+    content: '';
+    border-style: solid;
+    border-width: 2px;
+    border-color: $white-color;
+    width: 8px;
+    height: 8px;
+  }
+}
