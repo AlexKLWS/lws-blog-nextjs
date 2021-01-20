@@ -1,0 +1,72 @@
+@import '../../styles/config';
+@import '../../styles/shared-mixins';
+
+.FUWContainer {
+  padding-top: 36px;
+}
+
+.FUWSelectorListItem {
+  display: inline-block;
+}
+
+.FUWFolderSelectorList {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.FUWLabel {
+  @include normal-mono;
+  margin-left: 10px;
+}
+
+.FUWFileInputContainer {
+  padding-left: 3.5%;
+}
+
+.FUWSelectorItemContainer {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  width: 100%;
+  padding-top: 16px;
+}
+
+.FUWFileList {
+  list-style-type: square;
+}
+
+.FUWFileListItem {
+  padding-top: 16px;
+}
+
+.FUWFileListItemRow {
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.FUWFileListItemError {
+  @include normal-mono;
+  color: $red-color;
+  font-size: 11px;
+}
+
+.FUWFileListItemNameLabel {
+  @include normal-mono;
+  white-space: pre;
+}
+
+.FUWFileListItemNameLabelBold {
+  font-weight: 600;
+}
+
+.FUWFileListItemInput {
+  @include input-mixin;
+  margin-left: auto;
+}
+
+.FUWUploadButtonContainer {
+  display: flex;
+  justify-content: center;
+  padding: 36px 0px;
+}
