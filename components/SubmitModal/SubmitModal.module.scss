@@ -1,0 +1,62 @@
+@import '../../../styles/config';
+@import '../../../styles/shared-mixins';
+
+.ArticleSubmitModalContentContainer {
+  padding: 15px 25px;
+}
+
+.ArticleSubmitModalButtonContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.ArticleSubmitModalTitle {
+  font-family: IBM Plex Mono;
+  align-self: center;
+  text-align: center;
+}
+
+.ArticleSubmitModalErrorsList {
+  list-style: square outside none;
+  padding-bottom: 20px;
+}
+
+.ArticleSubmitModalErrorItem {
+  @include normal-mono;
+  color: red;
+  padding: 5px 0px;
+}
+
+.ArticleSubmitModalModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: $white-color;
+
+  &:focus {
+    border-color: $secondary-color;
+    border-width: 1px;
+    outline: none;
+  }
+
+  width: 100%;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    width: 40%;
+  }
+}
+
+.ArticleSubmitModalModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  @include dotted-background;
+}
