@@ -6,6 +6,7 @@ import { EditorError } from 'types/verifier'
 import SubmitModal from 'components/SubmitModal'
 import { IMaterialDataService } from 'services/materialData'
 import InputDataController from 'components/MaterialDataFormItems/Input/InputDataController'
+import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 
 interface Props {
   serviceInstance: IMaterialDataService
@@ -28,37 +29,39 @@ const ExtMaterialEditorView = (props: Props) => {
   }
 
   return (
-    <div>
-      <h1 className='App-title'>Page Editor</h1>
-      <PagePreviewEditorWidget serviceInstance={props.serviceInstance} />
-      <div className={styles.EMEURLcontainer}>
-        <InputDataController
-          serviceInstance={props.serviceInstance}
-          path={'url'}
-          render={({ value, setValue }) => {
-            return (
-              <input
-                placeholder='URL'
-                className='App-input'
-                onChange={(event) => {
-                  setValue(event.target.value)
-                }}
-                value={value}
-              />
-            )
-          }}
+    <DefaultLayoutWrapper>
+      <div>
+        <h1 className='App-title'>Page Editor</h1>
+        <PagePreviewEditorWidget serviceInstance={props.serviceInstance} />
+        <div className={styles.EMEURLcontainer}>
+          <InputDataController
+            serviceInstance={props.serviceInstance}
+            path={'url'}
+            render={({ value, setValue }) => {
+              return (
+                <input
+                  placeholder='URL'
+                  className='App-input'
+                  onChange={(event) => {
+                    setValue(event.target.value)
+                  }}
+                  value={value}
+                />
+              )
+            }}
+          />
+        </div>
+        <div className={styles.EMEButtonContainer}>
+          <input className='App-button' onClick={onSubmitButtonClick} type={'submit'} value={'Submit'} />
+        </div>
+        <SubmitModal
+          modalIsOpen={modalIsOpen}
+          submitErrors={props.submitErrors}
+          setModalIsOpen={setModalIsOpen}
+          onSubmit={onSubmit}
         />
       </div>
-      <div className={styles.EMEButtonContainer}>
-        <input className='App-button' onClick={onSubmitButtonClick} type={'submit'} value={'Submit'} />
-      </div>
-      <SubmitModal
-        modalIsOpen={modalIsOpen}
-        submitErrors={props.submitErrors}
-        setModalIsOpen={setModalIsOpen}
-        onSubmit={onSubmit}
-      />
-    </div>
+    </DefaultLayoutWrapper>
   )
 }
 

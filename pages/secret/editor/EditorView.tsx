@@ -10,6 +10,7 @@ import SubmitModal from 'components/SubmitModal'
 import FileUploadWidget from 'components/FileUploadWidget'
 import { IMaterialDataService } from 'services/materialData'
 import InputDataController from 'components/MaterialDataFormItems/Input/InputDataController'
+import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 
 interface Props {
   serviceInstance: IMaterialDataService
@@ -32,27 +33,29 @@ const EditorView: React.FC<Props> = (props: Props) => {
   }
 
   return (
-    <div>
-      <h1 className='App-title'>Editor</h1>
-      <PagePreviewEditorWidget serviceInstance={props.serviceInstance} />
-      <InputDataController
-        serviceInstance={props.serviceInstance}
-        path={'articleText'}
-        render={({ value, setValue }) => {
-          return <SimpleMDE value={value} onChange={setValue} />
-        }}
-      />
-      <div className={styles.EditorButtonContainer}>
-        <input className='App-button' onClick={onSubmitButtonClick} type={'submit'} value={'Submit'} />
+    <DefaultLayoutWrapper>
+      <div>
+        <h1 className='App-title'>Editor</h1>
+        <PagePreviewEditorWidget serviceInstance={props.serviceInstance} />
+        <InputDataController
+          serviceInstance={props.serviceInstance}
+          path={'articleText'}
+          render={({ value, setValue }) => {
+            return <SimpleMDE value={value} onChange={setValue} />
+          }}
+        />
+        <div className={styles.EditorButtonContainer}>
+          <input className='App-button' onClick={onSubmitButtonClick} type={'submit'} value={'Submit'} />
+        </div>
+        <FileUploadWidget />
+        <SubmitModal
+          modalIsOpen={modalIsOpen}
+          submitErrors={props.submitErrors}
+          setModalIsOpen={setModalIsOpen}
+          onSubmit={onSubmit}
+        />
       </div>
-      <FileUploadWidget />
-      <SubmitModal
-        modalIsOpen={modalIsOpen}
-        submitErrors={props.submitErrors}
-        setModalIsOpen={setModalIsOpen}
-        onSubmit={onSubmit}
-      />
-    </div>
+    </DefaultLayoutWrapper>
   )
 }
 
