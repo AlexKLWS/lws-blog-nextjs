@@ -1,0 +1,27 @@
+@import '../../styles/config';
+@import '../../styles/shared-mixins';
+@import '../../styles/shared-elements';
+
+.LoginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 650px;
+}
+
+.LoginInput {
+  @include input-mixin;
+  margin-bottom: 30px;
+}
+
+.LoginGDPRInfo {
+  @include normal;
+  font-size: 15px;
+  padding: 30px 24px;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    font-size: 16px;
+    padding: 30px 82px;
+  }
+}
