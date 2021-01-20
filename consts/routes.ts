@@ -11,10 +11,10 @@ const secret = {
   home: '/secret',
   editor: '/secret/editor',
   editorMaterial: '/secret/editor/:id',
-  pageEditor: '/secret/pageEditor',
-  pageEditorExistingMaterial: '/secret/pageEditor/:id',
-  guideEditor: '/secret/guideEditor',
-  guideEditorExistingMaterial: '/secret/guideEditor/:id',
+  pageEditor: '/secret/page-editor',
+  pageEditorExistingMaterial: '/secret/page-editor/:id',
+  guideEditor: '/secret/guide-editor',
+  guideEditorExistingMaterial: '/secret/guide-editor/:id',
   fileUpload: '/secret/file-upload',
 }
 
