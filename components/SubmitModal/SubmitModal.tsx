@@ -22,7 +22,7 @@ const ArticleSubmitModal: React.FC<Props> = (props: Props) => {
       isOpen={props.modalIsOpen}
       contentLabel='Example Modal'
       className={styles.ArticleSubmitModalModal}
-      overlayClassName='ArticleSubmitModal-modal-overlay'
+      overlayClassName={styles.ArticleSubmitModalModalOverlay}
     >
       <div className={styles.ArticleSubmitModalContentContainer}>
         <h2 className={styles.ArticleSubmitModalTitle}>Are you ready to submit the material?</h2>
