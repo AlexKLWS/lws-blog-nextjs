@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Loadable from 'react-loadable'
+import dynamic from 'next/dynamic'
 
 import { useArticleClient } from 'facades/materialClientFacade'
 import { EditorError } from 'types/verifier'
@@ -8,8 +8,7 @@ import { useMaterialDataServiceProvider } from 'facades/MaterialData/materialDat
 import { DEFAULT_ARTICLE_DATA } from 'consts/defaults'
 import { ARTICLE_DATA_VERIFIER } from 'consts/verifiers'
 
-const LoadableEditorView = Loadable({
-  loader: () => import('./EditorView'),
+const LoadableEditorView = dynamic(() => import('./EditorView'), {
   loading: () => {
     return <div>LOADING</div>
   },
