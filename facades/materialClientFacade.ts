@@ -86,6 +86,16 @@ export const useGuideClient = () => {
   return { guide, error, isLoading, postGuide, fetchGuide }
 }
 
+export const serverSideGuideClient = () => {
+  const service = container.get<IMaterialClientService<Guide>>(MaterialClientServiceId)
+
+  const fetchGuide = (id: string) => {
+    return service.fetchGuide(id)
+  }
+
+  return { fetchGuide }
+}
+
 export const useExtMaterialClient = () => {
   const service = useRef(useInjection<IMaterialClientService<ExtMaterial>>(MaterialClientServiceId))
 

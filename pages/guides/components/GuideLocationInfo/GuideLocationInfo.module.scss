@@ -1,0 +1,91 @@
+@import '../../../../styles/config';
+@import '../../../../styles/shared-mixins';
+
+.GuideCloseButtonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.GuideCloseButton {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all;
+  background-color: $white-color;
+}
+
+.GuideLocationInfo {
+  margin: 40px 0px 40px 0px;
+  width: 100%;
+  background-color: $white-color;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    margin: 40px 0px 0px 0px;
+  }
+}
+
+.GuideLocationInfoContents {
+  @include transition-ease;
+  padding: 0px 40px 40px 40px;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    flex-direction: row;
+  }
+}
+
+.GuideLocationInfoPhoto {
+  width: 100%;
+  height: 55%;
+  object-fit: contain;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    width: 55%;
+    height: 100%;
+  }
+}
+
+.GuideLocationInfoPhotoPlaceholder {
+  width: 100%;
+  height: 285px;
+  background-color: $secondary-color;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    width: 55%;
+    height: 300px;
+  }
+}
+
+.GuideLocationInfoTextContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding-left: 0px;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    padding-left: 40px;
+  }
+}
+
+.GuideLocationInfoTitle {
+  @include normal-mono;
+  text-align: right;
+  font-weight: 600;
+}
+
+.GuideLocationInfoDescription {
+  @include normal;
+  text-align: left;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.GuideLocationInfoAddress {
+  @include normal-mono;
+  padding-top: 20px;
+  font-size: 13px;
+}

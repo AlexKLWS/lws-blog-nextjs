@@ -1,0 +1,90 @@
+@import '../../../../styles/config';
+@import '../../../../styles/shared-mixins';
+
+.GuideInfoButtonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.GuideInfoButton {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all;
+  background-color: $white-color;
+}
+
+.GuideInfoLocationList {
+  overflow-y: scroll;
+  margin: 0px 40px;
+}
+
+.GuideInfoLocationListItem {
+  @include button;
+  align-items: center;
+  padding: 16px 0px 16px 10px;
+}
+
+.GuideInfoLocationListItemLabel {
+  @include normal-mono;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 21px;
+  padding-left: 10px;
+  user-select: none;
+}
+
+.GuideInfoNote {
+  @include normal;
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-block-start: 0px;
+}
+
+.GuideInfoContainer,
+.GuideInfoLocationListContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.GuideInfoContainer {
+  position: relative;
+  background-color: $white-color;
+  transition: all 0.4s ease-in-out;
+  overflow: hidden;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.DisabledGuideInfoContainer {
+  composes: GuideInfoContainer;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.GuideInfoLocationListContainer {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  float: right;
+}
+
+.GuideInfoBottomContainer {
+  background-color: $white-color;
+  width: 100%;
+  display: table;
+  justify-content: center;
+}
+
+.GuideInfoBottomContainerCenter {
+  height: 40px;
+  width: 40px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

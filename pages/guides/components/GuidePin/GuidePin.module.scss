@@ -1,0 +1,36 @@
+@import '../../../../styles/config';
+@import '../../../../styles/shared-mixins';
+
+.GuidePinContainer {
+  position: absolute;
+  transform: translate(-50%, -100%);
+}
+
+.GuidePinIconContainer {
+  position: absolute;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 68%;
+}
+
+.GuidePinButton {
+  @include transition-ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 35px;
+  background-color: $white-color;
+  border-width: 0px;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  opacity: 0;
+
+  &:active {
+    opacity: 0.75;
+  }
+}
