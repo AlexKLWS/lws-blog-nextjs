@@ -43,7 +43,7 @@ const HomeController: React.FC = () => {
 
   const getPreviewItemLink = (previewMaterial: PreviewMaterial) => {
     if (previewMaterial.url) {
-      return `${routes.secret.pageEditor}/${previewMaterial.referenceId}`
+      return `${routes.secret.extMaterialEditor}/${previewMaterial.referenceId}`
     } else if (previewMaterial.isGuideMaterial) {
       return `${routes.secret.guideEditor}/${previewMaterial.referenceId}`
     } else {
@@ -68,7 +68,7 @@ const HomeController: React.FC = () => {
       {
         label: 'Add page',
         callback: () => {
-          router.push(routes.secret.pageEditor)
+          router.push(routes.secret.extMaterialEditor)
         },
       },
       {
