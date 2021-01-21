@@ -1,3 +1,5 @@
-import GuideEditorController from './GuideEditorController'
+import GuideEditorController, { getServerSideProps as exportedGetServerSideProps } from './GuideEditorController'
+
+export const getServerSideProps = exportedGetServerSideProps
 
 export default GuideEditorController

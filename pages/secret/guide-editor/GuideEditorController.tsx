@@ -1,15 +1,36 @@
 import React, { useEffect, useState } from 'react'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import Loadable from 'react-loadable'
+import Cookies from 'cookies'
+import dynamic from 'next/dynamic'
 
 import { EditorError } from 'types/verifier'
 import { useMaterialDataServiceProvider } from 'facades/MaterialData/materialDataServiceFacade'
 import { GUIDE_DATA_VERIFIER } from 'consts/verifiers'
 import { DEFAULT_GUIDE_DATA } from 'consts/defaults'
 import { useGuideClient } from 'facades/materialClientFacade'
+import { TOKEN_COOKIE_KEY } from 'consts/cookies'
+import { userAccessServerSideProvider } from 'facades/sessionFacade'
 
-const LoadableEditorView = Loadable({
-  loader: () => import('./GuideEditorView'),
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const cookies = new Cookies(context.req, context.res)
+  const token = cookies.get(TOKEN_COOKIE_KEY)
+  const { checkUserAccess } = userAccessServerSideProvider()
+  const response = await checkUserAccess(token)
+  if (response === undefined) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {},
+  }
+}
+
+const LoadableEditorView = dynamic(() => import('./GuideEditorView'), {
   loading: () => {
     return <div>LOADING</div>
   },
