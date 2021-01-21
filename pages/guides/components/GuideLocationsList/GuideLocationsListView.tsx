@@ -79,6 +79,7 @@ const GuideLocationsListView: React.FC<Props> = (props: Props) => {
           </button>
         </div>
       </div>
+      {/*@ts-expect-error*/}
       <animated.div className={styles.GuideInfoLocationListContainer} style={opacityStyle}>
         <p className={styles.GuideInfoNote}>{props.guideInfo}</p>
         <div className={styles.GuideInfoLocationList}>
