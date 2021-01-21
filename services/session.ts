@@ -5,14 +5,16 @@ import jwt_decode from 'jwt-decode'
 import { apiEndpoint } from 'consts/endpoints'
 import { getCookie, setCookie } from 'helpers/cookies'
 import { Session, Token } from 'types/session'
-
-const TOKEN_COOKIE_KEY = 'token'
+import { UserAccess } from 'types/user'
+import { getAuthHeader } from 'helpers/getAuthHeader'
+import { TOKEN_COOKIE_KEY } from 'consts/cookies'
 
 export interface ISessionService {
   isTokenPresent: boolean
   getToken: () => string
   addOnManualUpdateCallback: (key: string, callback: () => void) => void
   login: (username: string, password: string) => Promise<boolean>
+  checkUserAccess: (token?: string) => Promise<UserAccess | undefined>
 }
 
 @injectable()
@@ -65,6 +67,24 @@ export class SessionService implements ISessionService {
       console.log('ERROR: ', e)
     }
     return false
+  }
+
+  public async checkUserAccess(token?: string) {
+    const request: AxiosRequestConfig = {
+      method: 'GET',
+      url: `${apiEndpoint}/auth/user-access`,
+      headers: {
+        ...getAuthHeader(token || this.getToken()),
+      },
+    }
+
+    try {
+      const response = await axios(request)
+      console.log('🚀 ~ file: session.ts ~ line 80 ~ SessionService ~ checkUserAccess ~ response', response)
+      return response.data as UserAccess
+    } catch (e) {
+      console.log('ERROR: ', e)
+    }
   }
 }
 

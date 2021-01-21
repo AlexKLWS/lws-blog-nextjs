@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { useInjection } from 'services/provider'
 import { SessionServiceId, ISessionService } from 'services/session'
+import { container } from 'services/container'
 
 export function useLoginFacade(): [(username: string, password: string) => Promise<boolean>] {
   const service = useRef(useInjection<ISessionService>(SessionServiceId))
@@ -32,4 +33,14 @@ export function useTokenProvider(tokenUpdateCallbackKey: string) {
     isLoggedIn,
     getToken,
   }
+}
+
+export function userAccessServerSideProvider() {
+  const service = container.get<ISessionService>(SessionServiceId)
+
+  const checkUserAccess = (token?: string) => {
+    return service.checkUserAccess(token)
+  }
+
+  return { checkUserAccess }
 }
