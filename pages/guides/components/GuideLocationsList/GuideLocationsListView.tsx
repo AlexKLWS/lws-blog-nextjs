@@ -1,5 +1,5 @@
-import React from 'react'
-import { Transition } from 'react-transition-group'
+import React, { useEffect } from 'react'
+import { useSpring, animated } from 'react-spring'
 //@ts-ignore
 import Arrow from 'assets/icons/Arrow.svg'
 
@@ -26,80 +26,92 @@ const GuideLocationsListView: React.FC<Props> = (props: Props) => {
     return props.isDisabled ? styles.DisabledGuideInfoContainer : styles.GuideInfoContainer
   }
 
-  const transitionStyles: any = {
-    entering: { width: '420px', height: '520px' },
-    entered: { width: '420px', height: '520px' },
-    exiting: { width: '40px', height: '40px', transitionDelay: '0.1s' },
-    exited: { width: '40px', height: '40px' },
-  }
+  const [dimensionsStyle, animateDimensions] = useSpring(
+    {
+      config: { duration: 150 },
+      width: '40px',
+      height: '40px',
+    },
+    [],
+  )
 
-  const transitionStylesOpacity: any = {
-    entering: { opacity: 1, transitionDelay: '0.4s' },
-    entered: { opacity: 1 },
-    exiting: { opacity: 0 },
-    exited: { opacity: 0 },
-  }
+  const [opacityStyle, animateOpacity] = useSpring(
+    {
+      config: { duration: 150 },
+      opacity: 0,
+    },
+    [],
+  )
+
+  useEffect(() => {
+    if (props.locationsListIsOpen) {
+      animateDimensions({ width: '420px', height: '520px' })
+      setTimeout(() => {
+        animateOpacity({ opacity: 1 })
+      }, 300)
+    } else {
+      animateOpacity({ opacity: 0 })
+      setTimeout(() => {
+        animateDimensions({ width: '40px', height: '40px' })
+      }, 200)
+    }
+  }, [props.locationsListIsOpen])
 
   const displayScrollIndicator = props.locations.length >= 6
 
   return (
-    <Transition in={props.locationsListIsOpen} timeout={300}>
-      {(state) => (
-        <div className={buttonBackgroundStyle()} style={{ ...transitionStyles[state] }}>
-          <div className={styles.GuideInfoButtonContainer}>
-            <div className={styles.GuideInfoButton}>
-              <button
-                className={buttonStateStyle()}
-                type='button'
-                aria-label='Menu'
-                aria-controls='navigation'
-                onClick={() => {
-                  props.setLocationsListIsOpen(!props.locationsListIsOpen)
-                }}
-                disabled={props.isDisabled}
-              >
-                <span className='hamburger-box'>
-                  <span className='hamburger-inner'></span>
-                </span>
-              </button>
-            </div>
-          </div>
-          <div className={styles.GuideInfoLocationListContainer} style={{ ...transitionStylesOpacity[state] }}>
-            <p className={styles.GuideInfoNote}>{props.guideInfo}</p>
-            <div className={styles.GuideInfoLocationList}>
-              {props.locations.map((location, index) => {
-                return (
-                  <div
-                    key={`${index}`}
-                    className={styles.GuideInfoLocationListItem}
-                    onClick={() => {
-                      props.setLocationsListIsOpen(false)
-                      props.onLocationPress(location)
-                    }}
-                  >
-                    <GuideItemIcon type={location.type} />
-                    <h3 className={styles.GuideInfoLocationListItemLabel}>{location.title}</h3>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          <div className={styles.GuideInfoBottomContainer}>
-            <div className={styles.GuideInfoBottomContainerCenter}>
-              {displayScrollIndicator && (
-                <Arrow
-                  style={{
-                    transform: 'rotate(270deg)',
-                    transition: 'all 0.2s ease-in-out',
-                    ...transitionStylesOpacity[state],
-                  }}
-                />
-              )}
-            </div>
-          </div>
+    <animated.div className={buttonBackgroundStyle()} style={dimensionsStyle}>
+      <div className={styles.GuideInfoButtonContainer}>
+        <div className={styles.GuideInfoButton}>
+          <button
+            className={buttonStateStyle()}
+            type='button'
+            aria-label='Menu'
+            aria-controls='navigation'
+            onClick={() => {
+              props.setLocationsListIsOpen(!props.locationsListIsOpen)
+            }}
+            disabled={props.isDisabled}
+          >
+            <span className='hamburger-box'>
+              <span className='hamburger-inner'></span>
+            </span>
+          </button>
         </div>
-      )}
-    </Transition>
+      </div>
+      <animated.div className={styles.GuideInfoLocationListContainer} style={opacityStyle}>
+        <p className={styles.GuideInfoNote}>{props.guideInfo}</p>
+        <div className={styles.GuideInfoLocationList}>
+          {props.locations.map((location, index) => {
+            return (
+              <div
+                key={`${index}`}
+                className={styles.GuideInfoLocationListItem}
+                onClick={() => {
+                  props.setLocationsListIsOpen(false)
+                  props.onLocationPress(location)
+                }}
+              >
+                <GuideItemIcon type={location.type} />
+                <h3 className={styles.GuideInfoLocationListItemLabel}>{location.title}</h3>
+              </div>
+            )
+          })}
+        </div>
+      </animated.div>
+      <div className={styles.GuideInfoBottomContainer}>
+        <div className={styles.GuideInfoBottomContainerCenter}>
+          {displayScrollIndicator && (
+            <Arrow
+              style={{
+                transform: 'rotate(270deg)',
+                transition: 'all 0.2s ease-in-out',
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </animated.div>
   )
 }
 
