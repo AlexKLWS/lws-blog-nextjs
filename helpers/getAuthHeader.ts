@@ -1,4 +1,4 @@
-export const getAuthHeader = (authToken: string) => {
+export const getAuthHeader = (authToken?: string) => {
   if (authToken) {
     return { Authorization: `Bearer ${authToken}` }
   }
