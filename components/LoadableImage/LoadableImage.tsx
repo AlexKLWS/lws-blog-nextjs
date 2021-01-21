@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useImage } from 'react-image'
+import Image from 'next/image'
 
 type Props = {
   src?: string
@@ -8,11 +8,11 @@ type Props = {
 }
 
 const LoadableImage: React.FC<Props> = (props: Props) => {
-  const { src } = useImage({
-    srcList: props.src || '',
-  })
-
-  return <img src={src} className={props.className} alt='' />
+  return (
+    <div className={props.className}>
+      <Image src={props.src || ''} objectFit={'contain'} height={'300px'} width={'400px'} alt='' />
+    </div>
+  )
 }
 
 export default LoadableImage

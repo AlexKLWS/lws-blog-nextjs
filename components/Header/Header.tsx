@@ -1,5 +1,5 @@
 import React from 'react'
-import { useImage } from 'react-image'
+import Image from 'next/image'
 import { useMediaQuery } from 'react-responsive'
 import { useRouter } from 'next/router'
 
@@ -19,11 +19,6 @@ const Header: React.FC = () => {
     return route === currentRoute ? styles.ActiveSectionItem : styles.SectionItem
   }
 
-  const { src } = useImage({
-    srcList: `http://localhost:3000/square_1.jpg`,
-    useSuspense: false,
-  })
-
   return (
     <div className={styles.HeaderContainer}>
       <div className={styles.HeaderTopContainer}>
@@ -38,9 +33,9 @@ const Header: React.FC = () => {
             </LinkWithStyles>
           </span>
           {!isSmallerScreen && (
-            <div className={styles.HeaderPortrait}>
-              <img src={src} width='auto' height='100%' alt='' />
-            </div>
+            <LinkWithStyles href={routes.contact} className={styles.HeaderPortrait}>
+              <Image src={`/square_1.jpg`} width='44px' height='44px' alt='Alex Korzh' />
+            </LinkWithStyles>
           )}
         </div>
       </div>
