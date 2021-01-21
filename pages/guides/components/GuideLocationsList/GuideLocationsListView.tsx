@@ -90,7 +90,9 @@ const GuideLocationsListView: React.FC<Props> = (props: Props) => {
                 className={styles.GuideInfoLocationListItem}
                 onClick={() => {
                   props.setLocationsListIsOpen(false)
-                  props.onLocationPress(location)
+                  setTimeout(() => {
+                    props.onLocationPress(location)
+                  }, 100)
                 }}
               >
                 <GuideItemIcon type={location.type} />
