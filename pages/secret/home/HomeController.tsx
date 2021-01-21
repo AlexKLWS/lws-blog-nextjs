@@ -1,4 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
+import Cookies from 'cookies'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
 import HomeView from './HomeView'
@@ -7,6 +9,26 @@ import { useMaterialPreviewsProvider } from 'facades/materialPreviewsFetchFacade
 import { resolveCategoryFromPathname } from 'helpers/resolveCategory'
 import { page } from 'consts/query'
 import { PreviewMaterial } from 'types/materials'
+import { userAccessServerSideProvider } from 'facades/sessionFacade'
+import { TOKEN_COOKIE_KEY } from 'consts/cookies'
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const cookies = new Cookies(context.req, context.res)
+  const token = cookies.get(TOKEN_COOKIE_KEY)
+  const { checkUserAccess } = userAccessServerSideProvider()
+  const response = await checkUserAccess(token)
+  if (response === undefined) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {},
+  }
+}
 
 const HomeController: React.FC = () => {
   const router = useRouter()
