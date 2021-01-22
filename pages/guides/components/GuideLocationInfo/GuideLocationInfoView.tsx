@@ -32,6 +32,7 @@ const GuideLocationInfoView: React.FC<Props> = (props: Props) => {
   }, [props.isShown])
 
   return (
+    //@ts-expect-error
     <animated.div className={styles.GuideLocationInfo} style={transitionStyle}>
       {props.isShown ? (
         <div className={styles.GuideCloseButtonContainer}>

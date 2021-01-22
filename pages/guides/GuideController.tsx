@@ -2,9 +2,9 @@ import React from 'react'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 
-import { serverSideGuideClient } from 'facades/materialClientFacade'
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
 import { Guide } from 'types/materials'
+import { serverSideGuideClient } from 'facades/materialClientFacade'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { fetchGuide } = serverSideGuideClient()
@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {},
     }
   }
-  const response = await fetchGuide(context.params['id'] || '')
+  const response = await fetchGuide((context.params['id'] as string) || '')
   return {
     props: { guide: response.material, error: response.error },
   }
