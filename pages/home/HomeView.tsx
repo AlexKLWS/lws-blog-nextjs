@@ -67,13 +67,12 @@ const HomeView: React.FC<Props> = (props: Props) => {
       <DefaultLayoutWrapper>
         <div className={styles.HomeContainer}>
           <div className={styles.PreviewsGrid}>
-            {transitions.map((style, index) => {
-              return (
-                <animated.div key={`${index}`} style={style}>
-                  {renderPreviewsItems(props.materialPreviews[index])}
-                </animated.div>
-              )
-            })}
+            {transitions.map((style, index) => (
+              //@ts-expect-error
+              <animated.div key={`${index}`} style={style}>
+                {renderPreviewsItems(props.materialPreviews[index])}
+              </animated.div>
+            ))}
           </div>
           {props.pagesCount > 1 ? renderPageControls() : <div style={{ height: '48px' }} />}
         </div>
