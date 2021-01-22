@@ -12,9 +12,7 @@ import { IMaterialDataService, MaterialDataServiceId, MaterialDataService } from
 import { Material } from 'types/materials'
 
 export const containerModule = new ContainerModule((bind: interfaces.Bind) => {
-  bind<ISessionService>(SessionServiceId)
-    .to(SessionService)
-    .inSingletonScope()
+  bind<ISessionService>(SessionServiceId).to(SessionService).inSingletonScope()
   bind<IMaterialClientService<Material>>(MaterialClientServiceId).to(MaterailClientService)
   bind<IFileUploadService>(FileUploadServiceId).to(FileUploadService)
   bind<IMaterialPreviewFetchService>(MaterialPreviewFetchServiceId).to(MaterailPreviewFetchService)
