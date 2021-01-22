@@ -22,7 +22,7 @@
     "experimentalDecorators": true
   },
   "include": [
-    "."
+    ".", "./svgs.d.ts"
   ],
   "exclude": [
     "node_modules"

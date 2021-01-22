@@ -4,7 +4,6 @@ import Head from 'next/head'
 
 import LinkWithStyles from 'components/LinkWithStyles'
 import { PreviewMaterial } from 'types/materials'
-//@ts-ignore
 import Arrow from 'assets/icons/Arrow.svg'
 
 import styles from './Home.module.scss'

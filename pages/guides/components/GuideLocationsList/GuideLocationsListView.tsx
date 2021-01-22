@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useSpring, animated } from 'react-spring'
-//@ts-ignore
 import Arrow from 'assets/icons/Arrow.svg'
 
 import styles from './GuideLocationsList.module.scss'
