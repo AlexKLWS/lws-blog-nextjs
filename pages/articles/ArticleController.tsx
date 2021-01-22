@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {},
     }
   }
-  const response = await fetchArticle(context.params['id'] || '')
+  const response = await fetchArticle((context.params['id'] as string) || '')
   return {
     props: { article: response.material, error: response.error },
   }

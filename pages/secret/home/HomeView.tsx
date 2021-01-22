@@ -57,9 +57,8 @@ const HomeView: React.FC<Props> = (props: Props) => {
 
   const transitions = useTrail(props.materialPreviews.length, {
     config: { mass: 5, tension: 1700, friction: 200 },
-    from: { opacity: 0, backgroundColor: 'rgba(220, 220, 220, 1)' },
+    from: { opacity: 0 },
     opacity: 1,
-    backgroundColor: 'rgba(220, 220, 220, 0)',
   })
 
   return (
@@ -75,8 +74,8 @@ const HomeView: React.FC<Props> = (props: Props) => {
         </div>
         <div className={styles.HomeContainer}>
           <div className={styles.PreviewsGrid}>
-            {transitions.map((p, index) => (
-              <animated.div key={`${index}`} style={p}>
+            {transitions.map((style, index) => (
+              <animated.div key={`${index}`} style={style}>
                 {renderPreviewsItems(props.materialPreviews[index])}
               </animated.div>
             ))}

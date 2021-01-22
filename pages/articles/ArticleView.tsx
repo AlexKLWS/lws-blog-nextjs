@@ -20,7 +20,7 @@ const LoadableArticleTextView = dynamic(() => import('../../components/ArticleTe
 })
 
 export const ArticleView: React.FC<Props> = ({ article }: Props) => {
-  const [style, animate] = useSpring(
+  const [style, _] = useSpring(
     {
       config: { tension: 280, friction: 90 },
       from: { opacity: 0 },
@@ -38,6 +38,7 @@ export const ArticleView: React.FC<Props> = ({ article }: Props) => {
       </Head>
       <DefaultLayoutWrapper>
         <div className={styles.ArticleContainer}>
+          {/* @ts-expect-error */}
           <animated.div style={{ ...style, padding: '20px 42px', minHeight: '720px', position: 'relative' }}>
             <div className={styles.ArticleTitleContainer}>
               <h1 className={styles.ArticleTitle}>{article?.name}</h1>
