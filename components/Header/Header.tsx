@@ -27,11 +27,9 @@ const Header: React.FC = () => {
         </LinkWithStyles>
         <div className={styles.HeaderRightContainer}>
           <span className={styles.HeaderSubtitle}>Personal blog by</span>
-          <span className={styles.HeaderSubtitle}>
-            <LinkWithStyles href={routes.contact} className={styles.link}>
-              Alex Korzh
-            </LinkWithStyles>
-          </span>
+          <LinkWithStyles href={routes.contact} className={styles.HeaderSubtitleLink}>
+            Alex Korzh
+          </LinkWithStyles>
           {!isSmallerScreen && (
             <LinkWithStyles href={routes.contact} className={styles.HeaderPortrait}>
               <Image src={`/square_1.jpg`} width='44px' height='44px' alt='Alex Korzh' />

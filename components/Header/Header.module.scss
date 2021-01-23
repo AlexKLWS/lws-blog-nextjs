@@ -53,28 +53,29 @@
   margin-right: 0.5em;
   margin-top: 15px;
 
-  .link {
-    margin-top: 5px;
-    border-width: 1px;
-    border-color: $white-color;
-    border-style: solid;
-
-    &:visited {
-      color: $primary-color;
-    }
-
-    &:focus {
-      border-color: $secondary-color;
-      border-width: 1px;
-      outline: none;
-    }
-    @media (min-width: $breakpoint-desktop-or-laptop) {
-      margin-top: 0px;
-    }
-  }
-
   @media (min-width: $breakpoint-desktop-or-laptop) {
     flex-direction: row;
+    margin-top: 0px;
+  }
+}
+
+.HeaderSubtitleLink {
+  composes: HeaderSubtitle;
+  margin-top: 5px;
+  border-width: 1px;
+  border-color: $white-color;
+  border-style: solid;
+
+  &:visited {
+    color: $primary-color;
+  }
+
+  &:focus {
+    border-color: $secondary-color;
+    border-width: 1px;
+    outline: none;
+  }
+  @media (min-width: $breakpoint-desktop-or-laptop) {
     margin-top: 0px;
   }
 }
