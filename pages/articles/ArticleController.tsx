@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { GetServerSideProps } from 'next'
 
-import { ArticleView } from './ArticleView'
+import ArticleView from './ArticleView'
 import { serverSideArticleClient } from 'facades/materialClientFacade'
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
 import { Article } from 'types/materials'

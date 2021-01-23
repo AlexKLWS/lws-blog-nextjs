@@ -19,7 +19,7 @@ const LoadableArticleTextView = dynamic(() => import('../../components/ArticleTe
   },
 })
 
-export const ArticleView: React.FC<Props> = ({ article }: Props) => {
+const ArticleView: React.FC<Props> = ({ article }: Props) => {
   const [style, _] = useSpring(
     {
       config: { tension: 280, friction: 90 },
@@ -52,3 +52,5 @@ export const ArticleView: React.FC<Props> = ({ article }: Props) => {
     </>
   )
 }
+
+export default ArticleView
