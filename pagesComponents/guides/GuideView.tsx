@@ -11,7 +11,7 @@ import { GuideLocationInfo, LocationCoords } from 'types/guide'
 import GuideLocationInfoView from './components/GuideLocationInfo/GuideLocationInfoView'
 import GuideLocationsListView from './components/GuideLocationsList/GuideLocationsListView'
 
-const API_KEY = process.env.REACT_APP_GMAPS_API_KEY || ''
+const API_KEY = process.env.NEXT_PUBLIC_GMAPS_API_KEY || ''
 const LOCATION_INFO_ANIMATION_SYNC_DELAY = 400
 
 type Props = {
