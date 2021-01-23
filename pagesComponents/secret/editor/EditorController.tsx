@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import React, { useState, useEffect } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
