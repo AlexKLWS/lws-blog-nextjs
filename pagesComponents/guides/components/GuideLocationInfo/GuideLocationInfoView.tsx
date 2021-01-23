@@ -54,11 +54,11 @@ const GuideLocationInfoView: React.FC<Props> = (props: Props) => {
         <div style={{ height: '40px' }} />
       )}
       <div className={styles.GuideLocationInfoContents}>
-        <LoadableImage src={props.locationInfo.imageUrl} className={styles.GuideLocationInfoPhoto} />
+        <LoadableImage src={props.locationInfo?.imageUrl} className={styles.GuideLocationInfoPhoto} />
         <div className={styles.GuideLocationInfoTextContainer}>
-          <h2 className={styles.GuideLocationInfoTitle}>{props.locationInfo.title}</h2>
-          <p className={styles.GuideLocationInfoDescription}>{props.locationInfo.description}</p>
-          <span className={styles.GuideLocationInfoAddress}>{props.locationInfo.address}</span>
+          <h2 className={styles.GuideLocationInfoTitle}>{props.locationInfo?.title ?? ''}</h2>
+          <p className={styles.GuideLocationInfoDescription}>{props.locationInfo?.description ?? ''}</p>
+          <span className={styles.GuideLocationInfoAddress}>{props.locationInfo?.address ?? ''}</span>
         </div>
       </div>
     </animated.div>

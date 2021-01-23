@@ -29,7 +29,9 @@ const GuideView: React.FC<Props> = (props: Props) => {
     zoom: props.defaultZoom,
   }
 
-  const [currentLocationInfo, setCurrentLocationInfo] = useState<GuideLocationInfo>(props.locations[0])
+  const [currentLocationInfo, setCurrentLocationInfo] = useState<GuideLocationInfo>(
+    props.locations && props.locations[0],
+  )
   const [centerCoords, setCenterCoords] = useState<LocationCoords>(props.defaultCenter)
   const [locationInfoIsShown, setLocationInfoIsShown] = useState(false)
   const [locationsListIsOpen, setLocationsListIsOpen] = useState(false)
@@ -74,19 +76,21 @@ const GuideView: React.FC<Props> = (props: Props) => {
           setCenterCoords({ lat: map.center.lat(), lng: map.center.lng() })
         }}
       >
-        {props.locations.map((location, index) => {
-          return (
-            <GuidePin
-              key={`${index}`}
-              type={location.type}
-              lat={location.coordinates.lat}
-              lng={location.coordinates.lng}
-              onPinPress={() => {
-                onPinPress(location)
-              }}
-            />
-          )
-        })}
+        {props.locations
+          ? props.locations.map((location, index) => {
+              return (
+                <GuidePin
+                  key={`${index}`}
+                  type={location.type}
+                  lat={location.coordinates.lat}
+                  lng={location.coordinates.lng}
+                  onPinPress={() => {
+                    onPinPress(location)
+                  }}
+                />
+              )
+            })
+          : null}
       </GoogleMapReact>
       <div className={styles.GuideContentContainer}>
         <div className={styles.GuideInnerContentContainer}>

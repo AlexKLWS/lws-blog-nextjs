@@ -5,7 +5,7 @@ import Arrow from 'assets/icons/Arrow.svg'
 import styles from './GuideLocationsList.module.scss'
 
 import { GuideLocationInfo } from 'types/guide'
-import GuideItemIcon from 'pages/guides/components/GuideItemIcon/GuideItemIcon'
+import GuideItemIcon from 'pagesComponents/guides/components/GuideItemIcon/GuideItemIcon'
 
 type Props = {
   isDisabled: boolean
@@ -56,7 +56,7 @@ const GuideLocationsListView: React.FC<Props> = (props: Props) => {
     }
   }, [props.locationsListIsOpen])
 
-  const displayScrollIndicator = props.locations.length >= 6
+  const displayScrollIndicator = props.locations && props.locations.length >= 6
 
   return (
     <animated.div className={buttonBackgroundStyle()} style={dimensionsStyle}>
@@ -82,23 +82,25 @@ const GuideLocationsListView: React.FC<Props> = (props: Props) => {
       <animated.div className={styles.GuideInfoLocationListContainer} style={opacityStyle}>
         <p className={styles.GuideInfoNote}>{props.guideInfo}</p>
         <div className={styles.GuideInfoLocationList}>
-          {props.locations.map((location, index) => {
-            return (
-              <div
-                key={`${index}`}
-                className={styles.GuideInfoLocationListItem}
-                onClick={() => {
-                  props.setLocationsListIsOpen(false)
-                  setTimeout(() => {
-                    props.onLocationPress(location)
-                  }, 100)
-                }}
-              >
-                <GuideItemIcon type={location.type} />
-                <h3 className={styles.GuideInfoLocationListItemLabel}>{location.title}</h3>
-              </div>
-            )
-          })}
+          {props.locations
+            ? props.locations.map((location, index) => {
+                return (
+                  <div
+                    key={`${index}`}
+                    className={styles.GuideInfoLocationListItem}
+                    onClick={() => {
+                      props.setLocationsListIsOpen(false)
+                      setTimeout(() => {
+                        props.onLocationPress(location)
+                      }, 100)
+                    }}
+                  >
+                    <GuideItemIcon type={location.type} />
+                    <h3 className={styles.GuideInfoLocationListItemLabel}>{location.title}</h3>
+                  </div>
+                )
+              })
+            : null}
         </div>
       </animated.div>
       <div className={styles.GuideInfoBottomContainer}>

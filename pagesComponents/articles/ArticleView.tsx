@@ -44,7 +44,7 @@ const ArticleView: React.FC<Props> = ({ article }: Props) => {
               <h1 className={styles.ArticleTitle}>{article?.name}</h1>
               <h2 className={styles.ArticleSubtitle}>{article?.subtitle}</h2>
             </div>
-            <LoadableArticleTextView text={article!.articleText} />
+            <LoadableArticleTextView text={article?.articleText || ''} />
             <p className={styles.ArticleDate}>{formattedDate}</p>
           </animated.div>
         </div>

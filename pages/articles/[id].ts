@@ -1,4 +1,6 @@
-import ArticleController, { getServerSideProps as exportedGetServerSideProps } from './ArticleController'
+import ArticleController, {
+  getServerSideProps as exportedGetServerSideProps,
+} from 'pagesComponents/articles/ArticleController'
 
 export const getServerSideProps = exportedGetServerSideProps
 

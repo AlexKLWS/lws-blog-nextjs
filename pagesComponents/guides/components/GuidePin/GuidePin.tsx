@@ -4,7 +4,7 @@ import styles from './GuidePin.module.scss'
 //@ts-ignore
 import MapPin from 'assets/icons/MapPin.svg'
 import { LocationType } from 'types/guide'
-import GuideItemIcon from 'pages/guides/components/GuideItemIcon/GuideItemIcon'
+import GuideItemIcon from 'pagesComponents/guides/components/GuideItemIcon/GuideItemIcon'
 
 type Props = {
   type: LocationType

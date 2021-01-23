@@ -1,4 +1,6 @@
-import FileUploadController, { getServerSideProps as exportedGetServerSideProps } from './FileUploadController'
+import FileUploadController, {
+  getServerSideProps as exportedGetServerSideProps,
+} from 'pagesComponents/secret/file-upload/FileUploadController'
 
 export const getServerSideProps = exportedGetServerSideProps
 

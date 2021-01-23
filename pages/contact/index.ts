@@ -1,3 +1,3 @@
-import Contact from './Contact'
+import Contact from 'pagesComponents/contact/Contact'
 
 export default Contact

@@ -48,6 +48,9 @@ const ArrayInputDataController: React.FC<Props> = ({
   }
 
   const itemsRenderList = () => {
+    if (!array) {
+      return []
+    }
     return array.map((value: any, index: number) => {
       return (
         <ArrayItemInputDataController

@@ -51,7 +51,7 @@ const HomeView: React.FC<Props> = (props: Props) => {
     )
   }
 
-  const transitions = useTrail(props.materialPreviews.length, {
+  const transitions = useTrail(props.materialPreviews?.length || 0, {
     config: { mass: 5, tension: 1700, friction: 200 },
     from: { opacity: 0 },
     opacity: 1,

@@ -1,4 +1,6 @@
-import GuideController, { getServerSideProps as exportedGetServerSideProps } from './GuideController'
+import GuideController, {
+  getServerSideProps as exportedGetServerSideProps,
+} from 'pagesComponents/guides/GuideController'
 
 export const getServerSideProps = exportedGetServerSideProps
 

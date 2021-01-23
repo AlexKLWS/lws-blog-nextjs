@@ -1,4 +1,4 @@
-import HomeController, { getServerSideProps as exportedGetServerSideProps } from 'pages/home/HomeController'
+import HomeController, { getServerSideProps as exportedGetServerSideProps } from 'pagesComponents/home/HomeController'
 
 export const getServerSideProps = exportedGetServerSideProps
 

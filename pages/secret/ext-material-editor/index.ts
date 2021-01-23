@@ -1,6 +1,6 @@
 import ExtMaterialEditorController, {
   getServerSideProps as exportedGetServerSideProps,
-} from './ExtMaterialEditorController'
+} from 'pagesComponents/secret/ext-material-editor/ExtMaterialEditorController'
 
 export const getServerSideProps = exportedGetServerSideProps
 

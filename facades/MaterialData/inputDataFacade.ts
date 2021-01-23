@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs'
 import { onEmit } from 'facades/helpers'
 
 export const useInputDataProvider = (serviceInstance: IMaterialDataService, path: string, isArray?: boolean) => {
-  const [value, setValueState] = useState(serviceInstance.getValueFor(path))
+  const [value, setValueState] = useState(serviceInstance && serviceInstance.getValueFor(path))
 
   const setValue = (newValue: any) => {
     serviceInstance.addField(path, newValue, isArray)
@@ -33,7 +33,9 @@ export const useArrayItemValueInputDataProvider = (
   index: number,
   isArray?: boolean,
 ) => {
-  const [value, setValueState] = useState(serviceInstance.getArrayItemValueFor(pathToArray, pathToValue, index))
+  const [value, setValueState] = useState(
+    serviceInstance && serviceInstance.getArrayItemValueFor(pathToArray, pathToValue, index),
+  )
 
   const setValue = (newValue: any) => {
     serviceInstance.addFieldToArrayItem(pathToArray, pathToValue, newValue, index, isArray)
@@ -67,7 +69,7 @@ export const useArrayItemInputDataProvider = (
 }
 
 export const useArrayInputDataProvider = (serviceInstance: IMaterialDataService, pathToArray: string) => {
-  const [array, setArray] = useState<any[]>(serviceInstance.getValueFor(pathToArray))
+  const [array, setArray] = useState<any[]>(serviceInstance && serviceInstance.getValueFor(pathToArray))
 
   const addItem = (index: number, item?: any) => {
     serviceInstance.addArrayItem(pathToArray, index, item)
