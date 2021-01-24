@@ -7,7 +7,6 @@ import NProgress from 'nprogress'
 import { container, containerModule } from 'services/container'
 import { ServiceProvider } from 'services/provider'
 
-//Binding events.
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
