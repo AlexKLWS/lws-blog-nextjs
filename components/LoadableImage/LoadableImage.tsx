@@ -10,7 +10,11 @@ type Props = {
 const LoadableImage: React.FC<Props> = (props: Props) => {
   return (
     <div className={props.className}>
-      <Image src={props.src || ''} objectFit={'contain'} height={'300px'} width={'400px'} alt='' />
+      {props.src ? (
+        <Image src={props.src} objectFit={'contain'} height={'300px'} width={'400px'} alt='' />
+      ) : (
+        <div style={{ height: '300px', width: '400px' }} />
+      )}
     </div>
   )
 }

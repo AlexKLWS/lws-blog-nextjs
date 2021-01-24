@@ -8,7 +8,7 @@ import styles from './ImageRenderer.module.scss'
 const ImageRenderer = (props: MarkdownNodeProps) => {
   return (
     <div className={styles.ImageRenderer}>
-      <Image width={'960px'} height={'500px'} objectFit={'contain'} src={props.src ? props.src : ''} alt='' />
+      {props.src ? <Image width={'960px'} height={'500px'} objectFit={'contain'} src={props.src} alt='' /> : null}
     </div>
   )
 }
