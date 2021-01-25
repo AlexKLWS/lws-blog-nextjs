@@ -10,6 +10,7 @@ import ParagraphRenderer from './markdownNodes/ParagraphRenderer/ParagraphRender
 import ListRenderer from './markdownNodes/ListRenderer/ListRenderer'
 import ListItemRenderer from './markdownNodes/ListItemRenderer/ListItemRenderer'
 import BlockQuoteRenderer from './markdownNodes/BlockQuoteRenderer/BlockQuoteRenderer'
+import ThematicBreakRenderer from './markdownNodes/ThematicBreakRenderer/ThematicBreakRenderer'
 
 type Props = {
   text: string
@@ -30,6 +31,7 @@ const ArticleTextView: React.FC<Props> = (props: Props) => {
         list: ListRenderer,
         listItem: ListItemRenderer,
         blockquote: BlockQuoteRenderer,
+        thematicBreak: ThematicBreakRenderer,
       }}
     />
   )
