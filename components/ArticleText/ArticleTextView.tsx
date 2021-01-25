@@ -9,6 +9,7 @@ import LinkRenderer from 'components/ArticleText/markdownNodes/LinkRenderer/Link
 import ParagraphRenderer from './markdownNodes/ParagraphRenderer/ParagraphRenderer'
 import ListRenderer from './markdownNodes/ListRenderer/ListRenderer'
 import ListItemRenderer from './markdownNodes/ListItemRenderer/ListItemRenderer'
+import BlockQuoteRenderer from './markdownNodes/BlockQuoteRenderer/BlockQuoteRenderer'
 
 type Props = {
   text: string
@@ -28,6 +29,7 @@ const ArticleTextView: React.FC<Props> = (props: Props) => {
         paragraph: ParagraphRenderer,
         list: ListRenderer,
         listItem: ListItemRenderer,
+        blockquote: BlockQuoteRenderer,
       }}
     />
   )

@@ -1,0 +1,7 @@
+@import '../../../../styles/config';
+
+.BlockQuoteRenderer {
+  border-left: 4px solid $secondary-color;
+  padding-left: 10px;
+  font-style: italic;
+}
