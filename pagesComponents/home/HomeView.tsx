@@ -39,11 +39,11 @@ const HomeView: React.FC<Props> = (props: Props) => {
     return (
       <div className={styles.PaginationControlsContainer}>
         <div style={{ display: 'flex' }}>
-          <LinkWithStyles className='App-button' href={props.getDifferentPageLink()}>
+          <LinkWithStyles ariaLabel={'Prev'} className='App-button' href={props.getDifferentPageLink()}>
             <Arrow />
           </LinkWithStyles>
           <p className={styles.PageIndex}>{`${props.currentPage}/${props.pagesCount}`}</p>
-          <LinkWithStyles className='App-button' href={props.getDifferentPageLink(true)}>
+          <LinkWithStyles ariaLabel={'Next'} className='App-button' href={props.getDifferentPageLink(true)}>
             <Arrow className={styles.ArrowRight} />
           </LinkWithStyles>
         </div>

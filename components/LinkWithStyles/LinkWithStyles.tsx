@@ -5,9 +5,10 @@ type Props = {
   href: string
   className?: string
   children?: React.ReactNode
+  ariaLabel?: string
 }
 
-const LinkWithStyles = ({ children, href, className }: Props) => {
+const LinkWithStyles = ({ children, href, className, ariaLabel }: Props) => {
   const router = useRouter()
 
   const handleClick = (e: React.MouseEvent) => {
@@ -16,7 +17,7 @@ const LinkWithStyles = ({ children, href, className }: Props) => {
   }
 
   return (
-    <a href={href} onClick={handleClick} className={className}>
+    <a aria-label={ariaLabel} href={href} onClick={handleClick} className={className}>
       {children}
     </a>
   )
