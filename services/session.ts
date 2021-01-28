@@ -25,7 +25,6 @@ export class SessionService implements ISessionService {
     try {
       return !!getCookie(TOKEN_COOKIE_KEY)
     } catch (error) {
-      console.log('🚀 ~ file: session.ts ~ line 25 ~ SessionService ~ getisTokenPresent ~ error', error)
       return false
     }
   }
@@ -34,7 +33,6 @@ export class SessionService implements ISessionService {
     try {
       return getCookie(TOKEN_COOKIE_KEY)
     } catch (error) {
-      console.log('🚀 ~ file: session.ts ~ line 29 ~ SessionService ~ getToken ~ error', error)
       return ''
     }
   }
@@ -80,7 +78,6 @@ export class SessionService implements ISessionService {
 
     try {
       const response = await axios(request)
-      console.log('🚀 ~ file: session.ts ~ line 80 ~ SessionService ~ checkUserAccess ~ response', response)
       return response.data as UserAccess
     } catch (e) {
       console.log('ERROR: ', e)
