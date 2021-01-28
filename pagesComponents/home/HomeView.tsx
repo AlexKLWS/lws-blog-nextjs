@@ -58,7 +58,7 @@ const HomeView: React.FC<Props> = (props: Props) => {
   })
 
   return (
-    <>
+    <div style={{ top: 0 }}>
       <Head>
         <title>LWS - Alex Korzh - Home</title>
         <meta name='description' content='Personal blog by Alex Korzh' />
@@ -77,7 +77,7 @@ const HomeView: React.FC<Props> = (props: Props) => {
           {props.pagesCount > 1 ? renderPageControls() : <div style={{ height: '48px' }} />}
         </div>
       </DefaultLayoutWrapper>
-    </>
+    </div>
   )
 }
 

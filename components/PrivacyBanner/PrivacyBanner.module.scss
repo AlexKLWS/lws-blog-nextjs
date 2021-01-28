@@ -1,0 +1,46 @@
+@import '../../styles/config';
+@import '../../styles/shared-mixins';
+
+.PrivacyBannerContainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.PrivacyBanner {
+  position: fixed;
+  background-color: $white-color;
+  border: $thin-black-color 1px solid;
+  pointer-events: all;
+  padding: 0px 20px;
+  align-items: center;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    width: 80%;
+    padding: 0px 40px;
+    margin-bottom: 20px;
+    max-height: 155px;
+    display: flex;
+  }
+}
+
+.PrivacyBannerText {
+  @include normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.PrivacyBannerButtonContainer {
+  padding-bottom: 16px;
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    padding-left: 16px;
+    padding-bottom: 0px;
+  }
+}
