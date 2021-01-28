@@ -6,7 +6,7 @@ import styles from './LinkRenderer.module.scss'
 
 const LinkRenderer = (props: MarkdownNodeProps) => {
   return (
-    <a href={props.href} className={styles.LinkRenderer}>
+    <a href={props.href} className={'App-external-link'}>
       {props.children}
     </a>
   )

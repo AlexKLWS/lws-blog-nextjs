@@ -2,6 +2,7 @@ import React from 'react'
 import { useMediaQuery } from 'react-responsive'
 import dynamic from 'next/dynamic'
 
+import styles from './DefaultLayoutWrapper.module.scss'
 import { isDesktopOrLaptopQuery } from 'consts/media'
 import Header from 'components/Header/Header'
 import Footer from 'components/Footer/Footer'
@@ -30,8 +31,8 @@ const DefaultLayoutWrapper: React.FC<Props> = (props: Props) => {
         Skip to main
       </a>
       {isDesktopOrLaptop && <LoadableBackgroundView />}
-      <div className='App-flex-container'>
-        <div className='App-container'>
+      <div className={styles.AppFlexContainer}>
+        <div className={styles.AppContainer}>
           {!props.hideHeader && <Header />}
           <main id='main'>{props.children}</main>
           {!props.hideFooter && <Footer />}

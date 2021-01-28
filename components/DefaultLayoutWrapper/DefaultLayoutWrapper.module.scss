@@ -1,0 +1,19 @@
+@import '../../styles/config';
+
+.AppFlexContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.AppContainer {
+  width: 100%;
+  background: $white-color;
+  position: absolute;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    margin: 36px 0px;
+    width: 60%;
+    max-width: 864px;
+    padding: 0px 40px;
+  }
+}

@@ -15,22 +15,10 @@ p {
   margin-inline-end: 0px;
 }
 
-.App-flex-container {
-  display: flex;
-  justify-content: center;
-}
-
-.App-container {
-  width: 100%;
-  background: #ffffff;
-  position: absolute;
-
-  @media (min-width: $breakpoint-desktop-or-laptop) {
-    margin: 36px 0px;
-    width: 60%;
-    max-width: 864px;
-    padding: 0px 40px;
-  }
+.App-external-link {
+  color: $primary-color;
+  text-decoration: none;
+  border-bottom: 0.1em solid black;
 }
 
 .App-button {
