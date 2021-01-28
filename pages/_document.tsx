@@ -9,7 +9,9 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang='en'>
-        <Head />
+        <Head>
+          <script async defer data-domain='longwintershadows.com' src='https://plausible.io/js/plausible.js'></script>
+        </Head>
         <body style={{ backgroundColor: '#000' }}>
           <Main />
           <NextScript />
