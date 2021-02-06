@@ -16,7 +16,6 @@ const CodeRenderView = (props: MarkdownNodeProps) => {
           {tokens.map((line, i) => (
             /*@ts-ignore */
             <div className={styles.CodeRendererLine} key={i} {...getLineProps({ line, key: i })}>
-              <span className={styles.CodeRendererLineNo}>{i + 1}</span>
               <span className={styles.CodeRendererLineContent}>
                 {line.map((token, key) => (
                   <span key={key} {...getTokenProps({ token, key })} />
