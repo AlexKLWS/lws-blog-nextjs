@@ -1,8 +1,14 @@
 @import '../../../../styles/config';
+@import '../../../../styles/shared-mixins';
 
 .InlineCodeRenderer {
   background-color: $secondary-color;
   line-height: 1.3rem;
   font-family: monospace;
-  white-space: pre;
+  line-break: anywhere;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    line-break: auto;
+    white-space: pre;
+  }
 }
