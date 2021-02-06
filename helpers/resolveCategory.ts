@@ -1,11 +1,11 @@
 import { Category } from 'types/materials'
 
 export const resolveCategoryFromPathname = (resolvedUrl: string) => {
-  let result = resolvedUrl.match(/(?<=\/)(.*?)(?=\?)/)
-  if (!result) {
-    result = resolvedUrl.match(/(?<=\/)(.*)/)
+  let matchedCategoryFromPath = resolvedUrl.match(/\/(.*?)\?/)
+  if (!matchedCategoryFromPath) {
+    matchedCategoryFromPath = resolvedUrl.match(/\/(.*)/)
   }
-  const path = (result && result[0]) || 'misc'
+  const path = (matchedCategoryFromPath && matchedCategoryFromPath[1]) || 'misc'
   switch (path) {
     case 'code':
       return Category.Code
