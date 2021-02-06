@@ -88,12 +88,12 @@ p {
 ::-moz-selection {
   /* Code for Firefox */
   color: $primary-color;
-  background: $secondary-color;
+  background: $secondary-color-transparency;
 }
 
 ::selection {
   color: $primary-color;
-  background: $secondary-color;
+  background: $secondary-color-transparency;
 }
 
 @font-face {
