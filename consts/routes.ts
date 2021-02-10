@@ -9,6 +9,10 @@ const contact = '/contact'
 const login = '/login'
 const secret = {
   home: '/secret',
+  life: '/secret/life',
+  code: '/secret/code',
+  guides: '/secret/guides',
+  projects: '/secret/projects',
   editor: '/secret/editor',
   editorMaterial: '/secret/editor/:id',
   extMaterialEditor: '/secret/ext-material-editor',
