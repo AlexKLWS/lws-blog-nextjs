@@ -8,6 +8,7 @@ import Header from 'components/Header/Header'
 import Footer from 'components/Footer/Footer'
 
 type Props = {
+  isSecret?: boolean
   hideHeader?: boolean
   hideFooter?: boolean
   children?: React.ReactNode
@@ -33,9 +34,9 @@ const DefaultLayoutWrapper: React.FC<Props> = (props: Props) => {
       {isDesktopOrLaptop && <LoadableBackgroundView />}
       <div className={styles.AppFlexContainer}>
         <div className={styles.AppContainer}>
-          {!props.hideHeader && <Header />}
+          {!props.hideHeader && <Header isSecret={props.isSecret} />}
           <main id='main'>{props.children}</main>
-          {!props.hideFooter && <Footer />}
+          {!props.hideFooter && <Footer isSecret={props.isSecret} />}
         </div>
       </div>
     </>

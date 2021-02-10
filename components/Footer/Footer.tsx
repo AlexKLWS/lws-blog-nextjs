@@ -4,23 +4,27 @@ import LinkWithStyles from 'components/LinkWithStyles'
 import styles from './Footer.module.scss'
 import routes from 'consts/routes'
 
-const Footer: React.FC = () => {
+type Props = {
+  isSecret?: boolean
+}
+
+const Footer: React.FC<Props> = (props: Props) => {
   return (
     <div className={styles.FooterContainer}>
       <nav className={styles.FooterLinksContainer}>
-        <LinkWithStyles href={routes.home} className={styles.FooterItem}>
+        <LinkWithStyles href={props.isSecret ? routes.secret.home : routes.home} className={styles.FooterItem}>
           Home
         </LinkWithStyles>
-        <LinkWithStyles href={routes.life} className={styles.FooterItem}>
+        <LinkWithStyles href={props.isSecret ? routes.secret.life : routes.life} className={styles.FooterItem}>
           Life
         </LinkWithStyles>
-        <LinkWithStyles href={routes.code} className={styles.FooterItem}>
+        <LinkWithStyles href={props.isSecret ? routes.secret.code : routes.code} className={styles.FooterItem}>
           Code
         </LinkWithStyles>
-        <LinkWithStyles href={routes.guides} className={styles.FooterItem}>
+        <LinkWithStyles href={props.isSecret ? routes.secret.guides : routes.guides} className={styles.FooterItem}>
           Guides
         </LinkWithStyles>
-        <LinkWithStyles href={routes.projects} className={styles.FooterItem}>
+        <LinkWithStyles href={props.isSecret ? routes.secret.projects : routes.projects} className={styles.FooterItem}>
           Projects
         </LinkWithStyles>
         <LinkWithStyles href={routes.contact} className={styles.FooterItem}>

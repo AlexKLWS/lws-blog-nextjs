@@ -8,7 +8,11 @@ import routes from 'consts/routes'
 import { isSmallerScreenQuery } from 'consts/media'
 import LinkWithStyles from 'components/LinkWithStyles'
 
-const Header: React.FC = () => {
+type Props = {
+  isSecret?: boolean
+}
+
+const Header: React.FC<Props> = (props: Props) => {
   const router = useRouter()
   const isSmallerScreen = useMediaQuery({
     query: isSmallerScreenQuery,
@@ -38,16 +42,22 @@ const Header: React.FC = () => {
         </div>
       </div>
       <nav className={styles.SectionsList}>
-        <LinkWithStyles href={routes.life} className={getLinkStyle(routes.life)}>
+        <LinkWithStyles href={props.isSecret ? routes.secret.life : routes.life} className={getLinkStyle(routes.life)}>
           Life
         </LinkWithStyles>
-        <LinkWithStyles href={routes.code} className={getLinkStyle(routes.code)}>
+        <LinkWithStyles href={props.isSecret ? routes.secret.code : routes.code} className={getLinkStyle(routes.code)}>
           Code
         </LinkWithStyles>
-        <LinkWithStyles href={routes.guides} className={getLinkStyle(routes.guides)}>
+        <LinkWithStyles
+          href={props.isSecret ? routes.secret.guides : routes.guides}
+          className={getLinkStyle(routes.guides)}
+        >
           Guides
         </LinkWithStyles>
-        <LinkWithStyles href={routes.projects} className={getLinkStyle(routes.projects)}>
+        <LinkWithStyles
+          href={props.isSecret ? routes.secret.projects : routes.projects}
+          className={getLinkStyle(routes.projects)}
+        >
           Projects
         </LinkWithStyles>
       </nav>
