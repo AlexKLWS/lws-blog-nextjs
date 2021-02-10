@@ -1,12 +1,16 @@
 import { Category } from 'types/materials'
 
 export const resolveCategoryFromPathname = (resolvedUrl: string) => {
-  let matchedCategoryFromPath = resolvedUrl.match(/\/(.*?)\?/)
-  if (!matchedCategoryFromPath) {
-    matchedCategoryFromPath = resolvedUrl.match(/\/(.*)/)
+  let regexArray = resolvedUrl.match(/\/(.*?)\?/)
+  if (!regexArray) {
+    regexArray = resolvedUrl.match(/\/(.*)/)
   }
-  const path = (matchedCategoryFromPath && matchedCategoryFromPath[1]) || 'misc'
-  switch (path) {
+  let matchedCategoryFromPath = 'misc'
+  if (regexArray) {
+    const splitPath = regexArray[1].split('/')
+    matchedCategoryFromPath = splitPath[splitPath.length - 1]
+  }
+  switch (matchedCategoryFromPath) {
     case 'code':
       return Category.Code
     case 'life':
