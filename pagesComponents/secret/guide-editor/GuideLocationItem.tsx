@@ -1,5 +1,7 @@
 import React from 'react'
 
+import styles from './GuideEditor.module.scss'
+
 import { LocationType } from 'types/guide'
 import ArrayItemValueInputDataController from 'components/MaterialDataFormItems/Input/ArrayItemValueInputDataController'
 import { IMaterialDataService } from 'services/materialData'
@@ -15,7 +17,7 @@ type Props = {
 const GuideLocationItem: React.FC<Props> = (props: Props) => {
   return (
     <li style={{ padding: '0px 0px 40px 0px' }}>
-      <div className='GE-location-item-input-container'>
+      <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
           serviceInstance={props.serviceInstance}
@@ -26,7 +28,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
           }}
         />
       </div>
-      <div className='GE-location-item-input-container'>
+      <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
           serviceInstance={props.serviceInstance}
@@ -36,7 +38,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
             return (
               <input
                 placeholder='Title'
-                className='GE-input'
+                className={styles.GEInput}
                 onChange={(event) => {
                   setValue(event.target.value)
                 }}
@@ -46,7 +48,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
           }}
         />
       </div>
-      <div className='GE-coordinates-input-container'>
+      <div className={styles.GECoordinatesInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
           serviceInstance={props.serviceInstance}
@@ -56,7 +58,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
             return (
               <>
                 <input
-                  className='GE-input'
+                  className={styles.GEInput}
                   placeholder='Latitude'
                   value={value ? value.lat : ''}
                   type='number'
@@ -65,7 +67,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
                   }}
                 />
                 <input
-                  className='GE-input'
+                  className={styles.GEInput}
                   placeholder='Longitude'
                   value={value ? value.lng : ''}
                   type='number'
@@ -78,7 +80,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
           }}
         />
       </div>
-      <div className='GE-location-item-input-container'>
+      <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
           serviceInstance={props.serviceInstance}
@@ -88,7 +90,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
             return (
               <input
                 placeholder='Address'
-                className='GE-input'
+                className={styles.GEInput}
                 onChange={(event) => {
                   setValue(event.target.value)
                 }}
@@ -98,7 +100,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
           }}
         />
       </div>
-      <div className='GE-location-item-input-container'>
+      <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
           serviceInstance={props.serviceInstance}
@@ -108,7 +110,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
             return (
               <input
                 placeholder='Image URL'
-                className='GE-input'
+                className={styles.GEInput}
                 onChange={(event) => {
                   setValue(event.target.value)
                 }}
@@ -118,7 +120,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
           }}
         />
       </div>
-      <div className='GE-location-item-input-container'>
+      <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
           serviceInstance={props.serviceInstance}
@@ -126,10 +128,10 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
           pathToValue={'description'}
           render={({ value, setValue }) => {
             return (
-              <div className='GE-full-width-input-container'>
+              <div className={styles.GEFullWidthInputContainer}>
                 <textarea
                   placeholder='Description'
-                  className='GE-full-width-input'
+                  className={styles.GEFullWidthInput}
                   rows={3}
                   onChange={(event) => {
                     setValue(event.target.value)
@@ -141,7 +143,7 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
           }}
         />
       </div>
-      <div className='GE-location-item-input-container'>
+      <div className={styles.GELocationItemInputContainer}>
         <input className='App-button' onClick={props.onRemoveButtonPress} type={'submit'} value={'Remove'} />
       </div>
     </li>
