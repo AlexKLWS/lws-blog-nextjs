@@ -67,7 +67,7 @@ const HomeView: React.FC<Props> = (props: Props) => {
         <meta name='description' content='Personal blog by Alex Korzh' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <DefaultLayoutWrapper>
+      <DefaultLayoutWrapper isSecret>
         <div style={{ paddingBottom: '40px' }}>
           <Dropdown dropdownTriggerText={'Add'} items={props.dropdownItems} />
         </div>
