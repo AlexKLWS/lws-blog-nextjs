@@ -42,21 +42,27 @@ const Header: React.FC<Props> = (props: Props) => {
         </div>
       </div>
       <nav className={styles.SectionsList}>
-        <LinkWithStyles href={props.isSecret ? routes.secret.life : routes.life} className={getLinkStyle(routes.life)}>
+        <LinkWithStyles
+          href={props.isSecret ? routes.secret.life : routes.life}
+          className={getLinkStyle(props.isSecret ? routes.secret.life : routes.life)}
+        >
           Life
         </LinkWithStyles>
-        <LinkWithStyles href={props.isSecret ? routes.secret.code : routes.code} className={getLinkStyle(routes.code)}>
+        <LinkWithStyles
+          href={props.isSecret ? routes.secret.code : routes.code}
+          className={getLinkStyle(props.isSecret ? routes.secret.code : routes.code)}
+        >
           Code
         </LinkWithStyles>
         <LinkWithStyles
           href={props.isSecret ? routes.secret.guides : routes.guides}
-          className={getLinkStyle(routes.guides)}
+          className={getLinkStyle(props.isSecret ? routes.secret.guides : routes.guides)}
         >
           Guides
         </LinkWithStyles>
         <LinkWithStyles
           href={props.isSecret ? routes.secret.projects : routes.projects}
-          className={getLinkStyle(routes.projects)}
+          className={getLinkStyle(props.isSecret ? routes.secret.projects : routes.projects)}
         >
           Projects
         </LinkWithStyles>
