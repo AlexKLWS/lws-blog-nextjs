@@ -4,13 +4,13 @@ import { useInjection } from 'services/provider'
 import { SessionServiceId, ISessionService } from 'services/session'
 import { container } from 'services/container'
 
-export function useLoginFacade(): [(username: string, password: string) => Promise<boolean>] {
+export const useLoginFacade = () => {
   const service = useRef(useInjection<ISessionService>(SessionServiceId))
   const login = (username: string, password: string) => {
     return service.current.login(username, password)
   }
 
-  return [login]
+  return { login }
 }
 
 export function useTokenProvider(tokenUpdateCallbackKey: string) {
