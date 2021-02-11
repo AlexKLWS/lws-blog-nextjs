@@ -30,11 +30,23 @@ const ArticleView: React.FC<Props> = ({ article }: Props) => {
   )
   const formattedDate = !!article && DateTime.fromISO(article.createdAt!).toLocaleString(DateTime.DATE_SHORT)
 
+  const getMetaDescription = () => {
+    if (article?.metaDescription) {
+      return article?.metaDescription
+    }
+
+    if (article?.subtitle) {
+      return article?.subtitle
+    }
+
+    return ''
+  }
+
   return (
     <>
       <Head>
         <title>{`${article?.name} - Alex Korzh`}</title>
-        <meta name='description' content={article?.subtitle} />
+        <meta name='description' content={getMetaDescription()} />
       </Head>
       <DefaultLayoutWrapper>
         <div className={styles.ArticleContainer}>
