@@ -21,9 +21,9 @@ const SubmitModal: React.FC<Props> = (props: Props) => {
 
   const renderSuccessfulPostModal = () => {
     return (
-      <div className={styles.ArticleSubmitModalContentContainer}>
-        <h2 className={styles.ArticleSubmitModalTitle}>Material has been submitted successfully!</h2>
-        <div className={styles.ArticleSubmitModalButtonContainer}>
+      <div className={styles.SubmitModalContentContainer}>
+        <h2 className={styles.SubmitModalTitle}>Material has been submitted successfully!</h2>
+        <div className={styles.SubmitModalButtonContainer}>
           <input className='App-button' onClick={closeModal} type={'submit'} value={'Ok'} />
         </div>
       </div>
@@ -32,20 +32,20 @@ const SubmitModal: React.FC<Props> = (props: Props) => {
 
   const renderValidationErrorsModal = () => {
     return (
-      <div className={styles.ArticleSubmitModalContentContainer}>
-        <h2 className={styles.ArticleSubmitModalTitle}>Can't submit this material!</h2>
-        <ul className={styles.ArticleSubmitModalErrorsList}>
+      <div className={styles.SubmitModalContentContainer}>
+        <h2 className={styles.SubmitModalTitle}>Can't submit this material!</h2>
+        <ul className={styles.SubmitModalErrorsList}>
           {props.validationErrors
             ? props.validationErrors.map((item) => {
                 return (
-                  <li key={item.id} className={styles.ArticleSubmitModalErrorItem}>
+                  <li key={item.id} className={styles.SubmitModalErrorItem}>
                     {item.description}
                   </li>
                 )
               })
             : null}
         </ul>
-        <div className={styles.ArticleSubmitModalButtonContainer}>
+        <div className={styles.SubmitModalButtonContainer}>
           <input className='App-button' onClick={closeModal} type={'submit'} value={'Ok'} />
         </div>
       </div>
@@ -54,12 +54,12 @@ const SubmitModal: React.FC<Props> = (props: Props) => {
 
   const renderSubmitModal = () => {
     return (
-      <div className={styles.ArticleSubmitModalContentContainer}>
-        <h2 className={styles.ArticleSubmitModalTitle}>Are you ready to submit the material?</h2>
+      <div className={styles.SubmitModalContentContainer}>
+        <h2 className={styles.SubmitModalTitle}>Are you ready to submit the material?</h2>
         {props.postError && <p className={styles.SubmitModalPostError}>An error happened while submitting the data!</p>}
-        <div className={styles.ArticleSubmitModalButtonContainer}>
+        <div className={styles.SubmitModalButtonContainer}>
           {props.isLoading ? (
-            <p className={styles.ArticleSubmitModalTitle}>Submitting...</p>
+            <p className={styles.SubmitModalTitle}>Submitting...</p>
           ) : (
             <>
               <input
@@ -96,8 +96,8 @@ const SubmitModal: React.FC<Props> = (props: Props) => {
       ariaHideApp={false}
       isOpen={props.modalIsOpen}
       contentLabel='Submit Modal'
-      className={styles.ArticleSubmitModalModal}
-      overlayClassName={styles.ArticleSubmitModalModalOverlay}
+      className={styles.SubmitModalModal}
+      overlayClassName={styles.SubmitModalModalOverlay}
     >
       {renderModalContents()}
     </Modal>

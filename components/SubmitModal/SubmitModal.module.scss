@@ -1,29 +1,29 @@
 @import '../../styles/config';
 @import '../../styles/shared-mixins';
 
-.ArticleSubmitModalContentContainer {
+.SubmitModalContentContainer {
   padding: 15px 25px;
 }
 
-.ArticleSubmitModalButtonContainer {
+.SubmitModalButtonContainer {
   display: flex;
   justify-content: space-around;
   width: 100%;
 }
 
-.ArticleSubmitModalTitle {
+.SubmitModalTitle {
   font-family: IBM Plex Mono;
   align-self: center;
   text-align: center;
   padding-bottom: 20px;
 }
 
-.ArticleSubmitModalErrorsList {
+.SubmitModalErrorsList {
   list-style: square outside none;
   padding: 20px;
 }
 
-.ArticleSubmitModalErrorItem {
+.SubmitModalErrorItem {
   @include normal-mono;
   color: red;
   padding: 5px 0px;
@@ -35,7 +35,7 @@
   color: red;
 }
 
-.ArticleSubmitModalModal {
+.SubmitModalModal {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -58,7 +58,7 @@
   }
 }
 
-.ArticleSubmitModalModalOverlay {
+.SubmitModalModalOverlay {
   position: fixed;
   top: 0;
   left: 0;
