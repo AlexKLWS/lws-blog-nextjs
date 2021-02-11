@@ -40,16 +40,7 @@ const GuideController: React.FC<Props> = (props: Props) => {
     return null
   }
 
-  return (
-    <LoadableGuideView
-      guideName={props.guide.name}
-      guideSubtitle={props.guide.subtitle}
-      guideInfo={props.guide.info}
-      locations={props.guide.locations}
-      defaultZoom={props.guide.defaultZoom}
-      defaultCenter={props.guide.defaultCenter}
-    />
-  )
+  return <LoadableGuideView guide={props.guide} />
 }
 
 export default GuideController

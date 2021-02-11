@@ -10,29 +10,25 @@ import GuidePin from './components/GuidePin/GuidePin'
 import { GuideLocationInfo, LocationCoords } from 'types/guide'
 import GuideLocationInfoView from './components/GuideLocationInfo/GuideLocationInfoView'
 import GuideLocationsListView from './components/GuideLocationsList/GuideLocationsListView'
+import { Guide } from 'types/materials'
 
 const API_KEY = process.env.NEXT_PUBLIC_GMAPS_API_KEY || ''
 const LOCATION_INFO_ANIMATION_SYNC_DELAY = 400
 
 type Props = {
-  guideName: string
-  guideSubtitle: string
-  defaultZoom: number
-  defaultCenter: LocationCoords
-  guideInfo: string
-  locations: GuideLocationInfo[]
+  guide: Guide
 }
 
 const GuideView: React.FC<Props> = (props: Props) => {
   const defaultProps = {
-    center: props.defaultCenter,
-    zoom: props.defaultZoom,
+    center: props.guide.defaultCenter,
+    zoom: props.guide.defaultZoom,
   }
 
   const [currentLocationInfo, setCurrentLocationInfo] = useState<GuideLocationInfo>(
-    props.locations && props.locations[0],
+    props.guide.locations && props.guide.locations[0],
   )
-  const [centerCoords, setCenterCoords] = useState<LocationCoords>(props.defaultCenter)
+  const [centerCoords, setCenterCoords] = useState<LocationCoords>(props.guide.defaultCenter)
   const [locationInfoIsShown, setLocationInfoIsShown] = useState(false)
   const [locationsListIsOpen, setLocationsListIsOpen] = useState(false)
 
@@ -57,11 +53,23 @@ const GuideView: React.FC<Props> = (props: Props) => {
     }, LOCATION_INFO_ANIMATION_SYNC_DELAY)
   }
 
+  const getMetaDescription = () => {
+    if (props.guide.metaDescription) {
+      return props.guide.metaDescription
+    }
+
+    if (props.guide.subtitle) {
+      return props.guide.subtitle
+    }
+
+    return ''
+  }
+
   return (
     <div style={{ height: '100vh', width: '100%' }}>
       <Head>
-        <title>{`${props.guideName} - Alex Korzh`}</title>
-        <meta name='description' content={props.guideSubtitle} />
+        <title>{`${props.guide.name} - Alex Korzh`}</title>
+        <meta name='description' content={getMetaDescription()} />
       </Head>
       <GoogleMapReact
         bootstrapURLKeys={{ key: API_KEY }}
@@ -76,8 +84,8 @@ const GuideView: React.FC<Props> = (props: Props) => {
           setCenterCoords({ lat: map.center.lat(), lng: map.center.lng() })
         }}
       >
-        {props.locations
-          ? props.locations.map((location, index) => {
+        {props.guide.locations
+          ? props.guide.locations.map((location, index) => {
               return (
                 <GuidePin
                   key={`${index}`}
@@ -96,11 +104,11 @@ const GuideView: React.FC<Props> = (props: Props) => {
         <div className={styles.GuideInnerContentContainer}>
           <div className={styles.GuideInfoAlignmentContainer}>
             <GuideLocationsListView
-              guideInfo={props.guideInfo}
+              guideInfo={props.guide.info}
               isDisabled={locationInfoIsShown}
               locationsListIsOpen={locationsListIsOpen}
               setLocationsListIsOpen={setLocationsListIsOpen}
-              locations={props.locations}
+              locations={props.guide.locations}
               onLocationPress={onLocationPress}
             />
           </div>
