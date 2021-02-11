@@ -39,6 +39,26 @@ const EditorView: React.FC<Props> = (props: Props) => {
         <PagePreviewEditorWidget serviceInstance={props.serviceInstance} />
         <InputDataController
           serviceInstance={props.serviceInstance}
+          path={'metaDescription'}
+          render={({ value, setValue }) => {
+            return (
+              <div className={styles.EditorFullWidthInputContainer}>
+                <textarea
+                  className={styles.EditorFullWidthInput}
+                  placeholder='Meta Description'
+                  rows={2}
+                  value={value}
+                  onChange={(event) => {
+                    event.preventDefault()
+                    setValue(event.target.value)
+                  }}
+                />
+              </div>
+            )
+          }}
+        />
+        <InputDataController
+          serviceInstance={props.serviceInstance}
           path={'articleText'}
           render={({ value, setValue }) => {
             return <SimpleMDE value={value} onChange={setValue} />

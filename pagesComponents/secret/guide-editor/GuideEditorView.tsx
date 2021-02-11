@@ -39,6 +39,26 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
         <PagePreviewEditorWidget serviceInstance={props.serviceInstance} firstCategoryToggleDisabled />
         <InputDataController
           serviceInstance={props.serviceInstance}
+          path={'metaDescription'}
+          render={({ value, setValue }) => {
+            return (
+              <div className={styles.GEFullWidthInputContainer}>
+                <textarea
+                  className={styles.GEFullWidthInput}
+                  placeholder='Meta Description'
+                  rows={2}
+                  value={value}
+                  onChange={(event) => {
+                    event.preventDefault()
+                    setValue(event.target.value)
+                  }}
+                />
+              </div>
+            )
+          }}
+        />
+        <InputDataController
+          serviceInstance={props.serviceInstance}
           path={'info'}
           render={({ value, setValue }) => {
             return (
