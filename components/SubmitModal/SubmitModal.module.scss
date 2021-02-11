@@ -15,17 +15,24 @@
   font-family: IBM Plex Mono;
   align-self: center;
   text-align: center;
+  padding-bottom: 20px;
 }
 
 .ArticleSubmitModalErrorsList {
   list-style: square outside none;
-  padding-bottom: 20px;
+  padding: 20px;
 }
 
 .ArticleSubmitModalErrorItem {
   @include normal-mono;
   color: red;
   padding: 5px 0px;
+}
+
+.SubmitModalPostError {
+  @include normal-mono;
+  padding-bottom: 20px;
+  color: red;
 }
 
 .ArticleSubmitModalModal {
