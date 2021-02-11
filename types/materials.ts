@@ -1,6 +1,7 @@
 import { GuideLocationInfo, LocationCoords } from './guide'
 
 export type Article = {
+  metaDescription: string | null
   articleText: string
 } & Material
 
@@ -9,6 +10,7 @@ export type ExtMaterial = {
 } & Material
 
 export type Guide = {
+  metaDescription: string | null
   locations: GuideLocationInfo[]
   info: string
   defaultZoom: number
