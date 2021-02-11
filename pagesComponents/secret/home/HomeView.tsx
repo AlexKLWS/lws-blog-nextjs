@@ -5,12 +5,14 @@ import Head from 'next/head'
 import LinkWithStyles from 'components/LinkWithStyles'
 import { PreviewMaterial } from 'types/materials'
 import Arrow from 'assets/icons/Arrow.svg'
+import External from 'assets/icons/External.svg'
 
 import styles from './Home.module.scss'
 import InlineIcon from 'components/InlineIcon'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 import Dropdown from 'components/Dropdowns/Dropdown/Dropdown'
 import { DropdownItem } from 'types/dropdown'
+import { detectExternaUrl } from 'helpers/detectExternaUrl'
 
 interface Props {
   materialPreviews: PreviewMaterial[]
@@ -23,6 +25,7 @@ interface Props {
 
 const HomeView: React.FC<Props> = (props: Props) => {
   const renderPreviewsItems = (previewMaterial: PreviewMaterial) => {
+    const isExternalMaterial = detectExternaUrl(previewMaterial.url)
     return (
       <div key={previewMaterial.referenceId} className={styles.MaterialPreviewItemContainer}>
         <LinkWithStyles className={styles.MaterialPreviewItem} href={props.getPreviewItemLink(previewMaterial)}>
@@ -33,6 +36,11 @@ const HomeView: React.FC<Props> = (props: Props) => {
             <p className={styles.MaterialPreviewItemsTitle}>{previewMaterial.name}</p>
             <p className={styles.MaterialPreviewItemsSubtitle}>{previewMaterial.subtitle}</p>
           </div>
+          {isExternalMaterial && (
+            <div className={styles.MaterialPreviewItemExternalLinkIconContainer}>
+              <External />
+            </div>
+          )}
         </LinkWithStyles>
       </div>
     )

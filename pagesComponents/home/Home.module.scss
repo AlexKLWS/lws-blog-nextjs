@@ -30,9 +30,7 @@
   padding: 8px 24px 8px 0px;
   height: 120px;
   display: flex;
-  border-width: 1px;
-  border-color: $white-color;
-  border-style: solid;
+  border: $white-color solid 1px;
   align-items: center;
 
   &:focus {
@@ -40,6 +38,11 @@
     border-width: 1px;
     outline: none;
   }
+}
+
+.MaterialPreviewItemExternalLinkIconContainer {
+  padding: 0px 16px;
+  margin-bottom: 3.4em;
 }
 
 .MaterialPreviewIconContainer {
