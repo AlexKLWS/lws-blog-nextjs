@@ -29,10 +29,11 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
 
   const onSubmit = () => {
     props.submitData()
-    setModalIsOpen(false)
   }
 
   const onSubmitButtonClick = () => {
+    props.clearPostError()
+    props.clearPostSuccessFlag()
     props.performDataCheck()
     setModalIsOpen(true)
   }

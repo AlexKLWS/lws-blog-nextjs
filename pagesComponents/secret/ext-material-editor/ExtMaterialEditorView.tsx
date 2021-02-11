@@ -25,10 +25,11 @@ const ExtMaterialEditorView = (props: Props) => {
 
   const onSubmit = () => {
     props.submitData()
-    setModalIsOpen(false)
   }
 
   const onSubmitButtonClick = () => {
+    props.clearPostError()
+    props.clearPostSuccessFlag()
     props.performDataCheck()
     setModalIsOpen(true)
   }
