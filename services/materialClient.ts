@@ -11,6 +11,9 @@ export interface IMaterialClientService<T extends Material> {
   material: BehaviorSubject<T | null>
   error: BehaviorSubject<Error | null>
   isLoading: BehaviorSubject<boolean>
+  postWasSuccess: BehaviorSubject<boolean>
+  clearError: () => void
+  clearPostSuccessFlag: () => void
   postArticle: (article: Article, referenceId?: string) => Promise<void>
   postExtMaterial: (page: ExtMaterial, referenceId?: string) => Promise<void>
   postGuide: (guide: Guide, referenceId?: string) => Promise<void>
@@ -24,6 +27,7 @@ export class MaterailClientService<T extends Material> implements IMaterialClien
   private readonly _material: BehaviorSubject<T | null> = new BehaviorSubject<T | null>(null)
   private readonly _error: BehaviorSubject<Error | null> = new BehaviorSubject<Error | null>(null)
   private readonly _isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
+  private readonly _postWasSuccess: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   private readonly _sessionService: ISessionService
 
   public constructor(@inject(SessionServiceId) sessionService: ISessionService) {
@@ -40,6 +44,18 @@ export class MaterailClientService<T extends Material> implements IMaterialClien
 
   public get isLoading() {
     return this._isLoading
+  }
+
+  public get postWasSuccess() {
+    return this._postWasSuccess
+  }
+
+  public clearError() {
+    this._error.next(null)
+  }
+
+  public clearPostSuccessFlag() {
+    this._postWasSuccess.next(false)
   }
 
   private _processIconDimensions(iconWidth: string | null, iconHeight: string | null) {
@@ -78,27 +94,30 @@ export class MaterailClientService<T extends Material> implements IMaterialClien
   }
 
   private async _postMaterial<T extends Material>(url: string, material: T, referenceId?: string) {
-    const data = await this._prepareMaterialForPost<T>(material, referenceId)
-
-    const request: AxiosRequestConfig = {
-      method: 'POST',
-      url,
-      headers: {
-        ...getAuthHeader(this._sessionService.getToken()),
-        'Content-Type': 'application/json',
-      },
-      data,
-    }
-
     try {
       this._error.next(null)
       this._material.next(null)
       this._isLoading.next(true)
+      this._postWasSuccess.next(false)
+      const data = await this._prepareMaterialForPost<T>(material, referenceId)
+
+      const request: AxiosRequestConfig = {
+        method: 'POST',
+        url,
+        headers: {
+          ...getAuthHeader(this._sessionService.getToken()),
+          'Content-Type': 'application/json',
+        },
+        data,
+      }
+
       const response = await axios(request)
       this._material.next(response.data)
+      this._postWasSuccess.next(true)
     } catch (e) {
       console.log('ERROR: ', e)
       this._error.next(e)
+      this._postWasSuccess.next(false)
     } finally {
       this._isLoading.next(false)
     }
@@ -117,23 +136,23 @@ export class MaterailClientService<T extends Material> implements IMaterialClien
   }
 
   private async _fetchMaterial(url: string, id: string) {
-    const params = {
-      id,
-    }
-
-    const request: AxiosRequestConfig = {
-      method: 'GET',
-      url,
-      params,
-      headers: {
-        ...getAuthHeader(this._sessionService.getToken()),
-      },
-    }
-
     try {
       this._error.next(null)
       this._material.next(null)
       this._isLoading.next(true)
+      const params = {
+        id,
+      }
+
+      const request: AxiosRequestConfig = {
+        method: 'GET',
+        url,
+        params,
+        headers: {
+          ...getAuthHeader(this._sessionService.getToken()),
+        },
+      }
+
       const response = await axios(request)
       this._material.next(response.data)
       return { material: response.data, error: null }

@@ -17,9 +17,18 @@ export const useArticleClient = () => {
     service.current.fetchArticle(id)
   }
 
+  const clearError = () => {
+    service.current.clearError()
+  }
+
+  const clearPostSuccessFlag = () => {
+    service.current.clearPostSuccessFlag()
+  }
+
   const [article, setArticle] = useState<Article | null>(null)
   const [error, setError] = useState<Error | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [postWasSuccess, setPostWasSuccess] = useState<boolean>(false)
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
@@ -32,13 +41,16 @@ export const useArticleClient = () => {
       service.current.isLoading.subscribe((l) => {
         setIsLoading(l)
       }),
+      service.current.postWasSuccess.subscribe((s) => {
+        setPostWasSuccess(s)
+      }),
     ]
     return () => {
       subscriptions.forEach((it) => it.unsubscribe())
     }
   }, [])
 
-  return { article, error, isLoading, postArticle, fetchArticle }
+  return { article, error, isLoading, postArticle, fetchArticle, clearError, postWasSuccess, clearPostSuccessFlag }
 }
 
 export const serverSideArticleClient = () => {
@@ -62,9 +74,18 @@ export const useGuideClient = () => {
     service.current.fetchGuide(id)
   }
 
+  const clearError = () => {
+    service.current.clearError()
+  }
+
+  const clearPostSuccessFlag = () => {
+    service.current.clearPostSuccessFlag()
+  }
+
   const [guide, setGuide] = useState<Guide | null>(null)
   const [error, setError] = useState<Error | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [postWasSuccess, setPostWasSuccess] = useState<boolean>(false)
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
@@ -77,13 +98,16 @@ export const useGuideClient = () => {
       service.current.isLoading.subscribe((l) => {
         setIsLoading(l)
       }),
+      service.current.postWasSuccess.subscribe((s) => {
+        setPostWasSuccess(s)
+      }),
     ]
     return () => {
       subscriptions.forEach((it) => it.unsubscribe())
     }
   }, [])
 
-  return { guide, error, isLoading, postGuide, fetchGuide }
+  return { guide, error, isLoading, postGuide, fetchGuide, clearError, postWasSuccess, clearPostSuccessFlag }
 }
 
 export const serverSideGuideClient = () => {
@@ -107,9 +131,18 @@ export const useExtMaterialClient = () => {
     service.current.fetchExtMaterial(id)
   }
 
+  const clearError = () => {
+    service.current.clearError()
+  }
+
+  const clearPostSuccessFlag = () => {
+    service.current.clearPostSuccessFlag()
+  }
+
   const [extMaterial, setExtMaterial] = useState<ExtMaterial | null>(null)
   const [error, setError] = useState<Error | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [postWasSuccess, setPostWasSuccess] = useState<boolean>(false)
 
   useEffect(() => {
     const subscriptions: Subscription[] = [
@@ -122,11 +155,23 @@ export const useExtMaterialClient = () => {
       service.current.isLoading.subscribe((l) => {
         setIsLoading(l)
       }),
+      service.current.postWasSuccess.subscribe((s) => {
+        setPostWasSuccess(s)
+      }),
     ]
     return () => {
       subscriptions.forEach((it) => it.unsubscribe())
     }
   }, [])
 
-  return { extMaterial, error, isLoading, postExtMaterial, fetchExtMaterial }
+  return {
+    extMaterial,
+    error,
+    isLoading,
+    postExtMaterial,
+    fetchExtMaterial,
+    clearError,
+    postWasSuccess,
+    clearPostSuccessFlag,
+  }
 }
