@@ -12,7 +12,12 @@ interface Props {
   serviceInstance: IMaterialDataService
   submitData: () => void
   performDataCheck: () => void
-  submitErrors: EditorError[]
+  validationErrors: EditorError[]
+  isLoading: boolean
+  postError: Error | null
+  clearPostError: () => void
+  postWasSuccess: boolean
+  clearPostSuccessFlag: () => void
 }
 
 const ExtMaterialEditorView = (props: Props) => {
@@ -56,9 +61,12 @@ const ExtMaterialEditorView = (props: Props) => {
         </div>
         <SubmitModal
           modalIsOpen={modalIsOpen}
-          submitErrors={props.submitErrors}
+          validationErrors={props.validationErrors}
           setModalIsOpen={setModalIsOpen}
           onSubmit={onSubmit}
+          isLoading={props.isLoading}
+          postError={props.postError}
+          postWasSuccess={props.postWasSuccess}
         />
       </div>
     </DefaultLayoutWrapper>

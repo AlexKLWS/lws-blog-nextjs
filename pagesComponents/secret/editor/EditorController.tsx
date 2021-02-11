@@ -38,10 +38,19 @@ const LoadableEditorView = dynamic(() => import('./EditorView'), {
 })
 
 const EditorController: React.FC = () => {
-  const { article, fetchArticle, postArticle } = useArticleClient()
+  const {
+    article,
+    fetchArticle,
+    isLoading,
+    postArticle,
+    error,
+    clearError,
+    postWasSuccess,
+    clearPostSuccessFlag,
+  } = useArticleClient()
   const { service } = useMaterialDataServiceProvider(ARTICLE_DATA_VERIFIER, DEFAULT_ARTICLE_DATA)
 
-  const [currentSubmitErrors, setSubmitErrors] = useState<EditorError[]>([])
+  const [validationErrors, setValidationErrors] = useState<EditorError[]>([])
   const router = useRouter()
   const { id } = router.query
 
@@ -61,7 +70,7 @@ const EditorController: React.FC = () => {
 
   const performDataCheck = () => {
     const errors = service.verifyData()
-    setSubmitErrors(errors)
+    setValidationErrors(errors)
   }
 
   const postArticleWrapped = () => {
@@ -74,7 +83,12 @@ const EditorController: React.FC = () => {
       serviceInstance={service}
       submitData={postArticleWrapped}
       performDataCheck={performDataCheck}
-      submitErrors={currentSubmitErrors}
+      validationErrors={validationErrors}
+      isLoading={isLoading}
+      postError={error}
+      clearPostError={clearError}
+      postWasSuccess={postWasSuccess}
+      clearPostSuccessFlag={clearPostSuccessFlag}
     />
   )
 }

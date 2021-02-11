@@ -14,9 +14,14 @@ import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutW
 
 type Props = {
   serviceInstance: IMaterialDataService
-  submitErrors: EditorError[]
+  validationErrors: EditorError[]
   submitData: () => void
   performDataCheck: () => void
+  isLoading: boolean
+  postError: Error | null
+  clearPostError: () => void
+  postWasSuccess: boolean
+  clearPostSuccessFlag: () => void
 }
 
 const GuideEditorView: React.FC<Props> = (props: Props) => {
@@ -151,9 +156,12 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
         <FileUploadWidget />
         <SubmitModal
           modalIsOpen={modalIsOpen}
-          submitErrors={props.submitErrors}
+          validationErrors={props.validationErrors}
           setModalIsOpen={setModalIsOpen}
           onSubmit={onSubmit}
+          isLoading={props.isLoading}
+          postError={props.postError}
+          postWasSuccess={props.postWasSuccess}
         />
       </div>
     </DefaultLayoutWrapper>

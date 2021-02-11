@@ -38,8 +38,17 @@ const LoadableEditorView = dynamic(() => import('./GuideEditorView'), {
 })
 
 const GuideEditorController = () => {
-  const { guide, fetchGuide, postGuide } = useGuideClient()
-  const [currentSubmitErrors, setSubmitErrors] = useState<EditorError[]>([])
+  const {
+    guide,
+    fetchGuide,
+    postGuide,
+    error,
+    isLoading,
+    clearError,
+    postWasSuccess,
+    clearPostSuccessFlag,
+  } = useGuideClient()
+  const [validationErrors, setValidationErrors] = useState<EditorError[]>([])
   const { service } = useMaterialDataServiceProvider(GUIDE_DATA_VERIFIER, DEFAULT_GUIDE_DATA)
 
   const router = useRouter()
@@ -61,7 +70,7 @@ const GuideEditorController = () => {
 
   const performDataCheck = () => {
     const errors = service.verifyData()
-    setSubmitErrors(errors)
+    setValidationErrors(errors)
   }
 
   const postGuideWrapped = () => {
@@ -74,7 +83,12 @@ const GuideEditorController = () => {
       submitData={postGuideWrapped}
       performDataCheck={performDataCheck}
       serviceInstance={service}
-      submitErrors={currentSubmitErrors}
+      validationErrors={validationErrors}
+      isLoading={isLoading}
+      postError={error}
+      clearPostError={clearError}
+      postWasSuccess={postWasSuccess}
+      clearPostSuccessFlag={clearPostSuccessFlag}
     />
   )
 }

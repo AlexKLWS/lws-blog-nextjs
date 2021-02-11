@@ -16,7 +16,12 @@ interface Props {
   serviceInstance: IMaterialDataService
   submitData: () => void
   performDataCheck: () => void
-  submitErrors: EditorError[]
+  validationErrors: EditorError[]
+  isLoading: boolean
+  postError: Error | null
+  clearPostError: () => void
+  postWasSuccess: boolean
+  clearPostSuccessFlag: () => void
 }
 
 const EditorView: React.FC<Props> = (props: Props) => {
@@ -24,10 +29,11 @@ const EditorView: React.FC<Props> = (props: Props) => {
 
   const onSubmit = () => {
     props.submitData()
-    setModalIsOpen(false)
   }
 
   const onSubmitButtonClick = () => {
+    props.clearPostError()
+    props.clearPostSuccessFlag()
     props.performDataCheck()
     setModalIsOpen(true)
   }
@@ -70,9 +76,12 @@ const EditorView: React.FC<Props> = (props: Props) => {
         <FileUploadWidget />
         <SubmitModal
           modalIsOpen={modalIsOpen}
-          submitErrors={props.submitErrors}
+          validationErrors={props.validationErrors}
           setModalIsOpen={setModalIsOpen}
           onSubmit={onSubmit}
+          isLoading={props.isLoading}
+          postError={props.postError}
+          postWasSuccess={props.postWasSuccess}
         />
       </div>
     </DefaultLayoutWrapper>

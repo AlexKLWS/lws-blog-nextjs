@@ -38,9 +38,19 @@ const LoadableExtMaterialEditorView = dynamic(() => import('./ExtMaterialEditorV
 })
 
 const ExtMaterialEditorController: React.FC = () => {
-  const [currentSubmitErrors, setSubmitErrors] = useState<EditorError[]>([])
+  const {
+    extMaterial,
+    fetchExtMaterial,
+    postExtMaterial,
+    error,
+    isLoading,
+    clearError,
+    postWasSuccess,
+    clearPostSuccessFlag,
+  } = useExtMaterialClient()
 
-  const { extMaterial, fetchExtMaterial, postExtMaterial } = useExtMaterialClient()
+  const [validationErrors, setValidationErrors] = useState<EditorError[]>([])
+
   const { service } = useMaterialDataServiceProvider(PAGE_DATA_VERIFIER, DEFAULT_EXT_MATERIAL_DATA)
   const router = useRouter()
   const { id } = router.query
@@ -61,7 +71,7 @@ const ExtMaterialEditorController: React.FC = () => {
 
   const performDataCheck = () => {
     const errors = service.verifyData()
-    setSubmitErrors(errors)
+    setValidationErrors(errors)
   }
 
   const postWrapped = () => {
@@ -72,9 +82,14 @@ const ExtMaterialEditorController: React.FC = () => {
   return (
     <LoadableExtMaterialEditorView
       serviceInstance={service}
-      submitErrors={currentSubmitErrors}
+      validationErrors={validationErrors}
       performDataCheck={performDataCheck}
       submitData={postWrapped}
+      isLoading={isLoading}
+      postError={error}
+      clearPostError={clearError}
+      postWasSuccess={postWasSuccess}
+      clearPostSuccessFlag={clearPostSuccessFlag}
     />
   )
 }
