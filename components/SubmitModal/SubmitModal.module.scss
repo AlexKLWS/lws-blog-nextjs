@@ -25,14 +25,14 @@
 
 .SubmitModalErrorItem {
   @include normal-mono;
-  color: red;
+  color: $red-color;
   padding: 5px 0px;
 }
 
 .SubmitModalPostError {
   @include normal-mono;
   padding-bottom: 20px;
-  color: red;
+  color: $red-color;
 }
 
 .SubmitModalModal {
