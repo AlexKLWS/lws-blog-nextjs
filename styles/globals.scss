@@ -315,7 +315,7 @@ $hamburger-active-hover-filter: $hamburger-hover-filter !default;
 }
 
 #nprogress .bar {
-  background: #fff;
+  background: $primary-color;
 
   position: fixed;
   z-index: 1031;
@@ -324,6 +324,10 @@ $hamburger-active-hover-filter: $hamburger-hover-filter !default;
 
   width: 100%;
   height: 2px;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    background: $white-color;
+  }
 }
 
 /* Fancy blur effect */
@@ -333,12 +337,15 @@ $hamburger-active-hover-filter: $hamburger-hover-filter !default;
   right: 0px;
   width: 100px;
   height: 100%;
-  box-shadow: 0 0 10px #fff, 0 0 5px #fff;
+  box-shadow: 0 0 10px $primary-color, 0 0 5px $primary-color;
   opacity: 1;
 
   -webkit-transform: rotate(3deg) translate(0px, -4px);
   -ms-transform: rotate(3deg) translate(0px, -4px);
   transform: rotate(3deg) translate(0px, -4px);
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    box-shadow: 0 0 10px $white-color, 0 0 5px $white-color;
+  }
 }
 
 .nprogress-custom-parent {
