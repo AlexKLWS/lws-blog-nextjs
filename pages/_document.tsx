@@ -12,7 +12,7 @@ class MyDocument extends Document {
         <Head>
           <script async defer data-domain='longwintershadows.com' src='https://plausible.io/js/plausible.js'></script>
         </Head>
-        <body style={{ backgroundColor: '#000' }}>
+        <body style={{ backgroundColor: '#000', marginTop: '0px' }}>
           <Main />
           <NextScript />
         </body>
