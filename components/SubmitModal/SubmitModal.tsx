@@ -62,6 +62,7 @@ const SubmitModal: React.FC<Props> = (props: Props) => {
             <p className={styles.SubmitModalTitle}>Submitting...</p>
           ) : (
             <>
+              <input className='App-button' onClick={closeModal} type={'submit'} value={'Cancel'} />
               <input
                 className={
                   props.validationErrors && props.validationErrors.length > 0 ? 'App-button inactive' : 'App-button'
@@ -71,7 +72,6 @@ const SubmitModal: React.FC<Props> = (props: Props) => {
                 value={'Submit'}
                 disabled={props.validationErrors && props.validationErrors.length > 0}
               />
-              <input className='App-button' onClick={closeModal} type={'submit'} value={'Cancel'} />
             </>
           )}
         </div>
