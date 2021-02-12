@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTrail, animated } from 'react-spring'
 import Head from 'next/head'
 
@@ -11,6 +11,7 @@ import styles from './Home.module.scss'
 import InlineIcon from 'components/InlineIcon'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 import { detectExternaUrl } from 'helpers/detectExternaUrl'
+import ExternalLinkModal from 'components/ExternalLinkModal/ExternalLinkModal'
 
 interface Props {
   materialPreviews: PreviewMaterial[]
@@ -21,8 +22,43 @@ interface Props {
 }
 
 const HomeView: React.FC<Props> = (props: Props) => {
+  const [externalLinkModalIsOpen, setExternalLinkModalOpen] = useState(false)
+  const [externalLinkURL, setExternalLinkURL] = useState<string | null>(null)
+
+  const showExternalLinkModal = (url: string | null) => {
+    setExternalLinkURL(url)
+    setExternalLinkModalOpen(true)
+  }
+
   const renderPreviewsItems = (previewMaterial: PreviewMaterial) => {
     const isExternalMaterial = detectExternaUrl(previewMaterial.url)
+
+    if (isExternalMaterial) {
+      return (
+        <div key={previewMaterial.referenceId} className={styles.MaterialPreviewItemContainer}>
+          <a
+            className={styles.MaterialPreviewItem}
+            href={previewMaterial.url}
+            onClick={(e) => {
+              e.preventDefault()
+              showExternalLinkModal(previewMaterial.url!)
+            }}
+          >
+            <div className={styles.MaterialPreviewIconContainer}>
+              <InlineIcon svg={previewMaterial.icon.data} />
+            </div>
+            <div>
+              <p className={styles.MaterialPreviewItemsTitle}>{previewMaterial.name}</p>
+              <p className={styles.MaterialPreviewItemsSubtitle}>{previewMaterial.subtitle}</p>
+            </div>
+            <div className={styles.MaterialPreviewItemExternalLinkIconContainer}>
+              <External />
+            </div>
+          </a>
+        </div>
+      )
+    }
+
     return (
       <div key={previewMaterial.referenceId} className={styles.MaterialPreviewItemContainer}>
         <LinkWithStyles className={styles.MaterialPreviewItem} href={props.getPreviewItemLink(previewMaterial)}>
@@ -33,11 +69,6 @@ const HomeView: React.FC<Props> = (props: Props) => {
             <p className={styles.MaterialPreviewItemsTitle}>{previewMaterial.name}</p>
             <p className={styles.MaterialPreviewItemsSubtitle}>{previewMaterial.subtitle}</p>
           </div>
-          {isExternalMaterial && (
-            <div className={styles.MaterialPreviewItemExternalLinkIconContainer}>
-              <External />
-            </div>
-          )}
         </LinkWithStyles>
       </div>
     )
@@ -84,6 +115,12 @@ const HomeView: React.FC<Props> = (props: Props) => {
           </div>
           {props.pagesCount > 1 ? renderPageControls() : <div style={{ height: '48px' }} />}
         </div>
+        <ExternalLinkModal
+          modalIsOpen={externalLinkModalIsOpen}
+          externalURL={externalLinkURL}
+          setModalIsOpen={setExternalLinkModalOpen}
+          setExternalURL={setExternalLinkURL}
+        />
       </DefaultLayoutWrapper>
     </div>
   )
