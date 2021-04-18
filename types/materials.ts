@@ -46,6 +46,7 @@ export enum Category {
   Code,
   Guides,
   Projects,
+  Games,
 }
 
 export type MaterialFetchResult<T extends Material> = {
