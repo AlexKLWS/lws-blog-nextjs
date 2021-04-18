@@ -5,6 +5,7 @@ const code = '/code'
 const guides = '/guides'
 const guidesArticle = '/guides/:id'
 const projects = '/projects'
+const games = '/games'
 const contact = '/contact'
 const login = '/login'
 const secret = {
@@ -13,6 +14,7 @@ const secret = {
   code: '/secret/code',
   guides: '/secret/guides',
   projects: '/secret/projects',
+  games: '/secret/games',
   editor: '/secret/editor',
   editorMaterial: '/secret/editor/:id',
   extMaterialEditor: '/secret/ext-material-editor',
@@ -27,6 +29,7 @@ export default {
   miscArticle,
   life,
   code,
+  games,
   guides,
   guidesArticle,
   projects,
