@@ -27,7 +27,7 @@ const Dropdown: React.FC<Props> = (props: Props) => {
         }`}
         onClick={onDropdownPress}
       >
-        {`+ ${props.dropdownTriggerText}`}
+        {props.dropdownTriggerText}
       </div>
 
       {dropdownIsOpen && (

@@ -77,7 +77,7 @@ const HomeView: React.FC<Props> = (props: Props) => {
       </Head>
       <DefaultLayoutWrapper isSecret>
         <div style={{ paddingBottom: '40px' }}>
-          <Dropdown dropdownTriggerText={'Add'} items={props.dropdownItems} />
+          <Dropdown dropdownTriggerText={'+ Add'} items={props.dropdownItems} />
         </div>
         <div className={styles.HomeContainer}>
           <div className={styles.PreviewsGrid}>
