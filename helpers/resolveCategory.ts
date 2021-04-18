@@ -19,6 +19,8 @@ export const resolveCategoryFromPathname = (resolvedUrl: string) => {
       return Category.Projects
     case 'guides':
       return Category.Guides
+    case 'games':
+      return Category.Games
     default:
       return Category.Misc
   }
@@ -34,6 +36,8 @@ export const getCategoryPathname = (category: Category) => {
       return 'projects'
     case Category.Guides:
       return 'guides'
+    case Category.Games:
+      return 'games'
     case Category.Misc:
       return 'misc'
     default:
