@@ -54,10 +54,11 @@ const ArticleController: React.FC<Props> = (props: Props) => {
         <link rel='icon' href='/favicon.ico' />
         <meta property='og:image' content='/og_image.png' />
         <meta property='og:url' content={baseURL} />
-        <meta property='og:type' content='blog' />
+        <meta property='og:type' content='website' />
         <meta property='og:title' content={props.article?.name || 'Long Winter Shadows'} />
         <meta property='og:description' content={props.article?.subtitle || ''} />
         <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:image' content='/og_image.png' />
         <meta name='description' content={getMetaDescription()} />
       </Head>
       <ArticleView article={props.article} />
