@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import GoogleMapReact from 'google-map-react'
-import Head from 'next/head'
 
 import styles from './Guide.module.scss'
 
@@ -53,24 +52,8 @@ const GuideView: React.FC<Props> = (props: Props) => {
     }, LOCATION_INFO_ANIMATION_SYNC_DELAY)
   }
 
-  const getMetaDescription = () => {
-    if (props.guide.metaDescription) {
-      return props.guide.metaDescription
-    }
-
-    if (props.guide.subtitle) {
-      return props.guide.subtitle
-    }
-
-    return ''
-  }
-
   return (
     <div style={{ height: '100vh', width: '100%' }}>
-      <Head>
-        <title>{`${props.guide.name} - Alex Korzh`}</title>
-        <meta name='description' content={getMetaDescription()} />
-      </Head>
       <GoogleMapReact
         bootstrapURLKeys={{ key: API_KEY }}
         center={centerCoords}

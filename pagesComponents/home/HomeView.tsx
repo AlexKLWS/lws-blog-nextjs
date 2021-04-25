@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useTrail, animated } from 'react-spring'
-import Head from 'next/head'
 
 import LinkWithStyles from 'components/LinkWithStyles'
 import { PreviewMaterial } from 'types/materials'
@@ -12,7 +11,6 @@ import InlineIcon from 'components/InlineIcon'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 import { detectExternaUrl } from 'helpers/detectExternaUrl'
 import ExternalLinkModal from 'components/ExternalLinkModal/ExternalLinkModal'
-import { DEFAULT_DESCRIPTION } from 'consts/metaDefaults'
 
 interface Props {
   materialPreviews: PreviewMaterial[]
@@ -99,11 +97,6 @@ const HomeView: React.FC<Props> = (props: Props) => {
 
   return (
     <div style={{ top: 0 }}>
-      <Head>
-        <title>LWS - Alex Korzh - Home</title>
-        <meta name='description' content={DEFAULT_DESCRIPTION} />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <DefaultLayoutWrapper>
         <div className={styles.HomeContainer}>
           <div className={styles.PreviewsGrid}>

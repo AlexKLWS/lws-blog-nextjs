@@ -7,7 +7,7 @@ import { serverSideArticleClient } from 'facades/materialClientFacade'
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
 import { Article } from 'types/materials'
 import { baseURL } from 'consts/endpoints'
-import { DEFAULT_DESCRIPTION } from 'consts/metaDefaults'
+import { DEFAULT_AUTHOR_NAME, DEFAULT_DESCRIPTION, DEFAULT_TITLE, OPEN_GRAPH_IMAGE } from 'consts/metaDefaults'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { fetchArticle } = serverSideArticleClient()
@@ -48,18 +48,29 @@ const ArticleController: React.FC<Props> = (props: Props) => {
     return DEFAULT_DESCRIPTION
   }
 
+  const getMetaTitle = () => {
+    if (props.article?.name) {
+      return `${props.article?.name} - ${DEFAULT_AUTHOR_NAME}`
+    }
+
+    return `${DEFAULT_TITLE} - ${DEFAULT_AUTHOR_NAME}`
+  }
+
   return (
     <>
       <Head>
-        <title>{`${props.article?.name} - Alex Korzh`}</title>
+        <title>{getMetaTitle()}</title>
         <link rel='icon' href='/favicon.ico' />
-        <meta property='og:image' content='/og_image.png' />
+        <meta property='og:image' content={OPEN_GRAPH_IMAGE} />
         <meta property='og:url' content={baseURL} />
         <meta property='og:type' content='website' />
-        <meta property='og:title' content={props.article?.name || 'Long Winter Shadows'} />
+        <meta property='og:image:height' content='630' />
+        <meta property='og:image:width' content='1200' />
+        <meta property='og:title' content={props.article?.name || DEFAULT_TITLE} />
         <meta property='og:description' content={props.article?.subtitle || DEFAULT_DESCRIPTION} />
         <meta name='twitter:card' content='summary_large_image' />
-        <meta name='twitter:image' content='/og_image.png' />
+        <meta name='twitter:image' content={OPEN_GRAPH_IMAGE} />
+        <meta property='vk:image' content={OPEN_GRAPH_IMAGE} />
         <meta name='description' content={getMetaDescription()} />
       </Head>
       <ArticleView article={props.article} />
