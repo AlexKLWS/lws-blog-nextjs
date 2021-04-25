@@ -9,7 +9,7 @@ import { Article } from 'types/materials'
 import styles from './Article.module.scss'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 
-interface Props {
+type Props = {
   article: Article | null
 }
 
@@ -30,38 +30,20 @@ const ArticleView: React.FC<Props> = ({ article }: Props) => {
   )
   const formattedDate = !!article && DateTime.fromISO(article.createdAt!).toLocaleString(DateTime.DATE_SHORT)
 
-  const getMetaDescription = () => {
-    if (article?.metaDescription) {
-      return article?.metaDescription
-    }
-
-    if (article?.subtitle) {
-      return article?.subtitle
-    }
-
-    return ''
-  }
-
   return (
-    <>
-      <Head>
-        <title>{`${article?.name} - Alex Korzh`}</title>
-        <meta name='description' content={getMetaDescription()} />
-      </Head>
-      <DefaultLayoutWrapper>
-        <div className={styles.ArticleContainer}>
-          {/* @ts-expect-error */}
-          <animated.div style={{ ...style, padding: '20px 42px', minHeight: '720px', position: 'relative' }}>
-            <div className={styles.ArticleTitleContainer}>
-              <h1 className={styles.ArticleTitle}>{article?.name}</h1>
-              <h2 className={styles.ArticleSubtitle}>{article?.subtitle}</h2>
-            </div>
-            <LoadableArticleTextView text={article?.articleText || ''} />
-            <p className={styles.ArticleDate}>{formattedDate}</p>
-          </animated.div>
-        </div>
-      </DefaultLayoutWrapper>
-    </>
+    <DefaultLayoutWrapper>
+      <div className={styles.ArticleContainer}>
+        {/* @ts-expect-error */}
+        <animated.div style={{ ...style, padding: '20px 42px', minHeight: '720px', position: 'relative' }}>
+          <div className={styles.ArticleTitleContainer}>
+            <h1 className={styles.ArticleTitle}>{article?.name}</h1>
+            <h2 className={styles.ArticleSubtitle}>{article?.subtitle}</h2>
+          </div>
+          <LoadableArticleTextView text={article?.articleText || ''} />
+          <p className={styles.ArticleDate}>{formattedDate}</p>
+        </animated.div>
+      </div>
+    </DefaultLayoutWrapper>
   )
 }
 
