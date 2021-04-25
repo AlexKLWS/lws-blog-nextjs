@@ -7,6 +7,7 @@ import { serverSideArticleClient } from 'facades/materialClientFacade'
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
 import { Article } from 'types/materials'
 import { baseURL } from 'consts/endpoints'
+import { DEFAULT_DESCRIPTION } from 'consts/metaDefaults'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { fetchArticle } = serverSideArticleClient()
@@ -44,7 +45,7 @@ const ArticleController: React.FC<Props> = (props: Props) => {
       return props.article?.subtitle
     }
 
-    return 'Personal blog by Alex Korzh'
+    return DEFAULT_DESCRIPTION
   }
 
   return (
@@ -56,7 +57,7 @@ const ArticleController: React.FC<Props> = (props: Props) => {
         <meta property='og:url' content={baseURL} />
         <meta property='og:type' content='website' />
         <meta property='og:title' content={props.article?.name || 'Long Winter Shadows'} />
-        <meta property='og:description' content={props.article?.subtitle || ''} />
+        <meta property='og:description' content={props.article?.subtitle || DEFAULT_DESCRIPTION} />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:image' content='/og_image.png' />
         <meta name='description' content={getMetaDescription()} />

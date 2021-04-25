@@ -13,6 +13,7 @@ import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutW
 import Dropdown from 'components/Dropdowns/Dropdown/Dropdown'
 import { DropdownItem } from 'types/dropdown'
 import { detectExternaUrl } from 'helpers/detectExternaUrl'
+import { DEFAULT_DESCRIPTION } from 'consts/metaDefaults'
 
 interface Props {
   materialPreviews: PreviewMaterial[]
@@ -72,7 +73,7 @@ const HomeView: React.FC<Props> = (props: Props) => {
     <>
       <Head>
         <title>LWS - Alex Korzh - Home</title>
-        <meta name='description' content='Personal blog by Alex Korzh' />
+        <meta name='description' content={DEFAULT_DESCRIPTION} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <DefaultLayoutWrapper isSecret>
