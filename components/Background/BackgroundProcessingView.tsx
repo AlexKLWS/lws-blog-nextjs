@@ -5,7 +5,7 @@ export default class BackgroundProcessingView extends Component {
   setup = (p5: any, canvasParentRef: Element) => {
     p5.createCanvas(window.innerWidth, window.innerHeight).parent(canvasParentRef)
     p5.background(0)
-    p5.stroke(60)
+    p5.stroke(65)
     for (let y = -300; y <= window.innerHeight; y += 10) {
       p5.noFill()
       p5.beginShape()
