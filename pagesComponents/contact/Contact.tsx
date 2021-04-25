@@ -1,10 +1,10 @@
 import React from 'react'
+import Head from 'next/head'
 
 import styles from './Contact.module.scss'
 import LinkWithStyles from 'components/LinkWithStyles'
 import routes from 'consts/routes'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
-import Head from 'next/head'
 import { DEFAULT_AUTHOR_NAME, DEFAULT_DESCRIPTION, DEFAULT_TITLE, OPEN_GRAPH_IMAGE } from 'consts/metaDefaults'
 import { baseURL } from 'consts/endpoints'
 
