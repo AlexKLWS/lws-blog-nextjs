@@ -57,7 +57,7 @@ const ArticleController: React.FC<Props> = (props: Props) => {
         <meta property='og:type' content='blog' />
         <meta property='og:title' content={props.article?.name || 'Long Winter Shadows'} />
         <meta property='og:description' content={props.article?.subtitle || ''} />
-        <meta name='twitter:card' content='summary' />
+        <meta name='twitter:card' content='summary_large_image' />
         <meta name='description' content={getMetaDescription()} />
       </Head>
       <ArticleView article={props.article} />
