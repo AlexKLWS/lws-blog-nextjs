@@ -27,6 +27,9 @@ const Footer: React.FC<Props> = (props: Props) => {
         <LinkWithStyles href={props.isSecret ? routes.secret.projects : routes.projects} className={styles.FooterItem}>
           Projects
         </LinkWithStyles>
+        <LinkWithStyles href={props.isSecret ? routes.secret.games : routes.games} className={styles.FooterItem}>
+          Games
+        </LinkWithStyles>
         <LinkWithStyles href={routes.contact} className={styles.FooterItem}>
           Contact
         </LinkWithStyles>
