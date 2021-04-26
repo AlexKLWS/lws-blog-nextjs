@@ -33,7 +33,6 @@ const ArticleView: React.FC<Props> = ({ article }: Props) => {
   return (
     <DefaultLayoutWrapper>
       <div className={styles.ArticleContainer}>
-        {/* @ts-expect-error */}
         <animated.div style={{ ...style, padding: '20px 42px', minHeight: '720px', position: 'relative' }}>
           <div className={styles.ArticleTitleContainer}>
             <h1 className={styles.ArticleTitle}>{article?.name}</h1>

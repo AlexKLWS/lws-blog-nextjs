@@ -101,7 +101,6 @@ const HomeView: React.FC<Props> = (props: Props) => {
         <div className={styles.HomeContainer}>
           <div className={styles.PreviewsGrid}>
             {transitions.map((style, index) => (
-              //@ts-expect-error
               <animated.div key={`${index}`} style={style}>
                 {renderPreviewsItems(props.materialPreviews[index])}
               </animated.div>
