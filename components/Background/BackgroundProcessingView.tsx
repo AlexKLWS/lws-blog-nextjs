@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import Sketch from 'react-p5'
 
 export default class BackgroundProcessingView extends Component {
-  setup = (p5: any, canvasParentRef: Element) => {
-    p5.createCanvas(window.innerWidth, window.innerHeight).parent(canvasParentRef)
+  renderFrame = (p5: any) => {
     p5.background(0)
     p5.stroke(65)
     for (let y = -300; y <= window.innerHeight; y += 10) {
@@ -18,9 +17,19 @@ export default class BackgroundProcessingView extends Component {
     }
   }
 
+  setup = (p5: any, canvasParentRef: Element) => {
+    p5.createCanvas(window.innerWidth, window.innerHeight).parent(canvasParentRef)
+    this.renderFrame(p5)
+  }
+
+  windowResized = (p5: any) => {
+    p5.resizeCanvas(window.innerWidth, window.innerHeight)
+    this.renderFrame(p5)
+  }
+
   draw = (p5: any) => {}
 
   render() {
-    return <Sketch setup={this.setup} draw={this.draw} />
+    return <Sketch setup={this.setup} draw={this.draw} windowResized={this.windowResized} />
   }
 }
