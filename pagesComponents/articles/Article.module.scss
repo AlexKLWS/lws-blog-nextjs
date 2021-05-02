@@ -12,6 +12,10 @@
   line-height: 36px;
   margin: 0px;
   text-align: center;
+
+  @media (min-width: $breakpoint-desktop-or-laptop) {
+    padding: 0px 4ex;
+  }
 }
 
 .ArticleSubtitle {
