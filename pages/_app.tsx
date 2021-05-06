@@ -2,6 +2,7 @@ import '../styles/globals.scss'
 
 import { AppProps } from 'next/app'
 import Router from 'next/router'
+import Head from 'next/head'
 import NProgress from 'nprogress'
 
 import { container, containerModule } from 'services/container'
@@ -17,6 +18,10 @@ container.load(containerModule)
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ServiceProvider container={container}>
+      <Head>
+        <meta charSet='utf-8' />
+        <script async defer data-domain='longwintershadows.com' src='https://plausible.io/js/plausible.js'></script>
+      </Head>
       <Component {...pageProps} />
       <PrivacyBanner />
     </ServiceProvider>
