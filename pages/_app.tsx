@@ -23,6 +23,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta charSet='utf-8' />
         <link rel='icon' href='/favicon.ico' />
         <title>{`${DEFAULT_TITLE} - ${DEFAULT_AUTHOR_NAME}`}</title>
+        <meta property='og:title' content={DEFAULT_TITLE} />
+        <meta property='og:description' content={DEFAULT_DESCRIPTION} />
         <meta name='description' content={DEFAULT_DESCRIPTION} />
         <meta property='og:type' content='website' />
         <meta property='og:image:height' content='630' />
