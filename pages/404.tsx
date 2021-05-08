@@ -9,8 +9,6 @@ const EmptyPage: React.FC = () => {
     <>
       <Head>
         <title>{`${DEFAULT_TITLE} - ${DEFAULT_AUTHOR_NAME} - 404`}</title>
-        <meta name='description' content={DEFAULT_DESCRIPTION} />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
       <FullscreenMessageView title={`Sorry!`} subtitle={`This page doesn't exist!`} />
     </>

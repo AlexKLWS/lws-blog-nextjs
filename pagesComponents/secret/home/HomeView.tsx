@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTrail, animated } from 'react-spring'
-import Head from 'next/head'
 
 import LinkWithStyles from 'components/LinkWithStyles'
 import { PreviewMaterial } from 'types/materials'
@@ -71,11 +70,6 @@ const HomeView: React.FC<Props> = (props: Props) => {
 
   return (
     <>
-      <Head>
-        <title>LWS - Alex Korzh - Home</title>
-        <meta name='description' content={DEFAULT_DESCRIPTION} />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <DefaultLayoutWrapper isSecret>
         <div style={{ paddingBottom: '40px' }}>
           <Dropdown dropdownTriggerText={'+ Add'} items={props.dropdownItems} />

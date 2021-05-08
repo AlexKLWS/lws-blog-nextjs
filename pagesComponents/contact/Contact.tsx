@@ -5,26 +5,40 @@ import styles from './Contact.module.scss'
 import LinkWithStyles from 'components/LinkWithStyles'
 import routes from 'consts/routes'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
-import { DEFAULT_AUTHOR_NAME, DEFAULT_DESCRIPTION, DEFAULT_TITLE, OPEN_GRAPH_IMAGE } from 'consts/metaDefaults'
+import { DEFAULT_AUTHOR_NAME, DEFAULT_TITLE } from 'consts/metaDefaults'
 import { baseURL } from 'consts/endpoints'
+import { GetServerSideProps } from 'next'
+import absoluteUrl from 'next-absolute-url'
 
-const Contact: React.FC = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let fullUrl
+  if (context.req) {
+    // Server side rendering
+    const { origin } = absoluteUrl(context.req)
+    fullUrl = origin + context.req.url
+  } else {
+    // Client side rendering
+    fullUrl =
+      window.location.protocol +
+      '//' +
+      window.location.hostname +
+      (window.location.port ? ':' + window.location.port : '')
+  }
+  return {
+    props: { fullUrl },
+  }
+}
+
+type Props = {
+  fullUrl: string
+}
+
+const Contact: React.FC<Props> = (props: Props) => {
   return (
     <>
       <Head>
-        <title>{`${DEFAULT_TITLE} - ${DEFAULT_AUTHOR_NAME}`}</title>
-        <link rel='icon' href='/favicon.ico' />
-        <meta property='og:image' content={OPEN_GRAPH_IMAGE} />
-        <meta property='og:url' content={baseURL} />
-        <meta property='og:type' content='website' />
-        <meta property='og:image:height' content='630' />
-        <meta property='og:image:width' content='1200' />
-        <meta property='og:title' content={DEFAULT_TITLE} />
-        <meta property='og:description' content={DEFAULT_DESCRIPTION} />
-        <meta name='twitter:card' content='summary_large_image' />
-        <meta name='twitter:image' content={OPEN_GRAPH_IMAGE} />
-        <meta property='vk:image' content={OPEN_GRAPH_IMAGE} />
-        <meta name='description' content={DEFAULT_DESCRIPTION} />
+        <title>{`${DEFAULT_TITLE} - ${DEFAULT_AUTHOR_NAME} - Contact`}</title>
+        <meta property='og:url' content={props.fullUrl} />
       </Head>
       <DefaultLayoutWrapper>
         <div className={styles.ContactContainer}>

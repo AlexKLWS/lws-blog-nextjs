@@ -9,9 +9,8 @@ import { PreviewMaterial } from 'types/materials'
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
 import { PagePreviewsData } from 'types/pagePreviewData'
 import { resolveCategoryFromPathname } from 'helpers/resolveCategory'
+import absoluteUrl from 'next-absolute-url'
 import Head from 'next/head'
-import { DEFAULT_AUTHOR_NAME, DEFAULT_DESCRIPTION, DEFAULT_TITLE, OPEN_GRAPH_IMAGE } from 'consts/metaDefaults'
-import { baseURL } from 'consts/endpoints'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const currentPage = Number(context.query[page] || 1)
@@ -21,12 +20,30 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     false,
   )
   const response = await fetchMaterialPreviews()
+  let fullUrl
+  if (context.req) {
+    // Server side rendering
+    const { origin } = absoluteUrl(context.req)
+    fullUrl = origin + context.req.url
+  } else {
+    // Client side rendering
+    fullUrl =
+      window.location.protocol +
+      '//' +
+      window.location.hostname +
+      (window.location.port ? ':' + window.location.port : '')
+  }
   return {
-    props: response,
+    props: { pagePreviews: response, fullUrl },
   }
 }
 
-const HomeController: React.FC<PagePreviewsData> = (props: PagePreviewsData) => {
+type Props = {
+  pagePreviews: PagePreviewsData
+  fullUrl: string
+}
+
+const HomeController: React.FC<Props> = (props: Props) => {
   const router = useRouter()
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -44,8 +61,8 @@ const HomeController: React.FC<PagePreviewsData> = (props: PagePreviewsData) => 
     let newPage = currentPage
     if (next) {
       newPage = currentPage + 1
-      if (newPage > props.pagesCount) {
-        newPage = props.pagesCount
+      if (newPage > props.pagePreviews.pagesCount) {
+        newPage = props.pagePreviews.pagesCount
       }
     } else {
       newPage = currentPage - 1
@@ -66,32 +83,20 @@ const HomeController: React.FC<PagePreviewsData> = (props: PagePreviewsData) => 
     }
   }
 
-  if (!props.materialPreviews || !props.materialPreviews.length) {
+  if (!props.pagePreviews.materialPreviews || !props.pagePreviews.materialPreviews.length) {
     return <FullscreenMessageView title={`Sorry!`} subtitle={`There's nothing here yet!`} />
   }
 
   return (
     <>
       <Head>
-        <title>{`${DEFAULT_TITLE} - ${DEFAULT_AUTHOR_NAME}`}</title>
-        <link rel='icon' href='/favicon.ico' />
-        <meta property='og:image' content={OPEN_GRAPH_IMAGE} />
-        <meta property='og:url' content={baseURL} />
-        <meta property='og:type' content='website' />
-        <meta property='og:image:height' content='630' />
-        <meta property='og:image:width' content='1200' />
-        <meta property='og:title' content={DEFAULT_TITLE} />
-        <meta property='og:description' content={DEFAULT_DESCRIPTION} />
-        <meta name='twitter:card' content='summary_large_image' />
-        <meta name='twitter:image' content={OPEN_GRAPH_IMAGE} />
-        <meta property='vk:image' content={OPEN_GRAPH_IMAGE} />
-        <meta name='description' content={DEFAULT_DESCRIPTION} />
+        <meta property='og:url' content={props.fullUrl} />
       </Head>
       <HomeView
-        materialPreviews={props.materialPreviews}
+        materialPreviews={props.pagePreviews.materialPreviews}
         getDifferentPageLink={getDifferentPageLink}
         currentPage={currentPage}
-        pagesCount={props.pagesCount}
+        pagesCount={props.pagePreviews.pagesCount}
         getPreviewItemLink={getPreviewItemLink}
       />
     </>

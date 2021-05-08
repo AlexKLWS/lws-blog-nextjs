@@ -74,17 +74,9 @@ const ArticleController: React.FC<Props> = (props: Props) => {
     <>
       <Head>
         <title>{getMetaTitle()}</title>
-        <link rel='icon' href='/favicon.ico' />
-        <meta property='og:image' content={OPEN_GRAPH_IMAGE} />
         <meta property='og:url' content={props.fullUrl} />
-        <meta property='og:type' content='website' />
-        <meta property='og:image:height' content='630' />
-        <meta property='og:image:width' content='1200' />
         <meta property='og:title' content={props.article?.name || DEFAULT_TITLE} />
         <meta property='og:description' content={props.article?.subtitle || DEFAULT_DESCRIPTION} />
-        <meta name='twitter:card' content='summary_large_image' />
-        <meta name='twitter:image' content={OPEN_GRAPH_IMAGE} />
-        <meta property='vk:image' content={OPEN_GRAPH_IMAGE} />
         <meta name='description' content={getMetaDescription()} />
       </Head>
       <ArticleView article={props.article} />
