@@ -1,6 +1,4 @@
 import React from 'react'
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
 import { useSpring, animated } from 'react-spring'
 import { DateTime } from 'luxon'
 
@@ -8,16 +6,11 @@ import { Article } from 'types/materials'
 
 import styles from './Article.module.scss'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
+import ArticleTextView from 'components/ArticleText/ArticleTextView'
 
 type Props = {
   article: Article | null
 }
-
-const LoadableArticleTextView = dynamic(() => import('../../components/ArticleText/ArticleTextView'), {
-  loading: () => {
-    return <div className={styles.ArticleTextSkeletonLoader} />
-  },
-})
 
 const ArticleView: React.FC<Props> = ({ article }: Props) => {
   const [style, _] = useSpring(
@@ -38,7 +31,7 @@ const ArticleView: React.FC<Props> = ({ article }: Props) => {
             <h1 className={styles.ArticleTitle}>{article?.name}</h1>
             <h2 className={styles.ArticleSubtitle}>{article?.subtitle}</h2>
           </div>
-          <LoadableArticleTextView text={article?.articleText || ''} />
+          <ArticleTextView text={article?.articleText || ''} />
           <p className={styles.ArticleDate}>{formattedDate}</p>
         </animated.div>
       </div>
