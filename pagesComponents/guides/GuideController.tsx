@@ -83,7 +83,7 @@ const GuideController: React.FC<Props> = (props: Props) => {
       <Head>
         <title>{getMetaTitle()}</title>
         <meta property='og:url' content={props.fullUrl} />
-        <meta property='og:title' content={props.guide?.name || `${DEFAULT_TITLE} - ${DEFAULT_AUTHOR_NAME}`} />
+        <meta property='og:title' content={props.guide?.name || DEFAULT_TITLE} />
         <meta property='og:description' content={props.guide?.subtitle || DEFAULT_DESCRIPTION} />
         <meta name='description' content={getMetaDescription()} />
       </Head>
