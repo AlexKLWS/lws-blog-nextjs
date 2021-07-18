@@ -6,12 +6,12 @@ import Cookies from 'cookies'
 import dynamic from 'next/dynamic'
 
 import { EditorError } from 'types/verifier'
-import { useMaterialDataServiceProvider } from 'facades/MaterialData/materialDataServiceFacade'
 import { GUIDE_DATA_VERIFIER } from 'consts/verifiers'
 import { DEFAULT_GUIDE_DATA } from 'consts/defaults'
 import { useGuideClient } from 'facades/materialClientFacade'
 import { TOKEN_COOKIE_KEY } from 'consts/cookies'
 import { userAccessServerSideProvider } from 'facades/sessionFacade'
+import { FormDataProvider } from 'components/Forms/FormProvider'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = new Cookies(context.req, context.res)
@@ -49,7 +49,6 @@ const GuideEditorController = () => {
     clearPostSuccessFlag,
   } = useGuideClient()
   const [validationErrors, setValidationErrors] = useState<EditorError[]>([])
-  const { service } = useMaterialDataServiceProvider(GUIDE_DATA_VERIFIER, DEFAULT_GUIDE_DATA)
 
   const router = useRouter()
   const { id } = router.query
@@ -61,34 +60,34 @@ const GuideEditorController = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router])
 
-  useEffect(() => {
-    if (guide) {
-      service.updateData(guide)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [guide])
-
-  const performDataCheck = () => {
-    const errors = service.verifyData()
+  const performDataCheck = (errors: EditorError[]) => {
     setValidationErrors(errors)
   }
 
-  const postGuideWrapped = () => {
-    const currentData = service.currentData
+  const postGuideWrapped = (currentData: any) => {
     postGuide(currentData, id as string)
   }
 
   return (
-    <LoadableEditorView
-      submitData={postGuideWrapped}
-      performDataCheck={performDataCheck}
-      validationErrors={validationErrors}
-      isLoading={isLoading}
-      postError={error}
-      clearPostError={clearError}
-      postWasSuccess={postWasSuccess}
-      clearPostSuccessFlag={clearPostSuccessFlag}
-    />
+    <FormDataProvider
+      defaultData={guide || DEFAULT_GUIDE_DATA}
+      onSubmit={postGuideWrapped}
+      validate={performDataCheck}
+      verifier={GUIDE_DATA_VERIFIER}
+    >
+      {({ onSubmit, validateWrapped }: any) => (
+        <LoadableEditorView
+          submitData={onSubmit}
+          performDataCheck={validateWrapped}
+          validationErrors={validationErrors}
+          isLoading={isLoading}
+          postError={error}
+          clearPostError={clearError}
+          postWasSuccess={postWasSuccess}
+          clearPostSuccessFlag={clearPostSuccessFlag}
+        />
+      )}
+    </FormDataProvider>
   )
 }
 

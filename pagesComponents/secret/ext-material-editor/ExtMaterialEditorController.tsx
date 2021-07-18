@@ -7,11 +7,11 @@ import { useRouter } from 'next/router'
 
 import { EditorError } from 'types/verifier'
 import { useExtMaterialClient } from 'facades/materialClientFacade'
-import { useMaterialDataServiceProvider } from 'facades/MaterialData/materialDataServiceFacade'
 import { DEFAULT_EXT_MATERIAL_DATA } from 'consts/defaults'
 import { PAGE_DATA_VERIFIER } from 'consts/verifiers'
 import { TOKEN_COOKIE_KEY } from 'consts/cookies'
 import { userAccessServerSideProvider } from 'facades/sessionFacade'
+import { FormDataProvider } from 'components/Forms/FormProvider'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = new Cookies(context.req, context.res)
@@ -51,7 +51,6 @@ const ExtMaterialEditorController: React.FC = () => {
 
   const [validationErrors, setValidationErrors] = useState<EditorError[]>([])
 
-  const { service } = useMaterialDataServiceProvider(PAGE_DATA_VERIFIER, DEFAULT_EXT_MATERIAL_DATA)
   const router = useRouter()
   const { id } = router.query
 
@@ -62,35 +61,34 @@ const ExtMaterialEditorController: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router])
 
-  useEffect(() => {
-    if (extMaterial) {
-      service.updateData(extMaterial)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [extMaterial])
-
-  const performDataCheck = () => {
-    const errors = service.verifyData()
+  const performDataCheck = (errors: EditorError[]) => {
     setValidationErrors(errors)
   }
 
-  const postWrapped = () => {
-    const currentData = service.currentData
+  const postWrapped = (currentData: any) => {
     postExtMaterial(currentData, id as string)
   }
 
   return (
-    <LoadableExtMaterialEditorView
-      serviceInstance={service}
-      validationErrors={validationErrors}
-      performDataCheck={performDataCheck}
-      submitData={postWrapped}
-      isLoading={isLoading}
-      postError={error}
-      clearPostError={clearError}
-      postWasSuccess={postWasSuccess}
-      clearPostSuccessFlag={clearPostSuccessFlag}
-    />
+    <FormDataProvider
+      defaultData={extMaterial || DEFAULT_EXT_MATERIAL_DATA}
+      onSubmit={postWrapped}
+      validate={performDataCheck}
+      verifier={PAGE_DATA_VERIFIER}
+    >
+      {({ onSubmit, validateWrapped }: any) => (
+        <LoadableExtMaterialEditorView
+          validationErrors={validationErrors}
+          performDataCheck={validateWrapped}
+          submitData={onSubmit}
+          isLoading={isLoading}
+          postError={error}
+          clearPostError={clearError}
+          postWasSuccess={postWasSuccess}
+          clearPostSuccessFlag={clearPostSuccessFlag}
+        />
+      )}
+    </FormDataProvider>
   )
 }
 
