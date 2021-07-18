@@ -4,11 +4,9 @@ import styles from './GuideEditor.module.scss'
 
 import { LocationType } from 'types/guide'
 import ArrayItemValueInputDataController from 'components/MaterialDataFormItems/Input/ArrayItemValueInputDataController'
-import { IMaterialDataService } from 'services/materialData'
 import EnumDropdown from 'components/Dropdowns/EnumDropdown/EnumDropdown'
 
 type Props = {
-  serviceInstance: IMaterialDataService
   pathToArray: string
   index: number
   onRemoveButtonPress: () => void
@@ -20,7 +18,6 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
       <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
-          serviceInstance={props.serviceInstance}
           pathToArray={props.pathToArray}
           pathToValue={'type'}
           render={({ value, setValue }) => {
@@ -31,7 +28,6 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
       <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
-          serviceInstance={props.serviceInstance}
           pathToArray={props.pathToArray}
           pathToValue={'title'}
           render={({ value, setValue }) => {
@@ -51,7 +47,6 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
       <div className={styles.GECoordinatesInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
-          serviceInstance={props.serviceInstance}
           pathToArray={props.pathToArray}
           pathToValue={'coordinates'}
           render={({ value, setValue }) => {
@@ -83,7 +78,6 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
       <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
-          serviceInstance={props.serviceInstance}
           pathToArray={props.pathToArray}
           pathToValue={'address'}
           render={({ value, setValue }) => {
@@ -103,7 +97,6 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
       <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
-          serviceInstance={props.serviceInstance}
           pathToArray={props.pathToArray}
           pathToValue={'imageUrl'}
           render={({ value, setValue }) => {
@@ -123,7 +116,6 @@ const GuideLocationItem: React.FC<Props> = (props: Props) => {
       <div className={styles.GELocationItemInputContainer}>
         <ArrayItemValueInputDataController
           index={props.index}
-          serviceInstance={props.serviceInstance}
           pathToArray={props.pathToArray}
           pathToValue={'description'}
           render={({ value, setValue }) => {

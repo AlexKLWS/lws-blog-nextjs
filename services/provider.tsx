@@ -3,7 +3,7 @@ import { Container, interfaces } from 'inversify'
 
 const InversifyContext = React.createContext<{ container: Container | null }>({ container: null })
 
-interface Props {
+type Props = {
   container: Container
 }
 

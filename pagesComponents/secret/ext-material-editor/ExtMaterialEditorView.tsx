@@ -4,12 +4,10 @@ import styles from './ExtMaterialEditor.module.scss'
 import PagePreviewEditorWidget from 'components/PagePreviewEditorWidget'
 import { EditorError } from 'types/verifier'
 import SubmitModal from 'components/SubmitModal'
-import { IMaterialDataService } from 'services/materialData'
 import InputDataController from 'components/MaterialDataFormItems/Input/InputDataController'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 
 interface Props {
-  serviceInstance: IMaterialDataService
   submitData: () => void
   performDataCheck: () => void
   validationErrors: EditorError[]
@@ -38,10 +36,9 @@ const ExtMaterialEditorView = (props: Props) => {
     <DefaultLayoutWrapper>
       <div>
         <h1 className='App-title'>Page Editor</h1>
-        <PagePreviewEditorWidget serviceInstance={props.serviceInstance} />
+        <PagePreviewEditorWidget />
         <div className={styles.EMEURLcontainer}>
           <InputDataController
-            serviceInstance={props.serviceInstance}
             path={'url'}
             render={({ value, setValue }) => {
               return (

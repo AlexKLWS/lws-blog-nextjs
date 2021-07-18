@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { Subscription } from 'rxjs'
 
 import { IMaterialDataService } from 'services/materialData'
-import { Subscription } from 'rxjs'
 import { onEmit } from 'facades/helpers'
 
-export const useInputDataProvider = (serviceInstance: IMaterialDataService, path: string, isArray?: boolean) => {
+export const useInputDataProvider = (path: string, isArray?: boolean) => {
+  const serviceInstance = useContext<IMaterialDataService>(FormDataContext)
+
   const [value, setValueState] = useState(serviceInstance && serviceInstance.getValueFor(path))
 
   const setValue = (newValue: any) => {
@@ -27,12 +29,13 @@ export const useInputDataProvider = (serviceInstance: IMaterialDataService, path
 }
 
 export const useArrayItemValueInputDataProvider = (
-  serviceInstance: IMaterialDataService,
   pathToArray: string,
   pathToValue: string,
   index: number,
   isArray?: boolean,
 ) => {
+  const serviceInstance = useContext<IMaterialDataService>(FormDataContext)
+
   const [value, setValueState] = useState(
     serviceInstance && serviceInstance.getArrayItemValueFor(pathToArray, pathToValue, index),
   )
@@ -56,11 +59,9 @@ export const useArrayItemValueInputDataProvider = (
   return { value, setValue }
 }
 
-export const useArrayItemInputDataProvider = (
-  serviceInstance: IMaterialDataService,
-  pathToArray: string,
-  index: number,
-) => {
+export const useArrayItemInputDataProvider = (pathToArray: string, index: number) => {
+  const serviceInstance = useContext<IMaterialDataService>(FormDataContext)
+
   const setValue = (newValue: any) => {
     serviceInstance.addArrayItem(pathToArray, index, newValue)
   }
@@ -68,7 +69,9 @@ export const useArrayItemInputDataProvider = (
   return { setValue }
 }
 
-export const useArrayInputDataProvider = (serviceInstance: IMaterialDataService, pathToArray: string) => {
+export const useArrayInputDataProvider = (pathToArray: string) => {
+  const serviceInstance = useContext<IMaterialDataService>(FormDataContext)
+
   const [array, setArray] = useState<any[]>(serviceInstance && serviceInstance.getValueFor(pathToArray))
 
   const addItem = (index: number, item?: any) => {

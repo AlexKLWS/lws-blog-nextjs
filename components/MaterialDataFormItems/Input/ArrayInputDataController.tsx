@@ -1,12 +1,10 @@
 import React from 'react'
 
-import { IMaterialDataService } from 'services/materialData'
 import { useArrayInputDataProvider } from 'facades/MaterialData/inputDataFacade'
 import ArrayItemInputDataController from './ArrayItemInputDataController'
 
 type Props = {
   defaultItem?: any
-  serviceInstance: IMaterialDataService
   pathToArray: string
   minNumberOfElements?: number
   maxNumberOfElements?: number
@@ -33,7 +31,7 @@ const ArrayInputDataController: React.FC<Props> = ({
   maxNumberOfElements = Number.POSITIVE_INFINITY,
   ...props
 }: Props) => {
-  const { array, addItem, removeItem } = useArrayInputDataProvider(props.serviceInstance, props.pathToArray)
+  const { array, addItem, removeItem } = useArrayInputDataProvider(props.pathToArray)
 
   const onItemAddButtonPress = () => {
     if (array.length < maxNumberOfElements) {
@@ -55,7 +53,6 @@ const ArrayInputDataController: React.FC<Props> = ({
       return (
         <ArrayItemInputDataController
           key={`${index}`}
-          serviceInstance={props.serviceInstance}
           pathToArray={props.pathToArray}
           index={index}
           render={({ setValue }) =>

@@ -2,13 +2,11 @@ import React from 'react'
 
 import styles from './PagePreviewEditorWidget.module.scss'
 import { Category } from 'types/materials'
-import { IMaterialDataService } from 'services/materialData'
 import InputDataController from 'components/MaterialDataFormItems/Input/InputDataController'
 import EnumDropdown from 'components/Dropdowns/EnumDropdown/EnumDropdown'
 import ArrayInputDataController from 'components/MaterialDataFormItems/Input/ArrayInputDataController'
 
 type Props = {
-  serviceInstance: IMaterialDataService
   firstCategoryToggleDisabled?: boolean
 }
 
@@ -26,7 +24,6 @@ const PagePreviewEditorWidget: React.FC<Props> = (props: Props) => {
   return (
     <div className={styles.PPEWInputContainer}>
       <InputDataController
-        serviceInstance={props.serviceInstance}
         path={'name'}
         render={({ value, setValue }) => {
           return (
@@ -42,7 +39,6 @@ const PagePreviewEditorWidget: React.FC<Props> = (props: Props) => {
         }}
       />
       <InputDataController
-        serviceInstance={props.serviceInstance}
         path={'subtitle'}
         render={({ value, setValue }) => {
           return (
@@ -58,7 +54,6 @@ const PagePreviewEditorWidget: React.FC<Props> = (props: Props) => {
         }}
       />
       <InputDataController
-        serviceInstance={props.serviceInstance}
         path={'icon.data'}
         render={({ value, setValue }) => {
           const onIconFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +77,6 @@ const PagePreviewEditorWidget: React.FC<Props> = (props: Props) => {
               {value && (
                 <div className={styles.PPEWIconRow}>
                   <InputDataController
-                    serviceInstance={props.serviceInstance}
                     path={'icon.width'}
                     render={({ value, setValue }) => {
                       return (
@@ -99,7 +93,6 @@ const PagePreviewEditorWidget: React.FC<Props> = (props: Props) => {
                     }}
                   />
                   <InputDataController
-                    serviceInstance={props.serviceInstance}
                     path={'icon.height'}
                     render={({ value, setValue }) => {
                       return (
@@ -122,7 +115,6 @@ const PagePreviewEditorWidget: React.FC<Props> = (props: Props) => {
         }}
       />
       <ArrayInputDataController
-        serviceInstance={props.serviceInstance}
         pathToArray={'categories'}
         minNumberOfElements={1}
         renderContentContainer={({ onItemAddButtonPress, itemsRenderList }) => {
@@ -159,7 +151,6 @@ const PagePreviewEditorWidget: React.FC<Props> = (props: Props) => {
         }}
       />
       <InputDataController
-        serviceInstance={props.serviceInstance}
         path={'hidden'}
         render={({ value, setValue }) => {
           return (

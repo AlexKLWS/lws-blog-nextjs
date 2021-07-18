@@ -82,7 +82,6 @@ const GuideEditorController = () => {
     <LoadableEditorView
       submitData={postGuideWrapped}
       performDataCheck={performDataCheck}
-      serviceInstance={service}
       validationErrors={validationErrors}
       isLoading={isLoading}
       postError={error}

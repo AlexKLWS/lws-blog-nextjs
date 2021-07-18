@@ -1,10 +1,8 @@
 import React from 'react'
 
-import { IMaterialDataService } from 'services/materialData'
 import { useArrayItemValueInputDataProvider } from 'facades/MaterialData/inputDataFacade'
 
 type Props = {
-  serviceInstance: IMaterialDataService
   pathToArray: string
   pathToValue: string
   index: number
@@ -14,7 +12,6 @@ type Props = {
 
 const ArrayItemValueInputDataController: React.FC<Props> = (props: Props) => {
   const dataUpdater = useArrayItemValueInputDataProvider(
-    props.serviceInstance,
     props.pathToArray,
     props.pathToValue,
     props.index,

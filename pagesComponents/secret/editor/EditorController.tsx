@@ -80,7 +80,6 @@ const EditorController: React.FC = () => {
 
   return (
     <LoadableEditorView
-      serviceInstance={service}
       submitData={postArticleWrapped}
       performDataCheck={performDataCheck}
       validationErrors={validationErrors}

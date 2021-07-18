@@ -8,12 +8,10 @@ import { EditorError } from 'types/verifier'
 import PagePreviewEditorWidget from 'components/PagePreviewEditorWidget'
 import SubmitModal from 'components/SubmitModal'
 import FileUploadWidget from 'components/FileUploadWidget'
-import { IMaterialDataService } from 'services/materialData'
 import InputDataController from 'components/MaterialDataFormItems/Input/InputDataController'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 
 interface Props {
-  serviceInstance: IMaterialDataService
   submitData: () => void
   performDataCheck: () => void
   validationErrors: EditorError[]
@@ -42,9 +40,8 @@ const EditorView: React.FC<Props> = (props: Props) => {
     <DefaultLayoutWrapper>
       <div>
         <h1 className='App-title'>Editor</h1>
-        <PagePreviewEditorWidget serviceInstance={props.serviceInstance} />
+        <PagePreviewEditorWidget />
         <InputDataController
-          serviceInstance={props.serviceInstance}
           path={'metaDescription'}
           render={({ value, setValue }) => {
             return (
@@ -64,7 +61,6 @@ const EditorView: React.FC<Props> = (props: Props) => {
           }}
         />
         <InputDataController
-          serviceInstance={props.serviceInstance}
           path={'articleText'}
           render={({ value, setValue }) => {
             return <SimpleMDE value={value} onChange={setValue} />

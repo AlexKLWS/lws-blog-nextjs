@@ -7,13 +7,11 @@ import FileUploadWidget from 'components/FileUploadWidget'
 import SubmitModal from 'components/SubmitModal'
 import { EditorError } from 'types/verifier'
 import GuideLocationItem from './GuideLocationItem'
-import { IMaterialDataService } from 'services/materialData'
 import InputDataController from 'components/MaterialDataFormItems/Input/InputDataController'
 import ArrayInputDataController from 'components/MaterialDataFormItems/Input/ArrayInputDataController'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 
 type Props = {
-  serviceInstance: IMaterialDataService
   validationErrors: EditorError[]
   submitData: () => void
   performDataCheck: () => void
@@ -42,9 +40,8 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
     <DefaultLayoutWrapper>
       <div>
         <h1 className='App-title'>Guide Editor</h1>
-        <PagePreviewEditorWidget serviceInstance={props.serviceInstance} firstCategoryToggleDisabled />
+        <PagePreviewEditorWidget firstCategoryToggleDisabled />
         <InputDataController
-          serviceInstance={props.serviceInstance}
           path={'metaDescription'}
           render={({ value, setValue }) => {
             return (
@@ -64,7 +61,6 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
           }}
         />
         <InputDataController
-          serviceInstance={props.serviceInstance}
           path={'info'}
           render={({ value, setValue }) => {
             return (
@@ -83,7 +79,6 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
           }}
         />
         <InputDataController
-          serviceInstance={props.serviceInstance}
           path={'defaultZoom'}
           render={({ value, setValue }) => {
             return (
@@ -100,7 +95,6 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
           }}
         />
         <InputDataController
-          serviceInstance={props.serviceInstance}
           path={'defaultCenter'}
           render={({ value, setValue }) => {
             return (
@@ -128,7 +122,6 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
           }}
         />
         <ArrayInputDataController
-          serviceInstance={props.serviceInstance}
           pathToArray={'locations'}
           renderContentContainer={({ onItemAddButtonPress, itemsRenderList }) => {
             return (
@@ -143,7 +136,6 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
           renderItem={({ onItemRemoveButtonPress, index }) => {
             return (
               <GuideLocationItem
-                serviceInstance={props.serviceInstance}
                 index={index}
                 pathToArray={'locations'}
                 onRemoveButtonPress={onItemRemoveButtonPress}

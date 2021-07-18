@@ -1,4 +1,3 @@
-import { injectable } from 'inversify'
 import { Subject } from 'rxjs'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
@@ -34,7 +33,6 @@ export interface IMaterialDataService {
   verifyData: () => EditorError[]
 }
 
-@injectable()
 export class MaterialDataService implements IMaterialDataService {
   private readonly _defaultData: any = {}
   private readonly _verifier: MaterialDataObjectVerifier = {}
