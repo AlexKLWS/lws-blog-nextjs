@@ -1,7 +1,6 @@
 import 'reflect-metadata'
 import React, { useState, useEffect } from 'react'
 import { GetServerSideProps } from 'next'
-import dynamic from 'next/dynamic'
 import Cookies from 'cookies'
 import { useRouter } from 'next/router'
 
@@ -12,6 +11,7 @@ import { PAGE_DATA_VERIFIER } from 'consts/verifiers'
 import { TOKEN_COOKIE_KEY } from 'consts/cookies'
 import { userAccessServerSideProvider } from 'facades/sessionFacade'
 import { FormDataProvider } from 'components/Forms/FormProvider'
+import ExtMaterialEditorView from './ExtMaterialEditorView'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = new Cookies(context.req, context.res)
@@ -30,12 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {},
   }
 }
-
-const LoadableExtMaterialEditorView = dynamic(() => import('./ExtMaterialEditorView'), {
-  loading: () => {
-    return <div>LOADING</div>
-  },
-})
 
 const ExtMaterialEditorController: React.FC = () => {
   const {
@@ -76,18 +70,14 @@ const ExtMaterialEditorController: React.FC = () => {
       validate={performDataCheck}
       verifier={PAGE_DATA_VERIFIER}
     >
-      {({ onSubmit, validateWrapped }: any) => (
-        <LoadableExtMaterialEditorView
-          validationErrors={validationErrors}
-          performDataCheck={validateWrapped}
-          submitData={onSubmit}
-          isLoading={isLoading}
-          postError={error}
-          clearPostError={clearError}
-          postWasSuccess={postWasSuccess}
-          clearPostSuccessFlag={clearPostSuccessFlag}
-        />
-      )}
+      <ExtMaterialEditorView
+        validationErrors={validationErrors}
+        isLoading={isLoading}
+        postError={error}
+        clearPostError={clearError}
+        postWasSuccess={postWasSuccess}
+        clearPostSuccessFlag={clearPostSuccessFlag}
+      />
     </FormDataProvider>
   )
 }

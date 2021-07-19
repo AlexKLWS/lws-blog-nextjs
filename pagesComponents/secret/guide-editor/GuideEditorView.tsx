@@ -13,8 +13,8 @@ import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutW
 
 type Props = {
   validationErrors: EditorError[]
-  submitData: () => void
-  performDataCheck: () => void
+  onSubmit?: () => void
+  validate?: () => void
   isLoading: boolean
   postError: Error | null
   clearPostError: () => void
@@ -26,13 +26,17 @@ const GuideEditorView: React.FC<Props> = (props: Props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
   const onSubmit = () => {
-    props.submitData()
+    if (props.onSubmit) {
+      props.onSubmit()
+    }
   }
 
   const onSubmitButtonClick = () => {
     props.clearPostError()
     props.clearPostSuccessFlag()
-    props.performDataCheck()
+    if (props.validate) {
+      props.validate()
+    }
     setModalIsOpen(true)
   }
 

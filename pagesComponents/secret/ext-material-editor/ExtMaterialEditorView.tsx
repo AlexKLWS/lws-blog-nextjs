@@ -8,8 +8,8 @@ import InputDataController from 'components/MaterialDataFormItems/Input/InputDat
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 
 interface Props {
-  submitData: () => void
-  performDataCheck: () => void
+  onSubmit?: () => void
+  validate?: () => void
   validationErrors: EditorError[]
   isLoading: boolean
   postError: Error | null
@@ -22,13 +22,17 @@ const ExtMaterialEditorView = (props: Props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
   const onSubmit = () => {
-    props.submitData()
+    if (props.onSubmit) {
+      props.onSubmit()
+    }
   }
 
   const onSubmitButtonClick = () => {
     props.clearPostError()
     props.clearPostSuccessFlag()
-    props.performDataCheck()
+    if (props.validate) {
+      props.validate()
+    }
     setModalIsOpen(true)
   }
 

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import Cookies from 'cookies'
-import dynamic from 'next/dynamic'
 
 import { EditorError } from 'types/verifier'
 import { GUIDE_DATA_VERIFIER } from 'consts/verifiers'
@@ -12,6 +11,7 @@ import { useGuideClient } from 'facades/materialClientFacade'
 import { TOKEN_COOKIE_KEY } from 'consts/cookies'
 import { userAccessServerSideProvider } from 'facades/sessionFacade'
 import { FormDataProvider } from 'components/Forms/FormProvider'
+import GuideEditorView from './GuideEditorView'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = new Cookies(context.req, context.res)
@@ -30,12 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {},
   }
 }
-
-const LoadableEditorView = dynamic(() => import('./GuideEditorView'), {
-  loading: () => {
-    return <div>LOADING</div>
-  },
-})
 
 const GuideEditorController = () => {
   const {
@@ -75,18 +69,14 @@ const GuideEditorController = () => {
       validate={performDataCheck}
       verifier={GUIDE_DATA_VERIFIER}
     >
-      {({ onSubmit, validateWrapped }: any) => (
-        <LoadableEditorView
-          submitData={onSubmit}
-          performDataCheck={validateWrapped}
-          validationErrors={validationErrors}
-          isLoading={isLoading}
-          postError={error}
-          clearPostError={clearError}
-          postWasSuccess={postWasSuccess}
-          clearPostSuccessFlag={clearPostSuccessFlag}
-        />
-      )}
+      <GuideEditorView
+        validationErrors={validationErrors}
+        isLoading={isLoading}
+        postError={error}
+        clearPostError={clearError}
+        postWasSuccess={postWasSuccess}
+        clearPostSuccessFlag={clearPostSuccessFlag}
+      />
     </FormDataProvider>
   )
 }
