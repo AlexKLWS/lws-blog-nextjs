@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
-import { Subscription } from 'rxjs'
 
 import { IMaterialDataService } from 'services/materialData'
-import { onEmit } from 'facades/helpers'
+import { onEmit } from 'helpers/onEmit'
 import { FormDataContext } from 'components/Forms/FormProvider'
 
 export const useInputDataProvider = (path: string, isArray?: boolean) => {
@@ -15,13 +14,13 @@ export const useInputDataProvider = (path: string, isArray?: boolean) => {
   }
 
   useEffect(() => {
-    const subscriptions: Subscription[] = [
-      onEmit<any>(serviceInstance!.getSubjectFor(path), (v) => {
+    const unsibscribers = [
+      onEmit<any>(serviceInstance!.getObservableFor(path), (v) => {
         setValueState(v)
       }),
     ]
     return () => {
-      subscriptions.forEach((it) => it.unsubscribe())
+      unsibscribers.forEach((it) => it())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -46,13 +45,13 @@ export const useArrayItemValueInputDataProvider = (
   }
 
   useEffect(() => {
-    const subscriptions: Subscription[] = [
-      onEmit<any>(serviceInstance!.getArrayItemValueSubjectFor(pathToArray, pathToValue, index), (v) => {
+    const unsibscribers = [
+      onEmit<any>(serviceInstance!.getArrayItemValueObservableFor(pathToArray, pathToValue, index), (v) => {
         setValueState(v)
       }),
     ]
     return () => {
-      subscriptions.forEach((it) => it.unsubscribe())
+      unsibscribers.forEach((it) => it())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -84,13 +83,13 @@ export const useArrayInputDataProvider = (pathToArray: string) => {
   }
 
   useEffect(() => {
-    const subscriptions: Subscription[] = [
-      onEmit<any[]>(serviceInstance!.getSubjectFor(pathToArray), (v) => {
+    const unsubscribers = [
+      onEmit<any[]>(serviceInstance!.getObservableFor(pathToArray), (v) => {
         setArray([...v])
       }),
     ]
     return () => {
-      subscriptions.forEach((it) => it.unsubscribe())
+      unsubscribers.forEach((it) => it())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
