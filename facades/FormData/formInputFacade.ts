@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from 'react'
 
-import { IMaterialDataService } from 'services/materialData'
+import { IFormDataService } from 'services/formData'
 import { onEmit } from 'helpers/onEmit'
 import { FormDataContext } from 'components/Forms/FormProvider'
 
-export const useInputDataProvider = (path: string, isArray?: boolean) => {
-  const serviceInstance = useContext<IMaterialDataService | null>(FormDataContext)
+export const useFormInputProvider = (path: string, isArray?: boolean) => {
+  const serviceInstance = useContext<IFormDataService | null>(FormDataContext)
 
   const [value, setValueState] = useState(serviceInstance && serviceInstance.getValueFor(path))
 
@@ -28,13 +28,13 @@ export const useInputDataProvider = (path: string, isArray?: boolean) => {
   return { value, setValue }
 }
 
-export const useArrayItemValueInputDataProvider = (
+export const useArrayItemValueFormInputProvider = (
   pathToArray: string,
   pathToValue: string,
   index: number,
   isArray?: boolean,
 ) => {
-  const serviceInstance = useContext<IMaterialDataService | null>(FormDataContext)
+  const serviceInstance = useContext<IFormDataService | null>(FormDataContext)
 
   const [value, setValueState] = useState(
     serviceInstance && serviceInstance.getArrayItemValueFor(pathToArray, pathToValue, index),
@@ -59,8 +59,8 @@ export const useArrayItemValueInputDataProvider = (
   return { value, setValue }
 }
 
-export const useArrayItemInputDataProvider = (pathToArray: string, index: number) => {
-  const serviceInstance = useContext<IMaterialDataService | null>(FormDataContext)
+export const useArrayItemFormInputProvider = (pathToArray: string, index: number) => {
+  const serviceInstance = useContext<IFormDataService | null>(FormDataContext)
 
   const setValue = (newValue: any) => {
     serviceInstance!.addArrayItem(pathToArray, index, newValue)
@@ -69,8 +69,8 @@ export const useArrayItemInputDataProvider = (pathToArray: string, index: number
   return { setValue }
 }
 
-export const useArrayInputDataProvider = (pathToArray: string) => {
-  const serviceInstance = useContext<IMaterialDataService | null>(FormDataContext)
+export const useArrayFormInputProvider = (pathToArray: string) => {
+  const serviceInstance = useContext<IFormDataService | null>(FormDataContext)
 
   const [array, setArray] = useState<any[]>(serviceInstance && serviceInstance.getValueFor(pathToArray))
 

@@ -1,20 +1,20 @@
-import { useMaterialDataServiceProvider } from 'facades/MaterialData/materialDataServiceFacade'
+import { useFormDataServiceProvider } from 'facades/FormData/formDataServiceFacade'
 import React from 'react'
 
-import { IMaterialDataService } from 'services/materialData'
-import { EditorError, MaterialDataObjectVerifier } from 'types/verifier'
+import { IFormDataService } from 'services/formData'
+import { EditorError, FormDataObjectVerifier } from 'types/verifier'
 
-export const FormDataContext = React.createContext<IMaterialDataService | null>(null)
+export const FormDataContext = React.createContext<IFormDataService | null>(null)
 
 type Props = {
-  verifier: MaterialDataObjectVerifier
+  verifier: FormDataObjectVerifier
   validate?: (errors: EditorError[]) => void
   onSubmit?: (currentValue: any) => void
   defaultData?: any
 }
 
 export const FormDataProvider: React.FC<Props> = (props) => {
-  const { service } = useMaterialDataServiceProvider(props.verifier, props.defaultData)
+  const { service } = useFormDataServiceProvider(props.verifier, props.defaultData)
 
   const onSubmitWrapped = () => {
     if (!props.onSubmit) {

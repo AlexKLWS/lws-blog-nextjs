@@ -4,15 +4,10 @@ import uniqBy from 'lodash/uniqBy'
 import cloneDeep from 'lodash/cloneDeep'
 
 import { constructArrayItemPath, constructArrayItemValuePath } from 'helpers/constructArrayItemPath'
-import {
-  MaterialDataObjectVerifier,
-  EditorError,
-  MaterialDataPropertyVerifier,
-  VerifiedPropertyType,
-} from 'types/verifier'
+import { FormDataObjectVerifier, EditorError, FormDataPropertyVerifier, VerifiedPropertyType } from 'types/verifier'
 import { Observable } from 'pubsub/observable'
 
-export interface IMaterialDataService {
+export interface IFormDataService {
   currentData: any
   updateData: (newData: any) => void
   getObservableFor: (path: string) => Observable<any>
@@ -34,9 +29,9 @@ export interface IMaterialDataService {
   verifyData: () => EditorError[]
 }
 
-export class MaterialDataService implements IMaterialDataService {
+export class FormDataService implements IFormDataService {
   private readonly _defaultData: any = {}
-  private readonly _verifier: MaterialDataObjectVerifier = {}
+  private readonly _verifier: FormDataObjectVerifier = {}
   private _currentData: any = {}
   private _observables: { [path: string]: Observable<any> } = {}
 
@@ -71,7 +66,7 @@ export class MaterialDataService implements IMaterialDataService {
     }
   }
 
-  public constructor(verifier: MaterialDataObjectVerifier, defaultData?: any) {
+  public constructor(verifier: FormDataObjectVerifier, defaultData?: any) {
     this._verifier = verifier
     if (defaultData) {
       // Deep copy
@@ -201,13 +196,13 @@ export class MaterialDataService implements IMaterialDataService {
     this._updateAllObservablesWithCurrentData()
   }
 
-  private _verifyObject(data: any, mapVerifier: MaterialDataObjectVerifier, errors: EditorError[]) {
+  private _verifyObject(data: any, mapVerifier: FormDataObjectVerifier, errors: EditorError[]) {
     for (const key in mapVerifier) {
       this._verifyProperty(data[key], mapVerifier[key], errors)
     }
   }
 
-  private _verifyProperty(data: any, propertyVerifier: MaterialDataPropertyVerifier, errors: EditorError[]) {
+  private _verifyProperty(data: any, propertyVerifier: FormDataPropertyVerifier, errors: EditorError[]) {
     switch (propertyVerifier.type) {
       case VerifiedPropertyType.OBJECT:
         if (isEmpty(data) && !propertyVerifier.couldBeEmpty) {
@@ -249,5 +244,3 @@ export class MaterialDataService implements IMaterialDataService {
     return errors
   }
 }
-
-export const MaterialDataServiceId = Symbol('MaterialDataService')

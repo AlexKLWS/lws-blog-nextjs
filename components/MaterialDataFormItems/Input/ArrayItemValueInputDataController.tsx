@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useArrayItemValueInputDataProvider } from 'facades/MaterialData/inputDataFacade'
+import { useArrayItemValueFormInputProvider } from 'facades/FormData/formInputFacade'
 
 type Props = {
   pathToArray: string
@@ -11,7 +11,7 @@ type Props = {
 }
 
 const ArrayItemValueInputDataController: React.FC<Props> = (props: Props) => {
-  const dataUpdater = useArrayItemValueInputDataProvider(
+  const dataUpdater = useArrayItemValueFormInputProvider(
     props.pathToArray,
     props.pathToValue,
     props.index,

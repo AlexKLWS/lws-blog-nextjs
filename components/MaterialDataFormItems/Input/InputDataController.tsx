@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useInputDataProvider } from 'facades/MaterialData/inputDataFacade'
+import { useFormInputProvider } from 'facades/FormData/formInputFacade'
 
 type Props = {
   path: string
@@ -9,7 +9,7 @@ type Props = {
 }
 
 const InputDataController: React.FC<Props> = (props: Props) => {
-  const dataUpdater = useInputDataProvider(props.path, props.isArray)
+  const dataUpdater = useFormInputProvider(props.path, props.isArray)
 
   return <>{props.render(dataUpdater)}</>
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useArrayInputDataProvider } from 'facades/MaterialData/inputDataFacade'
+import { useArrayFormInputProvider } from 'facades/FormData/formInputFacade'
 import ArrayItemInputDataController from './ArrayItemInputDataController'
 
 type Props = {
@@ -31,7 +31,7 @@ const ArrayInputDataController: React.FC<Props> = ({
   maxNumberOfElements = Number.POSITIVE_INFINITY,
   ...props
 }: Props) => {
-  const { array, addItem, removeItem } = useArrayInputDataProvider(props.pathToArray)
+  const { array, addItem, removeItem } = useArrayFormInputProvider(props.pathToArray)
 
   const onItemAddButtonPress = () => {
     if (array.length < maxNumberOfElements) {

@@ -1,7 +1,7 @@
-import { MaterialDataObjectVerifier, VerifiedPropertyType } from 'types/verifier'
+import { FormDataObjectVerifier, VerifiedPropertyType } from 'types/verifier'
 import { materialErrors, articleEditorErrors, extMaterialEditorErrors, guideEditorErrors } from './errors'
 
-export const ARTICLE_DATA_VERIFIER: MaterialDataObjectVerifier = {
+export const ARTICLE_DATA_VERIFIER: FormDataObjectVerifier = {
   name: { error: materialErrors.noName, type: VerifiedPropertyType.PRIMITIVE },
   subtitle: { error: materialErrors.noSubtitle, type: VerifiedPropertyType.PRIMITIVE },
   icon: {
@@ -12,7 +12,7 @@ export const ARTICLE_DATA_VERIFIER: MaterialDataObjectVerifier = {
   articleText: { error: articleEditorErrors.noArticleText, type: VerifiedPropertyType.PRIMITIVE },
 }
 
-export const PAGE_DATA_VERIFIER: MaterialDataObjectVerifier = {
+export const PAGE_DATA_VERIFIER: FormDataObjectVerifier = {
   name: { error: materialErrors.noName, type: VerifiedPropertyType.PRIMITIVE },
   subtitle: { error: materialErrors.noSubtitle, type: VerifiedPropertyType.PRIMITIVE },
   icon: {
@@ -23,12 +23,12 @@ export const PAGE_DATA_VERIFIER: MaterialDataObjectVerifier = {
   url: { error: extMaterialEditorErrors.noURL, type: VerifiedPropertyType.PRIMITIVE },
 }
 
-export const LOCATION_DATA_VERIFIER: MaterialDataObjectVerifier = {
+export const LOCATION_DATA_VERIFIER: FormDataObjectVerifier = {
   lat: { error: guideEditorErrors.noLatitude, type: VerifiedPropertyType.PRIMITIVE },
   lng: { error: guideEditorErrors.noLongitude, type: VerifiedPropertyType.PRIMITIVE },
 }
 
-export const GUIDE_DATA_VERIFIER: MaterialDataObjectVerifier = {
+export const GUIDE_DATA_VERIFIER: FormDataObjectVerifier = {
   name: { error: materialErrors.noName, type: VerifiedPropertyType.PRIMITIVE },
   subtitle: { error: materialErrors.noSubtitle, type: VerifiedPropertyType.PRIMITIVE },
   icon: {

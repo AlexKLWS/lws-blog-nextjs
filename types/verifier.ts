@@ -1,10 +1,10 @@
-export type MaterialDataObjectVerifier = { [key: string]: MaterialDataPropertyVerifier }
+export type FormDataObjectVerifier = { [key: string]: FormDataPropertyVerifier }
 
-export type MaterialDataPropertyVerifier = {
+export type FormDataPropertyVerifier = {
   error: EditorError
   type: VerifiedPropertyType
-  innerProperty?: MaterialDataPropertyVerifier
-  innerObject?: MaterialDataObjectVerifier
+  innerProperty?: FormDataPropertyVerifier
+  innerObject?: FormDataObjectVerifier
   couldBeEmpty?: boolean
 }
 
