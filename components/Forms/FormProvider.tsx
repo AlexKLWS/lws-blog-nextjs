@@ -34,7 +34,7 @@ export const FormDataProvider: React.FC<Props> = (props) => {
 
   const childrenWithProps = React.Children.map(props.children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { onSubmit: onSubmitWrapped, validateWrapped: validateWrapped })
+      return React.cloneElement(child, { onSubmit: onSubmitWrapped, validate: validateWrapped })
     }
     return child
   })
