@@ -1,9 +1,9 @@
 import { MaterailPreviewFetchService } from 'services/materialPreviewsFetch'
 import { Category } from 'types/materials'
-import { ISessionService } from 'services/session'
+import { IServerSession } from 'session/serverSession'
 
-export const serverSideMaterialPreviewsProvider = (sessionService: ISessionService) => {
-  const service = new MaterailPreviewFetchService(sessionService)
+export const getMaterialPreviewsFetch = (serverSession?: IServerSession) => {
+  const service = new MaterailPreviewFetchService(serverSession)
 
   const fetchMaterialPreviews = (category: Category, page: string | number, withHidden: boolean) => {
     return service.fetchMaterialPreviews(category, page, withHidden)

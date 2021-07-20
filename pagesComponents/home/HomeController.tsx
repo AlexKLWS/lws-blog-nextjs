@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 
 import HomeView from './HomeView'
-import { serverSideMaterialPreviewsProvider } from 'facades/materialPreviewsFetchFacade'
+import { getMaterialPreviewsFetch } from 'facades/getMaterialPreviewsFetch'
 import { page } from 'consts/query'
 import { PreviewMaterial } from 'types/materials'
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
@@ -13,8 +13,8 @@ import absoluteUrl from 'next-absolute-url'
 import Head from 'next/head'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { fetchMaterialPreviews } = getMaterialPreviewsFetch()
   const currentPage = Number(context.query[page] || 1)
-  const { fetchMaterialPreviews } = serverSideMaterialPreviewsProvider()
   const response = await fetchMaterialPreviews(resolveCategoryFromPathname(context.resolvedUrl), currentPage, false)
   let fullUrl
   if (context.req) {

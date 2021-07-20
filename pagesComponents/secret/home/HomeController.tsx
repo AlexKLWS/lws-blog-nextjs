@@ -1,25 +1,21 @@
 import React, { useMemo, useState } from 'react'
-import Cookies from 'cookies'
+import absoluteUrl from 'next-absolute-url'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
 import HomeView from './HomeView'
 import routes from 'consts/routes'
-import { serverSideMaterialPreviewsProvider } from 'facades/materialPreviewsFetchFacade'
+import { getMaterialPreviewsFetch } from 'facades/getMaterialPreviewsFetch'
 import { resolveCategoryFromPathname } from 'helpers/resolveCategory'
 import { page } from 'consts/query'
 import { PreviewMaterial } from 'types/materials'
-import { sessionServiceProvider, userAccessServerSideProvider } from 'facades/sessionFacade'
-import { TOKEN_COOKIE_KEY } from 'consts/cookies'
 import { PagePreviewsData } from 'types/pagePreviewData'
-import absoluteUrl from 'next-absolute-url'
+import { getServerSession } from 'facades/sessionFacade'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookies = new Cookies(context.req, context.res)
-  const token = cookies.get(TOKEN_COOKIE_KEY)
-  const sessionService = sessionServiceProvider()
-  const userAccessResponse = await sessionService.checkUserAccess(token)
-  if (userAccessResponse === undefined) {
+  const session = getServerSession(context)
+  const [_, error] = await session.checkUserAccess()
+  if (error) {
     return {
       redirect: {
         destination: '/',
@@ -28,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
   const currentPage = Number(context.query[page] || 1)
-  const { fetchMaterialPreviews } = serverSideMaterialPreviewsProvider(sessionService)
+  const { fetchMaterialPreviews } = getMaterialPreviewsFetch(session)
   const pagePreviews = await fetchMaterialPreviews(resolveCategoryFromPathname(context.resolvedUrl), currentPage, true)
   let fullUrl
   if (context.req) {

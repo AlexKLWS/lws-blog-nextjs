@@ -3,8 +3,8 @@ import axios, { AxiosRequestConfig } from 'axios'
 import { Category } from 'types/materials'
 import { apiEndpoint } from 'consts/endpoints'
 import { PagePreviewsData } from 'types/pagePreviewData'
-import { ISessionService } from './session'
 import { getAuthHeader } from 'helpers/getAuthHeader'
+import { IServerSession } from 'session/serverSession'
 
 export interface IMaterialPreviewFetchService {
   fetchMaterialPreviews: (
@@ -27,10 +27,10 @@ const PAGE_PREVIEW_DATA_DEFAULTS = {
 }
 
 export class MaterailPreviewFetchService implements IMaterialPreviewFetchService {
-  private readonly _sessionService: ISessionService
+  private readonly _serverSession?: IServerSession
 
-  public constructor(sessionService: ISessionService) {
-    this._sessionService = sessionService
+  public constructor(serverSession?: IServerSession) {
+    this._serverSession = serverSession
   }
 
   public async fetchMaterialPreviews(
@@ -47,7 +47,7 @@ export class MaterailPreviewFetchService implements IMaterialPreviewFetchService
     const request: AxiosRequestConfig = {
       method: 'GET',
       headers: {
-        ...getAuthHeader(this._sessionService.getToken()),
+        ...getAuthHeader(this._serverSession?.getToken()),
         'Content-Type': 'application/json',
       },
       url: `${apiEndpoint}/previews`,

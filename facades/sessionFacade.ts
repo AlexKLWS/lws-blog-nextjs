@@ -3,6 +3,9 @@ import { useRef } from 'react'
 import { useInjection } from 'services/provider'
 import { SessionServiceId, ISessionService, SessionService } from 'services/session'
 import { container } from 'services/container'
+import { IServerSession, ServerSession } from 'session/serverSession'
+import { ParsedUrlQuery } from 'node:querystring'
+import { GetServerSidePropsContext } from 'next'
 
 export const useLoginFacade = () => {
   const service = useRef(useInjection<ISessionService>(SessionServiceId))
@@ -27,4 +30,10 @@ export const sessionServiceProvider = (): ISessionService => {
   const service = new SessionService()
 
   return service
+}
+
+export const getServerSession = (context: GetServerSidePropsContext<ParsedUrlQuery>): IServerSession => {
+  const serverSession = new ServerSession(context)
+
+  return serverSession
 }
