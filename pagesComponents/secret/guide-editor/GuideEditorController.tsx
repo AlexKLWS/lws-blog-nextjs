@@ -2,23 +2,19 @@ import 'reflect-metadata'
 import React, { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import Cookies from 'cookies'
 
 import { EditorError } from 'types/verifier'
 import { GUIDE_DATA_VERIFIER } from 'consts/verifiers'
 import { DEFAULT_GUIDE_DATA } from 'consts/defaults'
 import { useGuideClient } from 'facades/materialClientFacade'
-import { TOKEN_COOKIE_KEY } from 'consts/cookies'
-import { userAccessServerSideProvider } from 'facades/sessionFacade'
+import { getServerSession } from 'facades/sessionFacade'
 import { FormDataProvider } from 'components/Forms/FormProvider'
 import GuideEditorView from './GuideEditorView'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookies = new Cookies(context.req, context.res)
-  const token = cookies.get(TOKEN_COOKIE_KEY)
-  const { checkUserAccess } = userAccessServerSideProvider()
-  const response = await checkUserAccess(token)
-  if (response === undefined) {
+  const session = getServerSession(context)
+  const [_, error] = await session.checkUserAccess()
+  if (error) {
     return {
       redirect: {
         destination: '/',

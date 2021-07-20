@@ -2,23 +2,19 @@ import 'reflect-metadata'
 import React, { useState, useEffect } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import Cookies from 'cookies'
 
 import { useArticleClient } from 'facades/materialClientFacade'
 import { EditorError } from 'types/verifier'
 import { DEFAULT_ARTICLE_DATA } from 'consts/defaults'
 import { ARTICLE_DATA_VERIFIER } from 'consts/verifiers'
-import { TOKEN_COOKIE_KEY } from 'consts/cookies'
-import { userAccessServerSideProvider } from 'facades/sessionFacade'
+import { getServerSession } from 'facades/sessionFacade'
 import { FormDataProvider } from 'components/Forms/FormProvider'
 import EditorView from './EditorView'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookies = new Cookies(context.req, context.res)
-  const token = cookies.get(TOKEN_COOKIE_KEY)
-  const { checkUserAccess } = userAccessServerSideProvider()
-  const response = await checkUserAccess(token)
-  if (response === undefined) {
+  const session = getServerSession(context)
+  const [_, error] = await session.checkUserAccess()
+  if (error) {
     return {
       redirect: {
         destination: '/',
