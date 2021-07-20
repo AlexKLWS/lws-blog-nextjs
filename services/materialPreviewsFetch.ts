@@ -1,20 +1,17 @@
-import { inject, injectable } from 'inversify'
 import axios, { AxiosRequestConfig } from 'axios'
 
 import { Category } from 'types/materials'
 import { apiEndpoint } from 'consts/endpoints'
-import { BehaviorSubject } from 'rxjs'
 import { PagePreviewsData } from 'types/pagePreviewData'
-import { ISessionService, SessionServiceId } from './session'
+import { ISessionService } from './session'
 import { getAuthHeader } from 'helpers/getAuthHeader'
 
 export interface IMaterialPreviewFetchService {
-  materialPreviews: BehaviorSubject<PagePreviewsData>
   fetchMaterialPreviews: (
     category: Category,
     page: string | number,
     includeHidden?: boolean,
-  ) => Promise<PagePreviewsData>
+  ) => Promise<[PagePreviewsData | null, Error | null]>
 }
 
 interface RequestParams {
@@ -29,22 +26,18 @@ const PAGE_PREVIEW_DATA_DEFAULTS = {
   fetchInProgress: true,
 }
 
-@injectable()
 export class MaterailPreviewFetchService implements IMaterialPreviewFetchService {
-  private readonly _pagePreviewsData: BehaviorSubject<PagePreviewsData> = new BehaviorSubject<PagePreviewsData>(
-    PAGE_PREVIEW_DATA_DEFAULTS,
-  )
   private readonly _sessionService: ISessionService
 
-  public constructor(@inject(SessionServiceId) sessionService: ISessionService) {
+  public constructor(sessionService: ISessionService) {
     this._sessionService = sessionService
   }
 
-  public get materialPreviews() {
-    return this._pagePreviewsData
-  }
-
-  public async fetchMaterialPreviews(category: Category, page: string | number, includeHidden?: boolean) {
+  public async fetchMaterialPreviews(
+    category: Category,
+    page: string | number,
+    includeHidden?: boolean,
+  ): Promise<[PagePreviewsData | null, Error | null]> {
     const params: RequestParams = {
       category,
       page,
@@ -62,26 +55,14 @@ export class MaterailPreviewFetchService implements IMaterialPreviewFetchService
     }
 
     try {
-      this._pagePreviewsData.next({
-        materialPreviews: [],
-        pagesCount: this._pagePreviewsData.value.pagesCount,
-        fetchInProgress: true,
-      })
       const response = await axios(request)
       const responseData = response.data
         ? { materialPreviews: response.data.previews, pagesCount: response.data.pageCount, fetchInProgress: false }
         : PAGE_PREVIEW_DATA_DEFAULTS
-      this._pagePreviewsData.next(responseData)
-      return responseData
+      return [responseData, null]
     } catch (e) {
       console.log('ERROR: ', e)
-      const reset = {
-        materialPreviews: [],
-        pagesCount: this._pagePreviewsData.value.pagesCount,
-        fetchInProgress: false,
-      }
-      this._pagePreviewsData.next(reset)
-      return reset
+      return [null, e]
     }
   }
 
@@ -89,5 +70,3 @@ export class MaterailPreviewFetchService implements IMaterialPreviewFetchService
     return Promise.resolve()
   }
 }
-
-export const MaterialPreviewFetchServiceId = Symbol('MaterialPreviewFetchService')
