@@ -12,15 +12,12 @@ import { TOKEN_COOKIE_KEY } from 'consts/cookies'
 export interface ISessionService {
   isTokenPresent: boolean
   getToken: () => string
-  addOnManualUpdateCallback: (key: string, callback: () => void) => void
   login: (username: string, password: string) => Promise<boolean>
   checkUserAccess: (token?: string) => Promise<UserAccess | undefined>
 }
 
 @injectable()
 export class SessionService implements ISessionService {
-  private readonly _manualUpdateCallbacks: Map<string, () => void> = new Map()
-
   public get isTokenPresent() {
     try {
       return !!getCookie(TOKEN_COOKIE_KEY)
@@ -35,10 +32,6 @@ export class SessionService implements ISessionService {
     } catch (error) {
       return ''
     }
-  }
-
-  public addOnManualUpdateCallback(key: string, callback: () => void) {
-    this._manualUpdateCallbacks.set(key, callback)
   }
 
   public async login(username: string, password: string) {
@@ -57,9 +50,6 @@ export class SessionService implements ISessionService {
       const session: Session = response.data
       const decoded = jwt_decode<Token>(session.access_token)
       setCookie(TOKEN_COOKIE_KEY, session.access_token, decoded.exp)
-      this._manualUpdateCallbacks.forEach((callback) => {
-        callback()
-      })
       return true
     } catch (e) {
       console.log('ERROR: ', e)
