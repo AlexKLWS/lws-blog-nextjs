@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 
 import { useInjection } from 'services/provider'
-import { SessionServiceId, ISessionService } from 'services/session'
+import { SessionServiceId, ISessionService, SessionService } from 'services/session'
 import { container } from 'services/container'
 
 export const useLoginFacade = () => {
@@ -13,28 +13,6 @@ export const useLoginFacade = () => {
   return { login }
 }
 
-export function useTokenProvider(tokenUpdateCallbackKey: string) {
-  const service = useRef(useInjection<ISessionService>(SessionServiceId))
-
-  const getToken = () => {
-    return service.current.getToken()
-  }
-
-  const [isLoggedIn, setIsLoggedIn] = useState(service.current.isTokenPresent)
-
-  useEffect(() => {
-    service.current.addOnManualUpdateCallback(tokenUpdateCallbackKey, () => {
-      setIsLoggedIn(service.current.isTokenPresent)
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  return {
-    isLoggedIn,
-    getToken,
-  }
-}
-
 export function userAccessServerSideProvider() {
   const service = container.get<ISessionService>(SessionServiceId)
 
@@ -43,4 +21,10 @@ export function userAccessServerSideProvider() {
   }
 
   return { checkUserAccess }
+}
+
+export const sessionServiceProvider = (): ISessionService => {
+  const service = new SessionService()
+
+  return service
 }
