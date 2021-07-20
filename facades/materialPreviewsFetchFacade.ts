@@ -1,41 +1,11 @@
-import { useRef, useState, useEffect } from 'react'
-import { IMaterialPreviewFetchService, MaterialPreviewFetchServiceId } from 'services/materialPreviewsFetch'
-import { useInjection } from 'services/provider'
-import { Subscription } from 'rxjs'
-import { Category, PreviewMaterial } from 'types/materials'
-import { container } from 'services/container'
+import { MaterailPreviewFetchService } from 'services/materialPreviewsFetch'
+import { Category } from 'types/materials'
+import { ISessionService } from 'services/session'
 
-export const useMaterialPreviewsProvider = (withHidden?: boolean) => {
-  const service = useRef(useInjection<IMaterialPreviewFetchService>(MaterialPreviewFetchServiceId))
+export const serverSideMaterialPreviewsProvider = (sessionService: ISessionService) => {
+  const service = new MaterailPreviewFetchService(sessionService)
 
-  const fetchMaterialPreviews = (category: Category, page: string | number) => {
-    service.current.fetchMaterialPreviews(category, page, withHidden)
-  }
-
-  const [materialPreviews, setMaterialPreviews] = useState<PreviewMaterial[]>([])
-  const [pagesCount, setPagesCount] = useState<number>(1)
-  const [fetchInProgress, setFetchInProgress] = useState(true)
-
-  useEffect(() => {
-    const subscriptions: Subscription[] = [
-      service.current.materialPreviews.subscribe((m) => {
-        setMaterialPreviews(m.materialPreviews)
-        setPagesCount(m.pagesCount)
-        setFetchInProgress(m.fetchInProgress)
-      }),
-    ]
-    return () => {
-      subscriptions.forEach((it) => it.unsubscribe())
-    }
-  }, [])
-
-  return { materialPreviews, pagesCount, fetchInProgress, fetchMaterialPreviews }
-}
-
-export const serverSideMaterialPreviewsProvider = (category: Category, page: string | number, withHidden: boolean) => {
-  const service = container.get<IMaterialPreviewFetchService>(MaterialPreviewFetchServiceId)
-
-  const fetchMaterialPreviews = () => {
+  const fetchMaterialPreviews = (category: Category, page: string | number, withHidden: boolean) => {
     return service.fetchMaterialPreviews(category, page, withHidden)
   }
 

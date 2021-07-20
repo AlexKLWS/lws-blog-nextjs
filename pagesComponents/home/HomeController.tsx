@@ -14,12 +14,8 @@ import Head from 'next/head'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const currentPage = Number(context.query[page] || 1)
-  const { fetchMaterialPreviews } = serverSideMaterialPreviewsProvider(
-    resolveCategoryFromPathname(context.resolvedUrl),
-    currentPage,
-    false,
-  )
-  const response = await fetchMaterialPreviews()
+  const { fetchMaterialPreviews } = serverSideMaterialPreviewsProvider()
+  const response = await fetchMaterialPreviews(resolveCategoryFromPathname(context.resolvedUrl), currentPage, false)
   let fullUrl
   if (context.req) {
     // Server side rendering
