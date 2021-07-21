@@ -40,7 +40,7 @@ export const withFileUploader = <P extends InjectedUploaderProps>(Component: Rea
     return uploader.uploadFiles(folderData)
   }
 
-  return (props: P) => (
+  return (props: any) => (
     <FileUploaderContext.Provider value={uploader}>
       <Component {...props} uploadFiles={uploadFiles} />
     </FileUploaderContext.Provider>
