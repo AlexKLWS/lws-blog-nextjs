@@ -13,7 +13,6 @@ interface Props {
   addFolder: () => void
   removeFolder: (id: string) => void
   updateFilename: (data: FolderData, fileId: string, filename: string) => void
-  useFileItemData: (id: string) => [number, string, boolean]
 }
 
 const FileUploadWidget: React.FC<Props> = (props: Props) => {
@@ -62,7 +61,6 @@ const FileUploadWidget: React.FC<Props> = (props: Props) => {
                       key={`${data.id}-${fileData.file.name}`}
                       fileData={fileData}
                       filename={fileData.newName}
-                      useFileItemData={props.useFileItemData}
                       updateFilename={(filename: string) => {
                         props.updateFilename(data, fileData.id, filename)
                       }}

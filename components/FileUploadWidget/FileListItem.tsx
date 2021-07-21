@@ -2,27 +2,27 @@ import React, { PropsWithChildren } from 'react'
 
 import styles from './FileUploadWidget.module.scss'
 import { FileData } from 'types/file'
+import { useFileItemUploadStatus } from 'facades/fileUploadFacade'
 
 interface Props {
   fileData: FileData
   filename?: string
   updateFilename: (fileName: string) => void
-  useFileItemData: (id: string) => [number, string, boolean]
 }
 
-const FileListItem = ({ fileData, filename, updateFilename, useFileItemData }: Props) => {
-  const [uploadPercentage, fileURL, isError] = useFileItemData(fileData.id)
+const FileListItem: React.FC<Props> = (props) => {
+  const { uploadPercentage, fileURL, isError } = useFileItemUploadStatus(props.fileData.id)
 
   return (
     <li className={styles.FUWFileListItem}>
       <div className={styles.FUWFileListItemRow}>
-        <span className={styles.FUWFileListItemNameLabel}>{fileData.file!.name}</span>
+        <span className={styles.FUWFileListItemNameLabel}>{props.fileData.file!.name}</span>
         <input
           placeholder='Rename upon upload'
           className={styles.FUWFileListItemInput}
-          value={filename}
+          value={props.filename}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            updateFilename(event.target.value)
+            props.updateFilename(event.target.value)
           }}
         />
       </div>

@@ -2,18 +2,17 @@ import React, { useState, useRef } from 'react'
 
 import FileUploadWidget from './FileUploadWidget'
 import { FolderData, FileData } from 'types/file'
-import { useFileUploadFacade } from 'facades/fileUploadFacade'
+import { InjectedUploaderProps, withFileUploader } from 'facades/fileUploadFacade'
 
-interface Props {}
-
-const FileUploadWidgetController: React.FC<Props> = (props: Props) => {
+const FileUploadWidgetController: React.FC<InjectedUploaderProps> = (props) => {
   const folderSelectorId = useRef(0)
   const [folderDatas, setFolderDatas] = useState<FolderData[]>([{ id: String(folderSelectorId.current) }])
+  const [isError, setIsError] = useState(false)
 
-  const [uploadFiles, useFileItemData, isError] = useFileUploadFacade()
-
-  const onUploadButtonClick = () => {
-    uploadFiles(folderDatas)
+  const onUploadButtonClick = async () => {
+    setIsError(false)
+    const error = await props.uploadFiles(folderDatas)
+    setIsError(!!error)
   }
 
   const onFolderNameSpecify = (data: FolderData, event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,10 +82,9 @@ const FileUploadWidgetController: React.FC<Props> = (props: Props) => {
       addFolder={addFolder}
       removeFolder={removeFolder}
       updateFilename={updateFilename}
-      useFileItemData={useFileItemData}
       isError={isError}
     />
   )
 }
 
-export default FileUploadWidgetController
+export default withFileUploader(FileUploadWidgetController)
