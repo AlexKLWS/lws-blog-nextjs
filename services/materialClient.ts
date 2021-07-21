@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify'
 import axios, { AxiosRequestConfig } from 'axios'
 
-import { Article, ExtMaterial, Material, Guide, MaterialFetchResult } from 'types/materials'
+import { Article, ExtMaterial, Material, Guide } from 'types/materials'
 import { apiEndpoint } from 'consts/endpoints'
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject'
 import { ISessionService, SessionServiceId } from './session'
