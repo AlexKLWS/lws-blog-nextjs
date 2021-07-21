@@ -1,15 +1,15 @@
-import 'reflect-metadata'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
 import { EditorError } from 'types/verifier'
-import { useExtMaterialClient } from 'facades/materialClientFacade'
+import { getExtMaterialFetcher, useExtMaterialPoster } from 'facades/materialClientFacade'
 import { DEFAULT_EXT_MATERIAL_DATA } from 'consts/defaults'
 import { PAGE_DATA_VERIFIER } from 'consts/verifiers'
 import { getServerSession } from 'facades/sessionFacade'
 import { FormDataProvider } from 'components/Forms/FormProvider'
 import ExtMaterialEditorView from './ExtMaterialEditorView'
+import { ExtMaterial } from 'types/materials'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = getServerSession(context)
@@ -22,47 +22,63 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
+  const { fetchExtMaterial } = getExtMaterialFetcher(session)
+  if (!context.params) {
+    return {
+      props: {},
+    }
+  }
+  const [extMaterial, extMaterialFetchError] = await fetchExtMaterial((context.params['id'] as string) || '')
+
   return {
-    props: {},
+    props: { extMaterial, error: extMaterialFetchError },
   }
 }
 
-const ExtMaterialEditorController: React.FC = () => {
-  const {
-    extMaterial,
-    fetchExtMaterial,
-    postExtMaterial,
-    error,
-    isLoading,
-    clearError,
-    postWasSuccess,
-    clearPostSuccessFlag,
-  } = useExtMaterialClient()
+type Props = {
+  extMaterial: ExtMaterial
+  error?: Error
+}
 
+const ExtMaterialEditorController: React.FC<Props> = (props) => {
+  const [error, setError] = useState<Error | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [extMaterial, setExtMaterial] = useState<ExtMaterial | null>(null)
+  const [postWasSuccess, setPostWasSuccess] = useState(false)
+
+  const { postExtMaterial } = useExtMaterialPoster()
   const [validationErrors, setValidationErrors] = useState<EditorError[]>([])
-
   const router = useRouter()
-  const { id } = router.query
-
-  useEffect(() => {
-    if (id) {
-      fetchExtMaterial(id as string)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router])
 
   const performDataCheck = (errors: EditorError[]) => {
     setValidationErrors(errors)
   }
 
-  const postWrapped = (currentData: any) => {
-    postExtMaterial(currentData, id as string)
+  const postExtMaterialWrapped = async (currentData: any) => {
+    const { id } = router.query
+    setIsLoading(true)
+    const [extMaterial, responseError] = await postExtMaterial(currentData, id as string)
+    if (responseError) {
+      setError(responseError)
+    } else {
+      setExtMaterial(extMaterial)
+      setPostWasSuccess(true)
+    }
+    setIsLoading(false)
+  }
+
+  const clearError = () => {
+    setError(null)
+  }
+
+  const clearPostSuccessFlag = () => {
+    setPostWasSuccess(false)
   }
 
   return (
     <FormDataProvider
-      defaultData={extMaterial || DEFAULT_EXT_MATERIAL_DATA}
-      onSubmit={postWrapped}
+      defaultData={extMaterial || props.extMaterial || DEFAULT_EXT_MATERIAL_DATA}
+      onSubmit={postExtMaterialWrapped}
       validate={performDataCheck}
       verifier={PAGE_DATA_VERIFIER}
     >

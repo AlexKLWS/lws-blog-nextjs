@@ -1,15 +1,15 @@
-import 'reflect-metadata'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
-import { useArticleClient } from 'facades/materialClientFacade'
+import { getArticleFetcher, useArticlePoster } from 'facades/materialClientFacade'
 import { EditorError } from 'types/verifier'
 import { DEFAULT_ARTICLE_DATA } from 'consts/defaults'
 import { ARTICLE_DATA_VERIFIER } from 'consts/verifiers'
 import { getServerSession } from 'facades/sessionFacade'
 import { FormDataProvider } from 'components/Forms/FormProvider'
 import EditorView from './EditorView'
+import { Article } from 'types/materials'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = getServerSession(context)
@@ -22,45 +22,63 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
+
+  const { fetchArticle } = getArticleFetcher(session)
+  if (!context.params) {
+    return {
+      props: {},
+    }
+  }
+  const [article, articleFetchError] = await fetchArticle((context.params['id'] as string) || '')
+
   return {
-    props: {},
+    props: { article, error: articleFetchError },
   }
 }
 
-const EditorController: React.FC = () => {
-  const {
-    article,
-    fetchArticle,
-    isLoading,
-    postArticle,
-    error,
-    clearError,
-    postWasSuccess,
-    clearPostSuccessFlag,
-  } = useArticleClient()
+type Props = {
+  article: Article
+  error?: Error
+}
+
+const EditorController: React.FC<Props> = (props) => {
+  const [error, setError] = useState<Error | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [article, setArticle] = useState<Article | null>(null)
+  const [postWasSuccess, setPostWasSuccess] = useState(false)
+
+  const { postArticle } = useArticlePoster()
   const [validationErrors, setValidationErrors] = useState<EditorError[]>([])
   const router = useRouter()
-
-  useEffect(() => {
-    const { id } = router.query
-    if (id) {
-      fetchArticle(id as string)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router])
 
   const performDataCheck = (errors: EditorError[]) => {
     setValidationErrors(errors)
   }
 
-  const postArticleWrapped = (currentData: any) => {
+  const postArticleWrapped = async (currentData: any) => {
     const { id } = router.query
-    postArticle(currentData, id as string)
+    setIsLoading(true)
+    const [articleResponse, responseError] = await postArticle(currentData, id as string)
+    if (responseError) {
+      setError(responseError)
+    } else {
+      setArticle(articleResponse)
+      setPostWasSuccess(true)
+    }
+    setIsLoading(false)
+  }
+
+  const clearError = () => {
+    setError(null)
+  }
+
+  const clearPostSuccessFlag = () => {
+    setPostWasSuccess(false)
   }
 
   return (
     <FormDataProvider
-      defaultData={article || DEFAULT_ARTICLE_DATA}
+      defaultData={article || props.article || DEFAULT_ARTICLE_DATA}
       onSubmit={postArticleWrapped}
       validate={performDataCheck}
       verifier={ARTICLE_DATA_VERIFIER}

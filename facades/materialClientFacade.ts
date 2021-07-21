@@ -1,57 +1,19 @@
-import { useEffect, useRef, useState } from 'react'
-import { Subscription } from 'rxjs/internal/Subscription'
+import { useRef } from 'react'
 
-import { useInjection } from 'services/provider'
-import { MaterialClientServiceId, IMaterialClientService } from 'services/materialClient'
 import { Article, ExtMaterial, Guide } from 'types/materials'
 import { MaterialFetcher } from 'services/materialFetch'
 import { IServerSession } from 'session/serverSession'
+import { MaterialPoster } from 'services/materialPost'
+import { ClientSession } from 'session/clientSession'
 
-export const useArticleClient = () => {
-  const service = useRef(useInjection<IMaterialClientService<Article>>(MaterialClientServiceId))
+export const useArticlePoster = () => {
+  const poster = useRef(new MaterialPoster<Article>(new ClientSession())).current
 
   const postArticle = (article: Article, referenceId?: string) => {
-    service.current.postArticle(article, referenceId)
+    return poster.postArticle(article, referenceId)
   }
 
-  const fetchArticle = (id: string) => {
-    service.current.fetchArticle(id)
-  }
-
-  const clearError = () => {
-    service.current.clearError()
-  }
-
-  const clearPostSuccessFlag = () => {
-    service.current.clearPostSuccessFlag()
-  }
-
-  const [article, setArticle] = useState<Article | null>(null)
-  const [error, setError] = useState<Error | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [postWasSuccess, setPostWasSuccess] = useState<boolean>(false)
-
-  useEffect(() => {
-    const subscriptions: Subscription[] = [
-      service.current.material.subscribe((a) => {
-        setArticle(a)
-      }),
-      service.current.error.subscribe((e) => {
-        setError(e)
-      }),
-      service.current.isLoading.subscribe((l) => {
-        setIsLoading(l)
-      }),
-      service.current.postWasSuccess.subscribe((s) => {
-        setPostWasSuccess(s)
-      }),
-    ]
-    return () => {
-      subscriptions.forEach((it) => it.unsubscribe())
-    }
-  }, [])
-
-  return { article, error, isLoading, postArticle, fetchArticle, clearError, postWasSuccess, clearPostSuccessFlag }
+  return { postArticle }
 }
 
 export const getArticleFetcher = (session?: IServerSession) => {
@@ -64,51 +26,14 @@ export const getArticleFetcher = (session?: IServerSession) => {
   return { fetchArticle }
 }
 
-export const useGuideClient = () => {
-  const service = useRef(useInjection<IMaterialClientService<Guide>>(MaterialClientServiceId))
+export const useGuidePoster = () => {
+  const poster = useRef(new MaterialPoster<Guide>(new ClientSession())).current
 
-  const postGuide = (guide: Guide, referenceId?: string) => {
-    service.current.postGuide(guide, referenceId)
+  const postGuide = (article: Guide, referenceId?: string) => {
+    return poster.postGuide(article, referenceId)
   }
 
-  const fetchGuide = (id: string) => {
-    service.current.fetchGuide(id)
-  }
-
-  const clearError = () => {
-    service.current.clearError()
-  }
-
-  const clearPostSuccessFlag = () => {
-    service.current.clearPostSuccessFlag()
-  }
-
-  const [guide, setGuide] = useState<Guide | null>(null)
-  const [error, setError] = useState<Error | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [postWasSuccess, setPostWasSuccess] = useState<boolean>(false)
-
-  useEffect(() => {
-    const subscriptions: Subscription[] = [
-      service.current.material.subscribe((g) => {
-        setGuide(g)
-      }),
-      service.current.error.subscribe((e) => {
-        setError(e)
-      }),
-      service.current.isLoading.subscribe((l) => {
-        setIsLoading(l)
-      }),
-      service.current.postWasSuccess.subscribe((s) => {
-        setPostWasSuccess(s)
-      }),
-    ]
-    return () => {
-      subscriptions.forEach((it) => it.unsubscribe())
-    }
-  }, [])
-
-  return { guide, error, isLoading, postGuide, fetchGuide, clearError, postWasSuccess, clearPostSuccessFlag }
+  return { postGuide }
 }
 
 export const getGuideFetcher = (session?: IServerSession) => {
@@ -121,60 +46,14 @@ export const getGuideFetcher = (session?: IServerSession) => {
   return { fetchGuide }
 }
 
-export const useExtMaterialClient = () => {
-  const service = useRef(useInjection<IMaterialClientService<ExtMaterial>>(MaterialClientServiceId))
+export const useExtMaterialPoster = () => {
+  const poster = useRef(new MaterialPoster<ExtMaterial>(new ClientSession())).current
 
-  const postExtMaterial = (extMaterial: ExtMaterial, referenceId?: string) => {
-    service.current.postExtMaterial(extMaterial, referenceId)
+  const postExtMaterial = (article: ExtMaterial, referenceId?: string) => {
+    return poster.postExtMaterial(article, referenceId)
   }
 
-  const fetchExtMaterial = (id: string) => {
-    service.current.fetchExtMaterial(id)
-  }
-
-  const clearError = () => {
-    service.current.clearError()
-  }
-
-  const clearPostSuccessFlag = () => {
-    service.current.clearPostSuccessFlag()
-  }
-
-  const [extMaterial, setExtMaterial] = useState<ExtMaterial | null>(null)
-  const [error, setError] = useState<Error | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [postWasSuccess, setPostWasSuccess] = useState<boolean>(false)
-
-  useEffect(() => {
-    const subscriptions: Subscription[] = [
-      service.current.material.subscribe((g) => {
-        setExtMaterial(g)
-      }),
-      service.current.error.subscribe((e) => {
-        setError(e)
-      }),
-      service.current.isLoading.subscribe((l) => {
-        setIsLoading(l)
-      }),
-      service.current.postWasSuccess.subscribe((s) => {
-        setPostWasSuccess(s)
-      }),
-    ]
-    return () => {
-      subscriptions.forEach((it) => it.unsubscribe())
-    }
-  }, [])
-
-  return {
-    extMaterial,
-    error,
-    isLoading,
-    postExtMaterial,
-    fetchExtMaterial,
-    clearError,
-    postWasSuccess,
-    clearPostSuccessFlag,
-  }
+  return { postExtMaterial }
 }
 
 export const getExtMaterialFetcher = (session?: IServerSession) => {

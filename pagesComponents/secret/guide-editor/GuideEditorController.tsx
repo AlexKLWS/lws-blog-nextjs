@@ -1,15 +1,15 @@
-import 'reflect-metadata'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
 import { EditorError } from 'types/verifier'
 import { GUIDE_DATA_VERIFIER } from 'consts/verifiers'
 import { DEFAULT_GUIDE_DATA } from 'consts/defaults'
-import { useGuideClient } from 'facades/materialClientFacade'
+import { getGuideFetcher, useGuidePoster } from 'facades/materialClientFacade'
 import { getServerSession } from 'facades/sessionFacade'
 import { FormDataProvider } from 'components/Forms/FormProvider'
 import GuideEditorView from './GuideEditorView'
+import { Guide } from 'types/materials'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = getServerSession(context)
@@ -22,45 +22,62 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
+  const { fetchGuide } = getGuideFetcher(session)
+  if (!context.params) {
+    return {
+      props: {},
+    }
+  }
+  const [guide, guideFetchError] = await fetchGuide((context.params['id'] as string) || '')
+
   return {
-    props: {},
+    props: { guide, error: guideFetchError },
   }
 }
 
-const GuideEditorController = () => {
-  const {
-    guide,
-    fetchGuide,
-    postGuide,
-    error,
-    isLoading,
-    clearError,
-    postWasSuccess,
-    clearPostSuccessFlag,
-  } = useGuideClient()
+type Props = {
+  guide: Guide
+  error?: Error
+}
+
+const GuideEditorController: React.FC<Props> = (props) => {
+  const [error, setError] = useState<Error | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [guide, setGuide] = useState<Guide | null>(null)
+  const [postWasSuccess, setPostWasSuccess] = useState(false)
+
+  const { postGuide } = useGuidePoster()
   const [validationErrors, setValidationErrors] = useState<EditorError[]>([])
-
   const router = useRouter()
-  const { id } = router.query
-
-  useEffect(() => {
-    if (id) {
-      fetchGuide(id as string)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router])
 
   const performDataCheck = (errors: EditorError[]) => {
     setValidationErrors(errors)
   }
 
-  const postGuideWrapped = (currentData: any) => {
-    postGuide(currentData, id as string)
+  const postGuideWrapped = async (currentData: any) => {
+    const { id } = router.query
+    setIsLoading(true)
+    const [guideResponse, responseError] = await postGuide(currentData, id as string)
+    if (responseError) {
+      setError(responseError)
+    } else {
+      setGuide(guideResponse)
+      setPostWasSuccess(true)
+    }
+    setIsLoading(false)
+  }
+
+  const clearError = () => {
+    setError(null)
+  }
+
+  const clearPostSuccessFlag = () => {
+    setPostWasSuccess(false)
   }
 
   return (
     <FormDataProvider
-      defaultData={guide || DEFAULT_GUIDE_DATA}
+      defaultData={guide || props.guide || DEFAULT_GUIDE_DATA}
       onSubmit={postGuideWrapped}
       validate={performDataCheck}
       verifier={GUIDE_DATA_VERIFIER}
