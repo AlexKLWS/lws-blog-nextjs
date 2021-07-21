@@ -4,19 +4,19 @@ import { GetServerSideProps } from 'next'
 import absoluteUrl from 'next-absolute-url'
 
 import ArticleView from './ArticleView'
-import { serverSideArticleClient } from 'facades/materialClientFacade'
+import { getArticleFetcher } from 'facades/materialClientFacade'
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
 import { Article } from 'types/materials'
 import { DEFAULT_AUTHOR_NAME, DEFAULT_DESCRIPTION, DEFAULT_TITLE, OPEN_GRAPH_IMAGE } from 'consts/metaDefaults'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { fetchArticle } = serverSideArticleClient()
+  const { fetchArticle } = getArticleFetcher()
   if (!context.params) {
     return {
       props: {},
     }
   }
-  const response = await fetchArticle((context.params['id'] as string) || '')
+  const [article, error] = await fetchArticle((context.params['id'] as string) || '')
   let fullUrl
   if (context.req) {
     // Server side rendering
@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       (window.location.port ? ':' + window.location.port : '')
   }
   return {
-    props: { article: response.material, error: response.error, fullUrl },
+    props: { article, error, fullUrl },
   }
 }
 

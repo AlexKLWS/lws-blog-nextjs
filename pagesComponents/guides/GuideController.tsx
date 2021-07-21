@@ -1,24 +1,22 @@
-import 'reflect-metadata'
 import React from 'react'
 import { GetServerSideProps } from 'next'
+import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
 import FullscreenMessageView from 'components/FullscreenMessageView/FullscreenMessageView'
 import { Guide } from 'types/materials'
-import { serverSideGuideClient } from 'facades/materialClientFacade'
-import Head from 'next/head'
+import { getGuideFetcher } from 'facades/materialClientFacade'
 import { DEFAULT_AUTHOR_NAME, DEFAULT_DESCRIPTION, DEFAULT_TITLE, OPEN_GRAPH_IMAGE } from 'consts/metaDefaults'
-import { baseURL } from 'consts/endpoints'
 import absoluteUrl from 'next-absolute-url'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { fetchGuide } = serverSideGuideClient()
+  const { fetchGuide } = getGuideFetcher()
   if (!context.params) {
     return {
       props: {},
     }
   }
-  const response = await fetchGuide((context.params['id'] as string) || '')
+  const [guide, error] = await fetchGuide((context.params['id'] as string) || '')
   let fullUrl
   if (context.req) {
     // Server side rendering
@@ -33,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       (window.location.port ? ':' + window.location.port : '')
   }
   return {
-    props: { guide: response.material, error: response.error, fullUrl },
+    props: { guide, error, fullUrl },
   }
 }
 

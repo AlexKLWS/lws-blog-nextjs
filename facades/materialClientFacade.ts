@@ -4,7 +4,8 @@ import { Subscription } from 'rxjs/internal/Subscription'
 import { useInjection } from 'services/provider'
 import { MaterialClientServiceId, IMaterialClientService } from 'services/materialClient'
 import { Article, ExtMaterial, Guide } from 'types/materials'
-import { container } from 'services/container'
+import { MaterialFetcher } from 'services/materialFetch'
+import { IServerSession } from 'session/serverSession'
 
 export const useArticleClient = () => {
   const service = useRef(useInjection<IMaterialClientService<Article>>(MaterialClientServiceId))
@@ -53,11 +54,11 @@ export const useArticleClient = () => {
   return { article, error, isLoading, postArticle, fetchArticle, clearError, postWasSuccess, clearPostSuccessFlag }
 }
 
-export const serverSideArticleClient = () => {
-  const service = container.get<IMaterialClientService<Article>>(MaterialClientServiceId)
+export const getArticleFetcher = (session?: IServerSession) => {
+  const fetcher = new MaterialFetcher<Article>(session)
 
   const fetchArticle = (id: string) => {
-    return service.fetchArticle(id)
+    return fetcher.fetchArticle(id)
   }
 
   return { fetchArticle }
@@ -110,11 +111,11 @@ export const useGuideClient = () => {
   return { guide, error, isLoading, postGuide, fetchGuide, clearError, postWasSuccess, clearPostSuccessFlag }
 }
 
-export const serverSideGuideClient = () => {
-  const service = container.get<IMaterialClientService<Guide>>(MaterialClientServiceId)
+export const getGuideFetcher = (session?: IServerSession) => {
+  const fetcher = new MaterialFetcher<Guide>(session)
 
   const fetchGuide = (id: string) => {
-    return service.fetchGuide(id)
+    return fetcher.fetchGuide(id)
   }
 
   return { fetchGuide }
@@ -174,4 +175,14 @@ export const useExtMaterialClient = () => {
     postWasSuccess,
     clearPostSuccessFlag,
   }
+}
+
+export const getExtMaterialFetcher = (session?: IServerSession) => {
+  const fetcher = new MaterialFetcher<ExtMaterial>(session)
+
+  const fetchExtMaterial = (id: string) => {
+    return fetcher.fetchExtMaterial(id)
+  }
+
+  return { fetchExtMaterial }
 }
