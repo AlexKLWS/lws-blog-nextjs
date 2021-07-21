@@ -1,31 +1,17 @@
-import { injectable } from 'inversify'
 import axios, { AxiosRequestConfig } from 'axios'
 import jwt_decode from 'jwt-decode'
 
 import { apiEndpoint } from 'consts/endpoints'
 import { getCookie, setCookie } from 'helpers/cookies'
 import { TokenResponse, Token } from 'types/session'
-import { UserAccess } from 'types/user'
-import { getAuthHeader } from 'helpers/getAuthHeader'
 import { TOKEN_COOKIE_KEY } from 'consts/cookies'
 
-export interface ISessionService {
-  isTokenPresent: boolean
+export interface IClientSession {
   getToken: () => string
   login: (username: string, password: string) => Promise<boolean>
-  checkUserAccess: (token?: string) => Promise<UserAccess | undefined>
 }
 
-@injectable()
-export class SessionService implements ISessionService {
-  public get isTokenPresent() {
-    try {
-      return !!getCookie(TOKEN_COOKIE_KEY)
-    } catch (error) {
-      return false
-    }
-  }
-
+export class ClientSession implements IClientSession {
   public getToken() {
     try {
       return getCookie(TOKEN_COOKIE_KEY)
@@ -56,23 +42,4 @@ export class SessionService implements ISessionService {
     }
     return false
   }
-
-  public async checkUserAccess(token?: string) {
-    const request: AxiosRequestConfig = {
-      method: 'GET',
-      url: `${apiEndpoint}/auth/user-access`,
-      headers: {
-        ...getAuthHeader(token || this.getToken()),
-      },
-    }
-
-    try {
-      const response = await axios(request)
-      return response.data as UserAccess
-    } catch (e) {
-      console.log('ERROR: ', e)
-    }
-  }
 }
-
-export const SessionServiceId = Symbol('SessionService')
