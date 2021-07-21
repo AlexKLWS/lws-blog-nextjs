@@ -17,9 +17,6 @@ export interface IMaterialClientService<T extends Material> {
   postArticle: (article: Article, referenceId?: string) => Promise<void>
   postExtMaterial: (page: ExtMaterial, referenceId?: string) => Promise<void>
   postGuide: (guide: Guide, referenceId?: string) => Promise<void>
-  fetchArticle: (id: string) => Promise<MaterialFetchResult<T>>
-  fetchExtMaterial: (id: string) => Promise<MaterialFetchResult<T>>
-  fetchGuide: (id: string) => Promise<MaterialFetchResult<T>>
 }
 
 @injectable()
@@ -133,48 +130,6 @@ export class MaterailClientService<T extends Material> implements IMaterialClien
 
   public async postGuide(guide: Guide, referenceId?: string) {
     await this._postMaterial(`${apiEndpoint}/guides`, guide, referenceId)
-  }
-
-  private async _fetchMaterial(url: string, id: string) {
-    try {
-      this._error.next(null)
-      this._material.next(null)
-      this._isLoading.next(true)
-      const params = {
-        id,
-      }
-
-      const request: AxiosRequestConfig = {
-        method: 'GET',
-        url,
-        params,
-        headers: {
-          ...getAuthHeader(this._sessionService.getToken()),
-        },
-      }
-
-      const response = await axios(request)
-      this._material.next(response.data)
-      return { material: response.data, error: null }
-    } catch (e) {
-      console.log('ERROR: ', e)
-      this._error.next(e)
-      return { material: null, error: e }
-    } finally {
-      this._isLoading.next(false)
-    }
-  }
-
-  public async fetchArticle(id: string) {
-    return this._fetchMaterial(`${apiEndpoint}/articles`, id)
-  }
-
-  public async fetchExtMaterial(id: string) {
-    return this._fetchMaterial(`${apiEndpoint}/ext-materials`, id)
-  }
-
-  public async fetchGuide(id: string) {
-    return this._fetchMaterial(`${apiEndpoint}/guides`, id)
   }
 }
 

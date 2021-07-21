@@ -49,7 +49,4 @@ export enum Category {
   Games,
 }
 
-export type MaterialFetchResult<T extends Material> = {
-  material: T | null
-  error: Error | null
-}
+export type MaterialFetchResult<T extends Material> = [material: T | null, error: Error | null]
