@@ -1,65 +1,69 @@
-import { inject, injectable } from 'inversify'
 import axios, { AxiosRequestConfig } from 'axios'
 
 import { apiEndpoint } from 'consts/endpoints'
 import { FolderData, FileMetaData, UploadMetaDataBody, FileUploadFormData } from 'types/file'
-import { BehaviorSubject } from 'rxjs'
-import { ISessionService, SessionServiceId } from './session'
+import { Observable } from 'pubsub/observable'
+import { IClientSession } from 'session/clientSession'
+import { getAuthHeader } from 'helpers/getAuthHeader'
 
-export interface IFileUploadService {
-  metadataUploadError: BehaviorSubject<boolean>
-  getFileUploadStatus: (fileItemId: string) => BehaviorSubject<number>
-  getFileURL: (fileItemId: string) => BehaviorSubject<string>
-  getUploadError: (fileItemId: string) => BehaviorSubject<boolean>
-  uploadFiles: (folderData: FolderData[]) => Promise<void>
+export interface IFileUploader {
+  getFileUploadStatus: (fileItemId: string) => Observable<number>
+  getFileURL: (fileItemId: string) => Observable<string>
+  getUploadError: (fileItemId: string) => Observable<boolean>
+  uploadFiles: (folderData: FolderData[]) => Promise<Error | undefined>
 }
 
-@injectable()
-export class FileUploadService implements IFileUploadService {
-  private readonly _fileUploadStatuses: { [fileItemId: string]: BehaviorSubject<number> } = {}
-  private readonly _fileURLs: { [fileItemId: string]: BehaviorSubject<string> } = {}
-  private readonly _fileUploadErrors: { [fileItemId: string]: BehaviorSubject<boolean> } = {}
-  private readonly _metadataUploadError: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
-  private readonly _sessionService: ISessionService
+export class FileUploader implements IFileUploader {
+  private readonly _fileUploadStatuses: { [fileItemId: string]: Observable<number> } = {}
+  private readonly _fileURLs: { [fileItemId: string]: Observable<string> } = {}
+  private readonly _fileUploadErrors: { [fileItemId: string]: Observable<boolean> } = {}
+  private readonly _clientSession: IClientSession
 
-  public constructor(@inject(SessionServiceId) sessionService: ISessionService) {
-    this._sessionService = sessionService
+  private _metaDataWithReferenceIds: FileMetaData[] = []
+
+  public constructor(clientSession: IClientSession) {
+    this._clientSession = clientSession
   }
 
-  get metadataUploadError(): BehaviorSubject<boolean> {
-    return this._metadataUploadError
-  }
-
-  public getFileUploadStatus(fileItemId: string): BehaviorSubject<number> {
+  public getFileUploadStatus(fileItemId: string): Observable<number> {
     if (!this._fileUploadStatuses[fileItemId]) {
-      this._fileUploadStatuses[fileItemId] = new BehaviorSubject<number>(0)
+      this._fileUploadStatuses[fileItemId] = new Observable<number>(0)
     }
     return this._fileUploadStatuses[fileItemId]
   }
 
-  public getFileURL(fileItemId: string): BehaviorSubject<string> {
+  public getFileURL(fileItemId: string): Observable<string> {
     if (!this._fileURLs[fileItemId]) {
-      this._fileURLs[fileItemId] = new BehaviorSubject<string>('')
+      this._fileURLs[fileItemId] = new Observable<string>('')
     }
     return this._fileURLs[fileItemId]
   }
 
-  public getUploadError(fileItemId: string): BehaviorSubject<boolean> {
+  public getUploadError(fileItemId: string): Observable<boolean> {
     if (!this._fileUploadErrors[fileItemId]) {
-      this._fileUploadErrors[fileItemId] = new BehaviorSubject<boolean>(false)
+      this._fileUploadErrors[fileItemId] = new Observable<boolean>(false)
     }
     return this._fileUploadErrors[fileItemId]
   }
 
   public async uploadFiles(folderData: FolderData[]) {
+    const error = await this.uploadMetadataToRetrieveRefs(folderData)
+
+    if (error) {
+      return error
+    }
+
+    await this.uploadFilesIndependently(folderData)
+  }
+
+  private uploadMetadataToRetrieveRefs = async (folderData: FolderData[]) => {
     // Not very efficient, but the code is cleaner
     // TODO: Think how to refactor
     const metadata = this.createMetadata(folderData)
-    const authToken = `Bearer ${this._sessionService.getToken()}`
 
     const metaDataRequest: AxiosRequestConfig = {
       headers: {
-        Authorization: authToken,
+        ...getAuthHeader(this._clientSession.getToken()),
         'Content-Type': 'application/json',
       },
       method: 'PUT',
@@ -68,23 +72,22 @@ export class FileUploadService implements IFileUploadService {
       data: metadata,
     }
 
-    let metaDataWithReferenceIds = []
     try {
       const fileMetaDataresponse = await axios(metaDataRequest)
-      metaDataWithReferenceIds = fileMetaDataresponse.data.metaData
-      this._metadataUploadError.next(false)
-    } catch (_) {
-      this._metadataUploadError.next(true)
-      return
+      this._metaDataWithReferenceIds = fileMetaDataresponse.data.metaData
+    } catch (e) {
+      return e
     }
+  }
 
-    const folderDataWithReferenceIds = this.addReferenceIdToFolderData(folderData, metaDataWithReferenceIds)
+  private uploadFilesIndependently = async (folderData: FolderData[]) => {
+    const folderDataWithReferenceIds = this.addReferenceIdToFolderData(folderData, this._metaDataWithReferenceIds)
     const formData = this.createFormdata(folderDataWithReferenceIds)
 
     formData.forEach(async ({ fileItemId, data }) => {
       const fileDataRequest: AxiosRequestConfig = {
         headers: {
-          Authorization: authToken,
+          ...getAuthHeader(this._clientSession.getToken()),
           'Content-Type': 'multipart/form-data',
         },
         method: 'PUT',
@@ -164,5 +167,3 @@ export class FileUploadService implements IFileUploadService {
     return formDatas
   }
 }
-
-export const FileUploadServiceId = Symbol('FileUploadService')
