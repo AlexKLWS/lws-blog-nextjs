@@ -25,7 +25,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
   const currentPage = Number(context.query[page] || 1)
   const { fetchMaterialPreviews } = getMaterialPreviewsFetch(session)
-  const pagePreviews = await fetchMaterialPreviews(resolveCategoryFromPathname(context.resolvedUrl), currentPage, true)
+  const [pagePreviews, pagePreviewsFetchError] = await fetchMaterialPreviews(
+    resolveCategoryFromPathname(context.resolvedUrl),
+    currentPage,
+    true,
+  )
   let fullUrl
   if (context.req) {
     // Server side rendering
