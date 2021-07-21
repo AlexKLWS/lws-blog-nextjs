@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import Image from 'next/image'
 import { useMediaQuery } from 'react-responsive'
 import { useRouter } from 'next/router'
+import profilePic from '../../public/square_1.jpg'
 
 import styles from './Header.module.scss'
 import routes from 'consts/routes'
@@ -91,7 +92,7 @@ const Header: React.FC<Props> = (props: Props) => {
           </LinkWithStyles>
           {!isSmallerScreen && (
             <LinkWithStyles href={routes.contact} className={styles.HeaderPortrait}>
-              <Image src={`/square_1.jpg`} width='44px' height='44px' alt='Alex Korzh' />
+              <Image src={profilePic} width='44px' height='44px' alt='Alex Korzh' />
             </LinkWithStyles>
           )}
         </div>
