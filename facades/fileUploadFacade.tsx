@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext, useMemo } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 
 import { FileUploader, IFileUploader } from 'services/fileUpload'
 import { onEmit } from 'helpers/onEmit'
@@ -33,10 +33,8 @@ export type InjectedUploaderProps = {
 }
 
 export const withFileUploader = <P extends InjectedUploaderProps>(Component: React.ComponentType<P>) => {
-  const uploader = useMemo(() => {
-    const session = new ClientSession()
-    return new FileUploader(session)
-  }, [])
+  const session = new ClientSession()
+  const uploader = new FileUploader(session)
 
   const uploadFiles = async (folderData: FolderData[]) => {
     return uploader.uploadFiles(folderData)
