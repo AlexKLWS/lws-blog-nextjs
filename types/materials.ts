@@ -50,3 +50,5 @@ export enum Category {
 }
 
 export type MaterialFetchResult<T extends Material> = [material: T | null, error: Error | null]
+
+export type MaterialPostResult<T extends Material> = [material: T | null, error: Error | null]
