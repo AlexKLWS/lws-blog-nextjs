@@ -33,10 +33,10 @@ const PrivacyBanner = () => {
           <a href='https://en.wikipedia.org/wiki/HTTP_cookie' className={'App-external-link'}>
             cookies
           </a>{' '}
-          to enable authentication, and to persist user choice made on this banner. That's about it.{' '}
+          to enable authentication, and to persist user choice made on this banner. That&apos;s about it.{' '}
           <b>
-            This website respects your privacy and doesn't store any third-party cookies. All collected analytics data
-            is anonymous.
+            This website respects your privacy and doesn&apos;t store any third-party cookies. All collected analytics
+            data is anonymous.
           </b>{' '}
           By continuing to use this website, you consent to the use of cookies.
         </p>

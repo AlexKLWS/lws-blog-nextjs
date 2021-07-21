@@ -33,7 +33,7 @@ const SubmitModal: React.FC<Props> = (props: Props) => {
   const renderValidationErrorsModal = () => {
     return (
       <div className={styles.SubmitModalContentContainer}>
-        <h2 className={styles.SubmitModalTitle}>Can't submit this material!</h2>
+        <h2 className={styles.SubmitModalTitle}>Can&apos;t submit this material!</h2>
         <ul className={styles.SubmitModalErrorsList}>
           {props.validationErrors
             ? props.validationErrors.map((item) => {

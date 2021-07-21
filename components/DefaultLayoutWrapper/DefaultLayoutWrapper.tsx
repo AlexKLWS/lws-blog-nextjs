@@ -14,10 +14,12 @@ type Props = {
   children?: React.ReactNode
 }
 
+const Loading = () => {
+  return <div style={{ backgroundColor: '#000' }} />
+}
+
 const LoadableBackgroundView = dynamic(() => import('components/Background/BackgroundView'), {
-  loading: () => {
-    return <div />
-  },
+  loading: Loading,
   ssr: false,
 })
 
