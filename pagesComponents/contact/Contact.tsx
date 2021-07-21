@@ -1,14 +1,13 @@
 import React from 'react'
 import Head from 'next/head'
+import { GetServerSideProps } from 'next'
+import absoluteUrl from 'next-absolute-url'
 
 import styles from './Contact.module.scss'
 import LinkWithStyles from 'components/LinkWithStyles'
 import routes from 'consts/routes'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 import { DEFAULT_AUTHOR_NAME, DEFAULT_TITLE } from 'consts/metaDefaults'
-import { baseURL } from 'consts/endpoints'
-import { GetServerSideProps } from 'next'
-import absoluteUrl from 'next-absolute-url'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let fullUrl

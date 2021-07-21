@@ -5,8 +5,6 @@ import Router from 'next/router'
 import Head from 'next/head'
 import NProgress from 'nprogress'
 
-import { container, containerModule } from 'services/container'
-import { ServiceProvider } from 'services/provider'
 import PrivacyBanner from 'components/PrivacyBanner'
 import { DEFAULT_AUTHOR_NAME, DEFAULT_DESCRIPTION, DEFAULT_TITLE, OPEN_GRAPH_IMAGE } from 'consts/metaDefaults'
 
@@ -14,11 +12,9 @@ Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
-container.load(containerModule)
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ServiceProvider container={container}>
+    <>
       <Head>
         <meta charSet='utf-8' />
         <link rel='icon' href='/favicon.ico' />
@@ -37,7 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <Component {...pageProps} />
       <PrivacyBanner />
-    </ServiceProvider>
+    </>
   )
 }
 
