@@ -9,6 +9,7 @@ import routes from 'consts/routes'
 import { isSmallerScreenQuery } from 'consts/media'
 import LinkWithStyles from 'components/LinkWithStyles'
 import Dropdown from 'components/Dropdowns/Dropdown/Dropdown'
+import { getDropdownLabel } from 'helpers/getDropdownLabel'
 
 type Props = {
   isSecret?: boolean
@@ -19,23 +20,6 @@ const Header: React.FC<Props> = (props: Props) => {
   const isSmallerScreen = useMediaQuery({
     query: isSmallerScreenQuery,
   })
-
-  const dropdownLabels = useMemo(() => {
-    const labels = new Map()
-    labels.set(routes.secret.life, '> Life')
-    labels.set(routes.life, '> Life')
-    labels.set(routes.secret.code, '> Code')
-    labels.set(routes.code, '> Code')
-    labels.set(routes.secret.guides, '> Guides')
-    labels.set(routes.guides, '> Guides')
-    labels.set(routes.secret.projects, '> Projects')
-    labels.set(routes.projects, '> Projects')
-    labels.set(routes.secret.games, '> Games')
-    labels.set(routes.games, '> Games')
-    labels.set(routes.secret.home, '> Topic')
-    labels.set(routes.home, '> Topic')
-    return labels
-  }, [])
 
   const dropdownItems = useMemo(
     () => [
@@ -99,7 +83,7 @@ const Header: React.FC<Props> = (props: Props) => {
       </div>
       {isSmallerScreen ? (
         <div className={styles.DropdownContainer}>
-          <Dropdown dropdownTriggerText={dropdownLabels.get(router.pathname)} items={dropdownItems} />
+          <Dropdown dropdownTriggerText={getDropdownLabel(router.pathname)} items={dropdownItems} />
         </div>
       ) : (
         <nav className={styles.SectionsList}>
