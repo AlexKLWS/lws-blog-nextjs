@@ -78,6 +78,7 @@ const ArticleController: React.FC<Props> = (props: Props) => {
         <meta property='og:title' content={props.article?.name || DEFAULT_TITLE} />
         <meta property='og:description' content={props.article?.subtitle || DEFAULT_DESCRIPTION} />
         <meta name='description' content={getMetaDescription()} />
+        <meta property='article' />
       </Head>
       <ArticleView article={props.article} />
     </>
