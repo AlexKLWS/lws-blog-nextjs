@@ -35,7 +35,7 @@ const ArticleView: React.FC<Props> = ({ article }: Props) => {
         <animated.div
           style={{
             ...style,
-            padding: isSmallerScreen ? '20px 6px' : '20px 42px',
+            padding: isSmallerScreen ? '20px 8px' : '20px 42px',
             minHeight: '720px',
             position: 'relative',
           }}
