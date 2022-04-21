@@ -1,10 +1,12 @@
 import React from 'react'
 import { useSpring, animated } from 'react-spring'
+import { useMediaQuery } from 'react-responsive'
 import { DateTime } from 'luxon'
 
 import { Article } from 'types/materials'
 
 import styles from './Article.module.scss'
+import { isSmallerScreenQuery } from 'consts/media'
 import DefaultLayoutWrapper from 'components/DefaultLayoutWrapper/DefaultLayoutWrapper'
 import ArticleTextView from 'components/ArticleText/ArticleTextView'
 
@@ -13,6 +15,10 @@ type Props = {
 }
 
 const ArticleView: React.FC<Props> = ({ article }: Props) => {
+  const isSmallerScreen = useMediaQuery({
+    query: isSmallerScreenQuery,
+  })
+
   const [style, _] = useSpring(
     {
       config: { tension: 280, friction: 90 },
@@ -26,7 +32,14 @@ const ArticleView: React.FC<Props> = ({ article }: Props) => {
   return (
     <DefaultLayoutWrapper>
       <div className={styles.ArticleContainer}>
-        <animated.div style={{ ...style, padding: '20px 42px', minHeight: '720px', position: 'relative' }}>
+        <animated.div
+          style={{
+            ...style,
+            padding: isSmallerScreen ? '20px 6px' : '20px 42px',
+            minHeight: '720px',
+            position: 'relative',
+          }}
+        >
           <div className={styles.ArticleTitleContainer}>
             <h1 className={styles.ArticleTitle}>{article?.name}</h1>
             <h2 className={styles.ArticleSubtitle}>{article?.subtitle}</h2>
