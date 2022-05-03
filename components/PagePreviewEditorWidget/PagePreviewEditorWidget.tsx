@@ -171,6 +171,27 @@ const PagePreviewEditorWidget: React.FC<Props> = (props: Props) => {
           )
         }}
       />
+      <InputDataController
+        path={'secret'}
+        render={({ value, setValue }) => {
+          return (
+            <div style={{ display: 'flex', flex: 1, padding: '16px 0px', alignItems: 'center' }}>
+              <span className='App-label'>Secret(only accessible via link): </span>
+              <label className={styles.PPEWToggleContainer}>
+                <input
+                  className={styles.PPEWToggleInput}
+                  type='checkbox'
+                  checked={value}
+                  onChange={() => {
+                    setValue(!value)
+                  }}
+                />
+                <span className={styles.PPEWToggle} />
+              </label>
+            </div>
+          )
+        }}
+      />
     </div>
   )
 }

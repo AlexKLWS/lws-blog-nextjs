@@ -32,6 +32,7 @@ export type Material = {
   icon: Icon
   categories: Category[]
   hidden: boolean
+  secret: boolean
 }
 
 export type Icon = {
