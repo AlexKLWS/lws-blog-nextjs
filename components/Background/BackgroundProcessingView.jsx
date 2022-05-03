@@ -118,7 +118,7 @@ const BackgroundProcessingView = () => {
       }
 
       // Draw smooth line
-      ctx.strokeStyle = '#FFF'
+      ctx.strokeStyle = '#EEE'
       bzCurve(lines, 0.3, 1)
     }
   }
