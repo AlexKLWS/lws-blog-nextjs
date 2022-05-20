@@ -61,10 +61,6 @@ const Contact: React.FC<Props> = (props: Props) => {
           <a className={styles.ContactLink} href='https://twitter.com/longwinshadows'>
             @longwinshadows
           </a>
-          <span className={styles.TwitterCaption}>Personal stuff, Russian politics, etc:</span>
-          <a className={styles.ContactLink} href='https://twitter.com/alexkorzh7'>
-            @alexkorzh7
-          </a>
           <div className={styles.BottomSection}>
             <div className={styles.ContactSeparator} />
             <div className={styles.ContactSecretContainer}>
